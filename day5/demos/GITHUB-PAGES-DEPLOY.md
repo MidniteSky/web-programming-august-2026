@@ -81,11 +81,11 @@ of `localhost`. It's a **one-line change** in `members.js`:
 const API = "http://localhost:3000/members";
 
 // AFTER — the tutor's hosted API, reachable from anywhere:
-const API = "[MOCKAPI-URL]";
+const API = "https://6a498e8da033dcb98d656b06.mockapi.io/members";
 ```
 
-Replace `[MOCKAPI-URL]` with the full members URL your tutor gives you (it looks
-like `https://xxxxxxxxxxxx.mockapi.io/members`). Save the file, upload it again
+That's the class's shared members API (if the tutor announces a different URL,
+swap that one in instead — the change is identical). Save the file, upload it again
 (**Add file → Upload files → Commit**, replacing the old `members.js`), wait a
 minute, and reload your live members page. It now loads, adds, edits and deletes
 for real, from anywhere.
