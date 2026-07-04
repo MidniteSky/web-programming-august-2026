@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- Member Manager v3 (Day 3 capstone) - members page.
+     This page is the heart of the week:
+       Day 2 - the table is styled, and the page is responsive
+       Day 3 - JavaScript renders the rows from an array (TODAY)
+       Day 4 - the data comes live from a REST API (and the form saves!)
+       Day 5 - professional Bootstrap UI with dialogs and toasts
+
+     What changed today (all the behaviour lives in members.js):
+       - the <tbody> is now EMPTY; members.js fills it from an array
+       - a search box filters the table live as you type
+       - the "Add a member" form is wired up: it appends to the array and
+         re-renders, in memory only (a refresh clears additions - saving to
+         a real server is Day 4)
+       - ids added to the elements members.js needs to find
+       - a <script src="members.js"> at the end of the body -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Manager - Members</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Member Manager</h1>
+        <p class="tagline">Keeping track of our club, one member at a time.</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="members.html">Members</a>
+    </nav>
+
+    <!-- members-grid: on wide screens the table sits beside the form
+         (Grid, 2fr 1fr); on a phone they stack. See styles.css. -->
+    <main class="members-grid">
+
+        <section>
+            <h2>Current members</h2>
+
+            <!-- Live search. Typing here filters the table (members.js listens
+                 for "input"). A plain text box so the Day 2 input styling
+                 applies unchanged. -->
+            <p>
+                <label for="searchBox">Search</label><br>
+                <input type="text" id="searchBox" name="search"
+                       placeholder="Filter by name or email...">
+            </p>
+
+            <!-- table-scroll: a plain container that lets a wide table
+                 scroll sideways on a narrow phone instead of breaking the
+                 whole page layout. A div is the right tool here - there is
+                 no semantic element for "a scrollable region". -->
+            <div class="table-scroll">
+                <table>
+                    <caption>Club members, July 2026</caption>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <!-- Empty on purpose. members.js renders one row per member
+                         from its array into this tbody (id="memberRows"). -->
+                    <tbody id="memberRows"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Add a member</h2>
+            <!-- The form is now LIVE. members.js catches the submit, stops the
+                 old page-reload behaviour with preventDefault, reads these
+                 fields by their ids, and adds a member to the list in memory. -->
+            <form id="addForm">
+                <p>
+                    <label for="txtName">Name</label><br>
+                    <input type="text" id="txtName" name="name">
+                </p>
+                <p>
+                    <label for="txtEmail">Email</label><br>
+                    <input type="email" id="txtEmail" name="email">
+                </p>
+                <p>
+                    <input type="checkbox" id="chkActive" name="active" value="true">
+                    <label for="chkActive">Active member</label>
+                </p>
+                <p>
+                    <button type="submit">Add member</button>
+                </p>
+                <!-- members.js writes success/error messages here. -->
+                <p id="formFeedback" class="form-feedback"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The Member Manager Club</p>
+    </footer>
+
+    <!-- The behaviour for this page, in its own external file. Placed at the
+         end of the body so every element above already exists when it runs. -->
+    <script src="members.js"></script>
+
+</body>
+</html>

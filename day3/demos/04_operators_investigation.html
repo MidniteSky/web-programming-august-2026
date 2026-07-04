@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+    04 - OPERATORS
+    ==============
+    Operators are the little symbols that DO things to values.
+
+    Arithmetic (numbers):   +  -  *  /  %   (% is the remainder after dividing)
+    Joining text (strings): +  glues two strings together ("Hello " + name)
+
+    Comparison - these ask a yes/no question and answer with true or false:
+        ===   exactly equal?        (3 === 3   is true)
+        !==   not equal?            (3 !== 4   is true)
+        >  <  >=  <=                greater / less than, or-equal versions
+
+    THE trap of the day, learn it now and save yourself hours:
+        =    means "put this value in the box"  (assignment)
+        ===  means "are these two equal?"       (comparison)
+    One equals sign SETS a value; three equals signs ASK a question. Mixing
+    them up is the single most common beginner bug. (There is also ==, an
+    older, looser equals with confusing rules - we always use === instead.)
+
+    Logical - combine yes/no answers:
+        &&   AND   (true only if BOTH sides are true)
+        ||   OR    (true if EITHER side is true)
+        !    NOT   (flips true to false and back)
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operators Investigation</title>
+</head>
+<body>
+
+    <h1>Operators (watch the Console)</h1>
+
+    <script>
+        /* ---- Arithmetic ---- */
+        console.log("5 + 2 =", 5 + 2);
+        console.log("5 - 2 =", 5 - 2);
+        console.log("5 * 2 =", 5 * 2);
+        console.log("5 / 2 =", 5 / 2);
+        console.log("5 % 2 =", 5 % 2);   /* remainder: 5 divided by 2 leaves 1 */
+
+        /* ---- + also joins strings together ---- */
+        const first = "Ada";
+        const last = "Lovelace";
+        console.log("Joined:", first + " " + last);
+
+        /* ---- Comparison: each answers true or false ---- */
+        console.log("3 === 3 ?", 3 === 3);
+        console.log("3 === 4 ?", 3 === 4);
+        console.log("3 !== 4 ?", 3 !== 4);
+        console.log("10 > 7 ?", 10 > 7);
+
+        /* The classic gotcha: text and number that LOOK equal.
+           They are different types, so === says false. */
+        console.log('"5" === 5 ?', "5" === 5);
+
+        /* ---- = versus === ---- */
+        /* = SETS the box: score becomes 10. */
+        let score = 10;
+        /* === ASKS a question: is score equal to 10? */
+        console.log("Is score 10?", score === 10);
+
+        /* ---- Logical ---- */
+        const isMember = true;
+        const hasPaid = false;
+        console.log("Member AND paid?", isMember && hasPaid);
+        console.log("Member OR paid?", isMember || hasPaid);
+        console.log("NOT paid?", !hasPaid);
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> in the Console, guess the answer before you
+       press Enter each time: <code>10 % 3</code>, then <code>"a" + "b" + "c"</code>,
+       then <code>7 > 2 &amp;&amp; 2 > 9</code>. Being wrong and seeing why is
+       how this sinks in.</p>
+
+</body>
+</html>

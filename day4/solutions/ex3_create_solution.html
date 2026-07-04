@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 3 SOLUTION - GET + render + POST (the Create half)
+    ==========================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    A table loaded from the server and a form that POSTs a new member, then
+    re-fetches so it appears. Watch db.json change as you submit.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3 - GET + POST</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 720px; }
+        table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+        th, td { border: 1px solid #d0c9b8; padding: 0.5rem 0.75rem; text-align: left; }
+        thead th { background-color: #1d5c8f; color: #fff; }
+        label { font-weight: bold; display: block; margin-top: 0.5rem; }
+        input[type="text"], input[type="email"] { width: 100%; padding: 0.5rem; border: 1px solid #d0c9b8; border-radius: 4px; }
+        button { background-color: #1d5c8f; color: #fff; border: none; border-radius: 4px; padding: 0.6rem 1.2rem; cursor: pointer; margin-top: 0.75rem; }
+        .status { font-weight: bold; }
+        .status.error { color: #b00020; }
+        .status.ok { color: seagreen; }
+        .active-yes { color: seagreen; font-weight: bold; }
+        .active-no { color: #999; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>Members (loaded from the server)</h1>
+    <p id="status" class="status">Loading...</p>
+
+    <table>
+        <thead>
+            <tr><th>Id</th><th>Name</th><th>Email</th><th>Active</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+    </table>
+
+    <h2>Add a member</h2>
+    <form id="addForm">
+        <label for="name">Name</label>
+        <input type="text" id="name">
+        <label for="email">Email</label>
+        <input type="email" id="email">
+        <label><input type="checkbox" id="active" checked> Active member</label>
+        <button type="submit">Add member</button>
+    </form>
+
+    <script>
+        const API = "http://localhost:3000/members";
+        const statusLine = document.querySelector("#status");
+        const rows = document.querySelector("#rows");
+        const form = document.querySelector("#addForm");
+        const nameInput = document.querySelector("#name");
+        const emailInput = document.querySelector("#email");
+        const activeInput = document.querySelector("#active");
+
+        /* 1. Build a row (destructure the member, four cells). */
+        function buildRow(member) {
+            const { id, name, email, active } = member;
+            const tr = document.createElement("tr");
+
+            const idCell = document.createElement("td");
+            idCell.textContent = id;
+            const nameCell = document.createElement("td");
+            nameCell.textContent = name;
+            const emailCell = document.createElement("td");
+            emailCell.textContent = email;
+            const activeCell = document.createElement("td");
+            activeCell.textContent = active ? "yes" : "no";
+            activeCell.className = active ? "active-yes" : "active-no";
+
+            tr.append(idCell, nameCell, emailCell, activeCell);
+            return tr;
+        }
+
+        function renderTable(members) {
+            rows.textContent = "";
+            members.forEach((member) => rows.append(buildRow(member)));
+        }
+
+        /* 2. GET and render, with the three states. */
+        async function loadMembers() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                const members = await response.json();
+                renderTable(members);
+                statusLine.textContent = `Loaded ${members.length} members.`;
+                statusLine.className = "status";
+            } catch (error) {
+                statusLine.textContent = "Could not load - is the server running?";
+                statusLine.className = "status error";
+            }
+        }
+
+        /* 3-4. POST a new member, then re-fetch so it shows. */
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            if (name === "" || email === "") {
+                statusLine.textContent = "Please fill in both name and email.";
+                statusLine.className = "status error";
+                return;
+            }
+
+            try {
+                const response = await fetch(API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    /* No id - the server assigns it. */
+                    body: JSON.stringify({ name, email, active: activeInput.checked })
+                });
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+
+                await loadMembers();
+                statusLine.textContent = `Added ${name}.`;
+                statusLine.className = "status ok";
+                form.reset();
+                activeInput.checked = true;
+            } catch (error) {
+                statusLine.textContent = "Could not save - is the server running?";
+                statusLine.className = "status error";
+            }
+        });
+
+        loadMembers();
+    </script>
+
+</body>
+</html>

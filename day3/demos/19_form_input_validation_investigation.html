@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--
+    19 - READING A FORM & SIMPLE VALIDATION
+    =======================================
+    Cast your mind back to Day 1: we pressed a form's submit button and the
+    browser reloaded the page, tacking ?name=... onto the URL. That is the
+    browser's built-in behaviour - forms are older than JavaScript. Today we
+    finally TAKE CONTROL of that moment. This is the promise from Day 1, paid.
+
+    The "submit" event fires when a form is submitted. Inside the handler:
+
+        event.preventDefault();   // STOP the browser's reload-and-add-to-URL
+
+    preventDefault tells the browser "thanks, I'll handle this myself" - the
+    page stays put and no query string appears. Then we can read the values the
+    user typed:
+
+        input.value           the current text in a text/email box
+        checkbox.checked      true or false for a checkbox
+
+    VALIDATION means checking those values make sense before we trust them -
+    e.g. the name isn't blank. We give friendly feedback with textContent
+    rather than leaving the user guessing.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form &amp; Validation Investigation</title>
+    <style>
+        /* Feedback colours reuse the palette; all taught properties. */
+        label { font-weight: bold; }
+        input[type="text"], input[type="email"] { padding: 0.4rem; }
+        .error { color: #b00020; }
+        .ok { color: seagreen; }
+    </style>
+</head>
+<body>
+
+    <h1>Reading a form, under our control</h1>
+
+    <form id="joinForm">
+        <p>
+            <label for="txtName">Name</label><br>
+            <input type="text" id="txtName" name="name">
+        </p>
+        <p>
+            <label for="txtEmail">Email</label><br>
+            <input type="email" id="txtEmail" name="email">
+        </p>
+        <p>
+            <input type="checkbox" id="chkActive" name="active" value="true">
+            <label for="chkActive">Active member</label>
+        </p>
+        <p>
+            <button type="submit">Add member</button>
+        </p>
+    </form>
+
+    <!-- We'll write feedback into this paragraph, not an alert box. -->
+    <p id="feedback"></p>
+
+    <script>
+        const form = document.querySelector("#joinForm");
+        const nameInput = document.querySelector("#txtName");
+        const emailInput = document.querySelector("#txtEmail");
+        const activeInput = document.querySelector("#chkActive");
+        const feedback = document.querySelector("#feedback");
+
+        /* Listen for the form being submitted. The handler receives an
+           "event" object describing what happened. */
+        form.addEventListener("submit", (event) => {
+            /* The crucial line: stop the browser reloading and growing the URL.
+               THIS is the Day 1 query-string mystery, finally under control. */
+            event.preventDefault();
+
+            /* Read what the user typed. .value is always text; .trim() removes
+               stray spaces so "   " counts as empty. */
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const active = activeInput.checked;   /* true or false */
+
+            /* ---- Simple validation ---- */
+            if (name === "") {
+                feedback.textContent = "Please enter a name.";
+                feedback.className = "error";
+                return;   /* stop here - don't go on to "add" the member */
+            }
+            if (email === "") {
+                feedback.textContent = "Please enter an email.";
+                feedback.className = "error";
+                return;
+            }
+
+            /* If we reach here, the input passed. Report success. */
+            feedback.textContent = `Thanks ${name}! (active: ${active})`;
+            feedback.className = "ok";
+            console.log("Would add:", { name: name, email: email, active: active });
+
+            /* Clear the form ready for the next entry. */
+            form.reset();
+        });
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> press "Add member" with the name blank - you get
+       a red prompt and the page does NOT reload. Fill it in and submit - a
+       green thank-you, and the address bar never changes. Compare that with
+       Day 1's version, which grew a <code>?name=...</code> query string every
+       time.</p>
+
+</body>
+</html>

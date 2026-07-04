@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+    09 - SPECIFICITY & THE CASCADE INVESTIGATION
+    ============================================
+    "I wrote the rule but the colour won't change!" Nearly always, another
+    rule is WINNING. Two ideas decide which rule applies when several target
+    the same element.
+
+    1. THE CASCADE (source order): when two rules have EQUAL strength, the
+       one written LATER in the file wins. Later beats earlier.
+
+    2. SPECIFICITY (strength): a more specific selector beats a less specific
+       one, regardless of order. Count it as three columns (IDs, classes,
+       elements):
+
+           element / pseudo-element   e.g. p, td, ::before   -> weakest
+           class / pseudo-class / attribute   e.g. .active, :hover
+           id   e.g. #total                                  -> strongest
+
+       #id (1,0,0) beats .class (0,1,0) beats element (0,0,1). More classes
+       beat fewer. Compare left column first, then middle, then right.
+
+    And the nuclear option, !important, which overrides all of the above -
+    so avoid it; it's a sign the cascade has got away from you.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Specificity and the Cascade Investigation</title>
+    <style>
+        /* ---- The cascade: equal strength, later wins ---------------- */
+
+        /* Both target <p>. Same specificity (0,0,1). The LATER one wins,
+           so paragraphs are green, not red. */
+        p {
+            color: crimson;
+        }
+        p {
+            color: seagreen;
+        }
+
+        /* ---- Specificity: stronger wins regardless of order --------- */
+
+        /* This element rule (0,0,1) is written LAST... */
+        #headline {
+            color: #1d5c8f;   /* id (1,0,0) - the strongest here, wins */
+        }
+        .title {
+            color: seagreen;  /* class (0,1,0) - loses to the id above */
+        }
+        h1 {
+            color: crimson;   /* element (0,0,1) - loses to both, though
+                                 it is written last. Strength beats order. */
+        }
+
+        /* ---- More classes = more specific -------------------------- */
+        .box {
+            color: #333333;          /* (0,1,0) */
+        }
+        .box.important {
+            color: firebrick;        /* (0,2,0) - two classes beats one */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This h1 is matched by THREE rules: h1, .title, and #headline.
+         The id wins - so it's blue - even though the h1 rule comes last. -->
+    <h1 id="headline" class="title">I am blue (the #id rule wins)</h1>
+
+    <p>Every paragraph is green: two equal rules target it, and the later
+       one wins the cascade.</p>
+
+    <p class="box">Plain box text (grey).</p>
+    <p class="box important">Two classes beat one - I am firebrick.</p>
+
+    <hr>
+
+    <p><strong>Try it:</strong> inspect the blue heading in DevTools. The
+       Styles pane lists every rule hitting it, strongest at the top, with
+       the losers shown <s>struck through</s>. That crossed-out list is the
+       cascade made visible - your first stop whenever a style "won't apply".</p>
+
+</body>
+</html>

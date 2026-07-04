@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+    01 - YOUR FIRST WEB PAGE
+    ========================
+    Every web page is a plain text file. The browser reads it top-to-bottom
+    and draws ("renders") what it describes.
+
+    Try it: right-click this file in VS Code -> "Open with Live Server".
+    Then change some text, save (Ctrl+S), and watch the browser update.
+
+    Convention: a comment describes the line BELOW it.
+    (The doctype above is the one exception - it must be the first line
+    of the file, so its explanation has to come after it. It tells the
+    browser: "this is modern HTML".)
+-->
+
+<!-- <html> wraps the ENTIRE page. lang="en" tells screen readers
+     and search engines what language the content is in. -->
+<html lang="en">
+
+<!-- The <head> is information ABOUT the page - nothing here is
+     displayed in the page itself. -->
+<head>
+    <!-- charset lets the browser display any character correctly: é, €, 中 -->
+    <meta charset="UTF-8">
+
+    <!-- The title appears in the browser TAB, not in the page. -->
+    <title>My First Web Page</title>
+</head>
+
+<!-- The <body> is everything the visitor actually SEES. -->
+<body>
+
+    <!-- h1 = the main heading. One per page. -->
+    <h1>Hello, World Wide Web!</h1>
+
+    <!-- p = a paragraph of text. -->
+    <p>This page travelled from a web server to your browser, which read
+       the HTML and drew what you see now.</p>
+
+    <p>Press F12 to open DevTools and look at this page's structure
+       in the Elements panel.</p>
+
+</body>
+</html>

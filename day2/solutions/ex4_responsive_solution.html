@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 4 SOLUTION - Responsive & transitions
+    ==============================================
+    Mobile-first: the default rules are the single-column phone layout;
+    min-width media queries ADD columns as the screen grows. Plus a hover
+    transition and a fluid image. All pure CSS - no JavaScript anywhere.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Without this, none of the media queries work on a real phone. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4 - Responsive</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f2ea;
+            padding: 1rem;
+        }
+
+        img { max-width: 100%; height: auto; }
+
+        /* MOBILE-FIRST DEFAULT: one column. */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background-color: #1d5c8f;
+            color: #ffffff;
+            padding: 1rem;
+            /* smooth the hover colour change instead of snapping */
+            transition: background-color 0.25s ease;
+        }
+        .card:hover {
+            background-color: #163f61;
+        }
+
+        /* From 600px up: two columns. */
+        @media (min-width: 600px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* From 900px up: three columns. */
+        @media (min-width: 900px) {
+            .grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Responsive grid</h1>
+    <p>Resize the window (or use DevTools device mode) to see one / two /
+       three columns. Hover a card to watch the colour ease.</p>
+
+    <div class="grid">
+        <div class="card">One</div>
+        <div class="card">Two</div>
+        <div class="card">Three</div>
+        <div class="card">Four</div>
+        <div class="card">Five</div>
+        <div class="card">Six</div>
+    </div>
+
+    <h2>A fluid image</h2>
+    <img src="../demos/images/sample-logo.svg" alt="Member Manager club logo" width="400">
+
+</body>
+</html>

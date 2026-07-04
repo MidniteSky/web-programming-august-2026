@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+    13 - STRETCH (only if you're ahead): CHARTS FROM THE MEMBERS API
+    ================================================================
+    >>> THIS IS OPTIONAL STRETCH MATERIAL. Skip it unless you've finished the
+    >>> capstone and want a bonus. Nothing else depends on it.
+
+    A little "dashboard" idea: fetch the members from your Day 4 server and draw
+    them as charts. It reuses exactly what you know - fetch + async/await + a
+    little DOM - and hands the drawing to a charting library called Highcharts.
+
+    Highcharts, like Bootstrap, is other people's code you include and drive with
+    a small config object. You give it a target element and some data; it draws
+    an interactive chart.
+
+    >>> NEEDS THE SERVER RUNNING (same as Day 4):
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+
+    >>> CDN-ONLY: unlike Bootstrap, this course does NOT ship an offline copy of
+    >>> Highcharts. If your machine blocks CDNs, this one demo won't run - that's
+    >>> fine, it's a bonus. (The Bootstrap links below still have their local
+    >>> swaps, as always.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13 - Stretch: Highcharts</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <main class="container py-4">
+
+        <h1 class="mb-1">Member dashboard <span class="badge text-bg-secondary">stretch</span></h1>
+        <p class="text-muted">Charts drawn from the live members API.</p>
+
+        <p id="status" class="fw-bold">Loading members...</p>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Highcharts draws into these empty divs. -->
+                <div id="barChart" class="mb-4"></div>
+            </div>
+            <div class="col-lg-6">
+                <div id="pieChart" class="mb-4"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Highcharts, CDN-only (no offline copy in this course - see the note up
+         top). If CDNs are blocked, this script won't load and the charts won't
+         appear; everything else on the page is unaffected. -->
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highcharts.js"></script>
+
+    <!-- Bootstrap JS bundle. LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script>
+        /* Same server address as Day 4. */
+        const API = "http://localhost:3000/members";
+        const status = document.querySelector("#status");
+
+        /* Fetch the members, then feed the numbers to two charts. Nothing new
+           about the fetch - it's your Day 4 shape exactly. */
+        async function drawDashboard() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) {
+                    throw new Error(`Server answered ${response.status}`);
+                }
+                const members = await response.json();
+                status.textContent = `Loaded ${members.length} members.`;
+
+                /* Count active vs inactive with a plain filter (Day 3 skill). */
+                const activeCount = members.filter((m) => m.active).length;
+                const inactiveCount = members.length - activeCount;
+
+                /* BAR CHART: one bar per member's name-length, just to show real
+                   per-member data. (Any number would do here.) */
+                Highcharts.chart("barChart", {
+                    chart: { type: "column" },
+                    title: { text: "Letters in each member's name" },
+                    xAxis: { categories: members.map((m) => m.name) },
+                    yAxis: { title: { text: "Letters" } },
+                    series: [{
+                        name: "Name length",
+                        data: members.map((m) => m.name.length),
+                        color: "#1d5c8f"
+                    }]
+                });
+
+                /* PIE CHART: the active/inactive split. */
+                Highcharts.chart("pieChart", {
+                    chart: { type: "pie" },
+                    title: { text: "Active vs inactive members" },
+                    series: [{
+                        name: "Members",
+                        data: [
+                            { name: "Active", y: activeCount, color: "#2e8b57" },
+                            { name: "Inactive", y: inactiveCount, color: "#999999" }
+                        ]
+                    }]
+                });
+
+            } catch (error) {
+                console.log("Dashboard failed:", error.message);
+                status.textContent =
+                    "Could not load members. Is json-server running on port 3000?";
+                status.className = "fw-bold text-danger";
+            }
+        }
+
+        drawDashboard();
+    </script>
+
+</body>
+</html>

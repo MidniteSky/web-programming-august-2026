@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+    10 - GET AND RENDER A TABLE (the capstone's Read, in miniature)
+    ==============================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+
+    This is the exact shape you'll build into the Member Manager this afternoon:
+    GET the members from the server and draw them as a table. Everything here you
+    already have -
+
+        - async/await + try/catch + response.ok         (demos 07-08)
+        - destructuring to unpack each member            (demo 09)
+        - createElement / textContent / append           (Day 3)
+
+    ...so this demo is really about ONE new habit for real apps: showing the user
+    what's happening while the data is in transit. A request takes time (turn on
+    --delay 2000 to feel it), so we show three states:
+
+        LOADING   - "Loading members..." the moment we start
+        ERROR     - a friendly message if the fetch fails (server off, etc.)
+        LOADED    - the table, once the data is in
+
+    Beginners forget the loading and error states because on a fast local server
+    the data seems instant. It isn't - and on a real network it really isn't. The
+    loading/error habit is what separates a toy from something usable. This is
+    also why the tutor runs --delay: so the "Loading..." line is actually visible.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GET and render</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 760px; }
+        h1 { font-family: Georgia, "Times New Roman", serif; color: #1d5c8f; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { border: 1px solid #d0c9b8; padding: 0.5rem 0.75rem; text-align: left; }
+        thead th { background-color: #1d5c8f; color: #fff; }
+        /* The three states, in taught properties only. */
+        .status { font-weight: bold; }
+        .status.error { color: #b00020; }
+        .active-yes { color: seagreen; font-weight: bold; }
+        .active-no { color: #999; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>Members, loaded from the server</h1>
+
+    <!-- The status line shows LOADING, then either the count or an ERROR. -->
+    <p id="status" class="status">Loading members...</p>
+
+    <table>
+        <thead>
+            <tr><th>Id</th><th>Name</th><th>Email</th><th>Active</th></tr>
+        </thead>
+        <!-- Empty until the data arrives; JavaScript fills it. -->
+        <tbody id="rows"></tbody>
+    </table>
+
+    <script>
+        const API = "http://localhost:3000/members";
+        const statusLine = document.querySelector("#status");
+        const rows = document.querySelector("#rows");
+
+        /* Build one <tr> from one member. We DESTRUCTURE the member (demo 09) to
+           name its fields up front, then build four cells - the Day 3 way. */
+        function buildRow(member) {
+            const { id, name, email, active } = member;
+
+            const tr = document.createElement("tr");
+
+            const idCell = document.createElement("td");
+            idCell.textContent = id;
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = name;
+
+            const emailCell = document.createElement("td");
+            emailCell.textContent = email;
+
+            const activeCell = document.createElement("td");
+            activeCell.textContent = active ? "yes" : "no";
+            activeCell.className = active ? "active-yes" : "active-no";
+
+            tr.append(idCell, nameCell, emailCell, activeCell);
+            return tr;
+        }
+
+        /* Draw the whole list: clear the tbody, then a row per member. */
+        function renderTable(members) {
+            rows.textContent = "";
+            members.forEach((member) => rows.append(buildRow(member)));
+        }
+
+        /* The three states live here: loading (set in HTML), error (catch),
+           loaded (the try body). */
+        async function loadMembers() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) {
+                    throw new Error(`Server answered ${response.status}`);
+                }
+                const members = await response.json();
+
+                renderTable(members);
+                statusLine.textContent = `Loaded ${members.length} members.`;
+                statusLine.className = "status";
+            } catch (error) {
+                console.log("Load failed:", error.message);
+                statusLine.textContent =
+                    "Could not load members. Is json-server running on port 3000?";
+                statusLine.className = "status error";
+            }
+        }
+
+        loadMembers();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 2 SOLUTION - your first fetch
+    ======================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    A GET in the week's standard shape: async/await + try/catch + response.ok,
+    with the three on-screen states (loading / loaded / error) and destructuring.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 2 - your first fetch</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 640px; }
+        #status { font-weight: bold; }
+        #status.error { color: #b00020; }
+        ul { background-color: #f5f2ea; border: 1px solid #d0c9b8; padding: 1rem 1rem 1rem 2rem; border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+    <h1>Members</h1>
+    <p id="status">Loading...</p>
+    <ul id="list"></ul>
+
+    <script>
+        /* 1. Base URL in one constant. */
+        const API = "http://localhost:3000/members";
+        const statusLine = document.querySelector("#status");
+        const list = document.querySelector("#list");
+
+        /* 2-5. Load with async/await, check response.ok, handle errors, show
+           the three states on the page, and destructure each member. */
+        async function loadMembers() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) {
+                    throw new Error(`Server answered ${response.status}`);
+                }
+                const members = await response.json();
+                console.log(`Loaded ${members.length} members`);
+
+                statusLine.textContent = `Loaded ${members.length} members.`;
+                statusLine.className = "";
+
+                list.textContent = "";
+                members.forEach((member) => {
+                    /* 4. destructuring */
+                    const { name, email } = member;
+                    const li = document.createElement("li");
+                    li.textContent = `${name} (${email})`;
+                    list.append(li);
+                });
+            } catch (error) {
+                /* 3. friendly failure - test it by stopping the server. */
+                console.log("Load failed:", error.message);
+                statusLine.textContent = "Could not load - is the server running?";
+                statusLine.className = "error";
+            }
+        }
+
+        loadMembers();
+    </script>
+
+</body>
+</html>

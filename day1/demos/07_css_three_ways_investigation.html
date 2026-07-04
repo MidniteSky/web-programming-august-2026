@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+    07 - THE THREE WAYS TO APPLY CSS
+    ================================
+    CSS (Cascading Style Sheets) describes how HTML should LOOK.
+    There are three places you can put it. We try all three,
+    then agree to use ONE of them forever.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Three Ways Investigation</title>
+
+    <!-- WAY 2: an embedded stylesheet - CSS inside a <style> element.
+         Better: styles are gathered in one place...
+         but they only apply to THIS page. -->
+    <style>
+        h2 {
+            color: seagreen;
+        }
+    </style>
+
+    <!-- WAY 3: an EXTERNAL stylesheet - CSS in its own .css file,
+         connected with a <link>. One file can style EVERY page of a
+         site. This is the way. Open 07_styles.css and look inside. -->
+    <link rel="stylesheet" href="07_styles.css">
+</head>
+<body>
+
+    <h1>Three ways to apply CSS</h1>
+
+    <!-- WAY 1: an inline style attribute, right on the element.
+         It works... but imagine doing this on every paragraph of a
+         50-page site, then being asked to change the colour. -->
+    <p style="color: crimson;">
+        Way 1: I am styled by an inline style attribute. (Avoid this.)
+    </p>
+
+    <h2>Way 2: embedded stylesheet</h2>
+    <p>The green h2 above is styled by the &lt;style&gt; block in this
+       page's head. Better - but locked inside one page.</p>
+
+    <h2 class="external-demo">Way 3: external stylesheet</h2>
+    <p class="external-demo">Anything with the class "external-demo" is
+       styled by the separate file 07_styles.css - which could just as
+       easily style a thousand pages.</p>
+
+    <hr>
+    <p><strong>Our rule from now on:</strong> all CSS lives in external
+       .css files. One place to look, one place to change, shared by the
+       whole site.</p>
+
+</body>
+</html>

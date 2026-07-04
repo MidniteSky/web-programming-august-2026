@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+    01 - YOUR FIRST SCRIPT & THE CONSOLE
+    ====================================
+    For two days the browser has drawn our pages like documents. Today they
+    start to DO things. That is JavaScript - the web's third language:
+        HTML  = content and structure   (what things are)
+        CSS   = appearance              (what things look like)
+        JS    = behaviour               (what things DO)
+
+    JavaScript goes inside a <script> element. The safest place to put it is
+    at the very END of the <body>, just before </body>, so the whole page has
+    already loaded before the script runs and can find the elements it needs.
+
+    console.log(...) prints a message to the CONSOLE - a hidden notebook the
+    browser keeps for programmers. It does NOT show on the page. To see it,
+    open DevTools (F12) and click the "Console" tab. The Console is where we
+    will live all day: it is how a program talks back to us.
+
+    (Script embedded so this demo stands alone. Once we've met external files
+    in the next demo, the project uses a separate .js file - just as our CSS
+    lives in its own file.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Script &amp; the Console</title>
+</head>
+<body>
+
+    <h1>Open the Console (press F12)</h1>
+
+    <p>This page looks almost empty. The interesting part is hidden in the
+       Console. Press <strong>F12</strong>, click the <strong>Console</strong>
+       tab, and refresh the page.</p>
+
+    <!-- The script sits at the end of the body so the <h1> and <p> above
+         already exist by the time it runs. -->
+    <script>
+        /* console.log prints to the Console, not the page.
+           Everyone's traditional first line of code: */
+        console.log("Hello from JavaScript!");
+
+        /* You can log more than one thing at a time - handy for labels. */
+        console.log("The page has finished loading.");
+
+        /* Numbers and sums work too - the Console is a calculator that
+           never sleeps. */
+        console.log("2 + 2 is", 2 + 2);
+    </script>
+
+    <hr>
+
+    <p><strong>Try it:</strong> in the Console, at the <code>&gt;</code>
+       prompt, type <code>console.log("you try")</code> and press Enter. Then
+       type just <code>3 * 7</code> and press Enter - the Console answers back.
+       This prompt is your JavaScript playground all day.</p>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 1 SOLUTION - Box model & units
+    =======================================
+    One possible answer. Yours will differ - what matters is that the cards
+    have real spacing, stay 300px wide thanks to border-box, and that at
+    least one size uses rem and one uses %.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1 - Boxes</title>
+    <style>
+        /* The habit: width now means the FINAL width. */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Set the root font size so our rem values have an obvious anchor.
+           Change this to 20px and every rem below grows in proportion. */
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f2ea;
+            padding: 1rem;              /* rem: a multiple of the root size */
+        }
+
+        .card {
+            width: 300px;               /* stays 300px WITH the padding below,
+                                           because of box-sizing: border-box */
+            max-width: 100%;            /* % : never wider than the screen */
+            border: 2px solid #1d5c8f;
+            padding: 1rem;              /* space INSIDE the border */
+            margin-bottom: 1rem;        /* gap BELOW each card */
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Box model &amp; units</h1>
+
+    <div class="card">
+        The first card. Notice the padding giving the text room, and the
+        margin below separating me from the next card.
+    </div>
+
+    <div class="card">
+        The second card. Measure me in DevTools - I'm exactly 300px wide,
+        padding and all.
+    </div>
+
+    <div class="card">
+        The third card. Switch box-sizing to content-box in DevTools and
+        watch all three bulge past 300px.
+    </div>
+
+</body>
+</html>

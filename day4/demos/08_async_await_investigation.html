@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+    08 - async / await + try / catch  (THE STANDARD FROM HERE ON)
+    ============================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+
+    The .then chains from demos 06-07 work, but they read "sideways" and the two
+    .then steps confuse people. async/await is the SAME thing written to read
+    top-to-bottom, like ordinary step-by-step code. It's newer, it's the modern
+    default, and it's what we use for the rest of the week.
+
+    Two new keywords:
+        await  - "wait here for this promise to finish, THEN give me the result."
+                 It pauses THIS function (not the whole page) until the reply is
+                 in, then hands you the value directly - no .then needed.
+        async  - a function that contains await must be marked async. Think of it
+                 as a label: "this function does some waiting."
+
+    Compare, same job:
+
+        .then version                     async/await version
+        -------------                     -------------------
+        fetch(url)                        const response = await fetch(url);
+          .then(r => r.json())            const data = await response.json();
+          .then(data => { ... })          // ...use data...
+
+    For errors, await doesn't use .catch. Instead we wrap the steps in
+    try / catch - the same try/catch shape you'd use anywhere:
+
+        async function loadMembers() {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                const members = await response.json();
+                // ...use members...
+            } catch (error) {
+                // network error OR the error we threw on !ok - one place, again
+            }
+        }
+
+    "try these steps; if any of them throws, jump to catch." Same two-failures
+    rule as demo 07: we still check response.ok and throw on a bad status, so a
+    404 lands in catch alongside network errors.
+
+    From now on, EVERY request in this course - and every one in the capstone -
+    is written this way: async function, await fetch, check response.ok,
+    try/catch around it. Learn this shape once; reuse it all day.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>async / await</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 720px; }
+        #status { font-weight: bold; }
+        ul { background-color: #f5f2ea; border: 1px solid #d0c9b8; padding: 1rem 1rem 1rem 2rem; border-radius: 6px; }
+        code { background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>Same request, written top-to-bottom</h1>
+    <p id="status">Loading members...</p>
+    <ul id="list"></ul>
+
+    <script>
+        const statusLine = document.querySelector("#status");
+        const list = document.querySelector("#list");
+        const API = "http://localhost:3000/members";
+
+        /* An async function: it's allowed to "await" things inside. */
+        async function loadMembers() {
+            try {
+                /* Wait for the reply, then carry on with it in hand. No .then. */
+                const response = await fetch(API);
+
+                /* Same ok-check as demo 07: a bad status becomes a thrown error. */
+                if (!response.ok) {
+                    throw new Error(`Server answered ${response.status}`);
+                }
+
+                /* Wait again to read the JSON body - then it's just an array. */
+                const members = await response.json();
+                console.log("Loaded:", members);
+
+                statusLine.textContent = `Loaded ${members.length} members.`;
+
+                /* Render, exactly as before. */
+                members.forEach((member) => {
+                    const li = document.createElement("li");
+                    li.textContent = `${member.name} (${member.email})`;
+                    list.append(li);
+                });
+            } catch (error) {
+                /* Both failure kinds land here - the friendly-message habit. */
+                console.log("Caught:", error.message);
+                statusLine.textContent =
+                    "Could not load members. Is json-server running on port 3000?";
+            }
+        }
+
+        /* Defining the function doesn't run it (Day 3 lesson). Call it. */
+        loadMembers();
+    </script>
+
+</body>
+</html>

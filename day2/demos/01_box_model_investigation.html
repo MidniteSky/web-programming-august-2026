@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+    01 - THE BOX MODEL INVESTIGATION
+    ================================
+    Yesterday everything was jammed against the edges and each other.
+    Today we learn why - and how to fix it.
+
+    Every element the browser draws is a BOX. From the inside out:
+
+        +-----------------------------------+
+        |            margin (outside)       |   space PUSHING other boxes away
+        |   +---------------------------+   |
+        |   |        border             |   |   the line around the padding
+        |   |   +-------------------+   |   |
+        |   |   |    padding        |   |   |   space INSIDE, around content
+        |   |   |   +-----------+   |   |   |
+        |   |   |   | content   |   |   |   |   your text / image lives here
+        |   |   |   +-----------+   |   |   |
+        |   |   +-------------------+   |   |
+        |   +---------------------------+   |
+        +-----------------------------------+
+
+    Remember the order inside-out: content -> padding -> border -> margin.
+    padding is space you can SEE (it takes the element's background);
+    margin is space you can't (it's transparent gap between boxes).
+
+    (CSS is embedded so this demo is self-contained. In our project,
+     CSS always lives in an external .css file.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Box Model Investigation</title>
+    <style>
+        /* A plain box so we can watch each layer appear in turn. */
+        .box {
+            background-color: #d8e6f2;
+            /* A border: width, style, colour - all in one line. */
+            border: 3px solid #1d5c8f;
+        }
+
+        /* CONTENT only - no padding, no margin. The text touches the border. */
+        .content-only {
+            /* nothing added - this is the cramped Day 1 feeling */
+        }
+
+        /* PADDING - breathing room INSIDE the border. Notice the blue
+           background now extends into the padding: padding is part of
+           the element. */
+        .with-padding {
+            padding: 20px;
+        }
+
+        /* MARGIN - space OUTSIDE the border, pushing neighbours away.
+           The background does NOT extend into the margin. */
+        .with-margin {
+            padding: 20px;
+            margin: 30px;
+        }
+
+        /* Padding and margin can be set per side. Two common shorthands:
+             padding: 10px 40px;            top+bottom  left+right
+             padding: 10px 20px 30px 40px;  top right bottom left (clockwise) */
+        .per-side {
+            padding: 10px 40px;      /* 10 top & bottom, 40 left & right */
+            margin: 20px 0;          /* 20 top & bottom, 0 left & right  */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Everything is a box</h1>
+
+    <div class="box content-only">
+        content only - text shoved against the border (yesterday's feeling)
+    </div>
+
+    <div class="box with-padding">
+        padding: 20px - room to breathe inside the border
+    </div>
+
+    <div class="box with-margin">
+        margin: 30px - this box also shoves itself away from its neighbours
+    </div>
+
+    <div class="box per-side">
+        padding: 10px 40px and margin: 20px 0 - different values per side
+    </div>
+
+    <hr>
+
+    <p><strong>Try it:</strong> open DevTools (F12), click any box, and scroll
+       the Styles pane to the bottom. There's a live box-model diagram -
+       hover over its margin / border / padding / content bands and the
+       matching part lights up on the page.</p>
+
+</body>
+</html>

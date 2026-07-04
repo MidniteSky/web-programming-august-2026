@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+    10 - CUSTOM PROPERTIES (CSS VARIABLES) & RESETS
+    ===============================================
+    Our Day 1 stylesheet had the colour #1d5c8f typed out in five places.
+    Change the brand colour and you're hunting for every copy. CUSTOM
+    PROPERTIES (everyone calls them CSS variables) fix that.
+
+        --name: value;      define a variable (the two dashes are required)
+        var(--name)         use it
+
+    Define them once, usually on :root (which is the <html> element - the
+    top of the tree, so the variables are available everywhere). Change the
+    value in ONE place and the whole site updates.
+
+    We also meet a RESET: a couple of lines at the very top that flatten the
+    browser's inconsistent default margins so every page starts from the
+    same baseline. (You'll hear SASS/LESS mentioned as tools that also do
+    variables - ignore them for now; plain CSS variables are built in, need
+    no tooling, and are all we need this week.)
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Properties Investigation</title>
+    <style>
+        /* ---- A tiny reset ------------------------------------------- */
+        /* box-sizing habit from this morning + zero out default margins so
+           we're not fighting the browser's built-in spacing. */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        /* ---- Define the palette ONCE, at the root ------------------- */
+        :root {
+            --primary: #1d5c8f;
+            --primary-dark: #163f61;
+            --page-bg: #f5f2ea;
+            --text: #333333;
+            --space: 1rem;
+        }
+
+        /* ---- Use the variables everywhere via var() ----------------- */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: var(--page-bg);
+            color: var(--text);
+            padding: var(--space);
+        }
+
+        h1 {
+            color: var(--primary);
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 2px solid var(--primary);
+            padding: var(--space);
+            margin-top: var(--space);
+        }
+
+        .card h2 {
+            color: var(--primary-dark);
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin-top: var(--space);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>One palette, defined once</h1>
+
+    <div class="card">
+        <h2>A card</h2>
+        <p>Every blue on this page - the heading, this border, the button -
+           comes from a single variable, <code>--primary</code>.</p>
+        <a class="button" href="#">A button</a>
+    </div>
+
+    <hr>
+
+    <p><strong>Try it:</strong> in DevTools, select the <code>html</code>
+       element (that's <code>:root</code>) and change <code>--primary</code>
+       to <code>seagreen</code> in the Styles pane. Watch the heading, the
+       border and the button all change together, instantly. That is the
+       whole point - and exactly how we'll set up the Member Manager
+       stylesheet so re-skinning it later is a one-line job.</p>
+
+</body>
+</html>

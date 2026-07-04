@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!--
+    13 - EDIT IN PLACE WITH PUT (the capstone's Update)
+    ===================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    >>> You'll change real members in db.json. Reset afterwards if you want the
+    >>> originals back (README reset recipe).
+
+    The last verb: PUT, to UPDATE a member. Like DELETE, the URL ends in the id
+    (we're changing one specific member); like POST, we send a body:
+
+        await fetch(`http://localhost:3000/members/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedMember)
+        });
+
+    Important: PUT REPLACES the whole member, so send the COMPLETE object, not
+    just the changed field. The spread pattern from demo 09 is perfect here:
+
+        const updated = { ...member, name: newName, email: newEmail };
+        // "everything member was, but with a new name and email"
+
+    ---- IN-PLACE EDITING (the proven exercise) ----
+    Rather than a separate edit page, we edit right in the row:
+
+        Normal:  [ Aidan ] [ aidan@example.com ]           [ Edit ]
+        Editing: [ input ] [ input             ]   [ Save ] [ Cancel ]
+
+    - Edit    turns the name/email cells into text inputs, pre-filled.
+    - Save    reads the inputs, PUTs the updated member, redraws from the server.
+    - Cancel  throws the edits away and puts the original text back.
+
+    The Cancel restore is the interesting bit, and it uses a tidy pattern: when we
+    make each input, we remember what it started as in a data- attribute:
+
+        input.dataset.originalValue = currentText;
+
+    Cancel just reads that back - input.dataset.originalValue - and restores it.
+    The original never has to be stored anywhere else; it rides along on the
+    element itself. (This is the same data- idea we used for the delete button.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit in place with PUT</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 820px; }
+        h1 { font-family: Georgia, "Times New Roman", serif; color: #1d5c8f; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { border: 1px solid #d0c9b8; padding: 0.5rem 0.75rem; text-align: left; }
+        thead th { background-color: #1d5c8f; color: #fff; }
+        input { padding: 0.35rem; border: 1px solid #d0c9b8; border-radius: 4px; width: 100%; }
+        button { border: none; border-radius: 4px; padding: 0.35rem 0.7rem; cursor: pointer; color: #fff; margin-right: 0.25rem; }
+        .edit { background-color: #1d5c8f; }
+        .save { background-color: seagreen; }
+        .cancel { background-color: #999; }
+        .status { font-weight: bold; }
+        .status.error { color: #b00020; }
+    </style>
+</head>
+<body>
+
+    <h1>Edit members in place (PUT)</h1>
+    <p id="status" class="status">Loading members...</p>
+
+    <table>
+        <thead>
+            <tr><th>Id</th><th>Name</th><th>Email</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+    </table>
+
+    <script>
+        const API = "http://localhost:3000/members";
+        const statusLine = document.querySelector("#status");
+        const rows = document.querySelector("#rows");
+
+        /* Build a row in its NORMAL (display) state. Each row manages its own
+           edit/save/cancel through the buttons below - the member object is kept
+           in a closure so Save can build the complete updated record. */
+        function buildRow(member) {
+            const tr = document.createElement("tr");
+
+            const idCell = document.createElement("td");
+            idCell.textContent = member.id;
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = member.name;
+
+            const emailCell = document.createElement("td");
+            emailCell.textContent = member.email;
+
+            const actionCell = document.createElement("td");
+
+            /* ---- Switch this row INTO edit mode ---- */
+            function startEdit() {
+                /* Replace each cell's text with an input, and remember the
+                   starting value ON the input for a clean Cancel later. */
+                const nameInput = document.createElement("input");
+                nameInput.type = "text";
+                nameInput.value = member.name;
+                nameInput.dataset.originalValue = member.name;
+                nameCell.textContent = "";
+                nameCell.append(nameInput);
+
+                const emailInput = document.createElement("input");
+                emailInput.type = "text";
+                emailInput.value = member.email;
+                emailInput.dataset.originalValue = member.email;
+                emailCell.textContent = "";
+                emailCell.append(emailInput);
+
+                /* Swap Edit for Save + Cancel. */
+                actionCell.textContent = "";
+
+                const saveBtn = document.createElement("button");
+                saveBtn.textContent = "Save";
+                saveBtn.className = "save";
+                saveBtn.addEventListener("click", () => saveEdit(nameInput, emailInput));
+
+                const cancelBtn = document.createElement("button");
+                cancelBtn.textContent = "Cancel";
+                cancelBtn.className = "cancel";
+                cancelBtn.addEventListener("click", () => cancelEdit(nameInput, emailInput));
+
+                actionCell.append(saveBtn, cancelBtn);
+            }
+
+            /* ---- Cancel: restore the original text from the data- attribute ---- */
+            function cancelEdit(nameInput, emailInput) {
+                /* The originals rode along on the inputs - read them back. */
+                nameCell.textContent = nameInput.dataset.originalValue;
+                emailCell.textContent = emailInput.dataset.originalValue;
+                showEditButton();
+            }
+
+            /* ---- Save: PUT the complete member, then redraw from the server ---- */
+            async function saveEdit(nameInput, emailInput) {
+                const newName = nameInput.value.trim();
+                const newEmail = emailInput.value.trim();
+                if (newName === "" || newEmail === "") {
+                    statusLine.textContent = "Name and email can't be blank.";
+                    statusLine.className = "status error";
+                    return;
+                }
+
+                /* PUT replaces the whole record - build it with spread (demo 09):
+                   everything the member was, with the two edited fields. */
+                const updated = { ...member, name: newName, email: newEmail };
+
+                try {
+                    const response = await fetch(`${API}/${member.id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(updated)
+                    });
+                    if (!response.ok) throw new Error(`Status ${response.status}`);
+
+                    /* Redraw everything from the server - simple and always right. */
+                    await loadMembers();
+                    statusLine.textContent = `Saved changes to ${newName}.`;
+                } catch (error) {
+                    console.log("PUT failed:", error.message);
+                    statusLine.textContent = "Could not save. Is json-server running on port 3000?";
+                    statusLine.className = "status error";
+                }
+            }
+
+            /* ---- Show the single Edit button (normal state) ---- */
+            function showEditButton() {
+                actionCell.textContent = "";
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "Edit";
+                editBtn.className = "edit";
+                editBtn.addEventListener("click", startEdit);
+                actionCell.append(editBtn);
+            }
+
+            showEditButton();
+            tr.append(idCell, nameCell, emailCell, actionCell);
+            return tr;
+        }
+
+        function renderTable(members) {
+            rows.textContent = "";
+            members.forEach((member) => rows.append(buildRow(member)));
+        }
+
+        async function loadMembers() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                const members = await response.json();
+                renderTable(members);
+                statusLine.textContent = `Loaded ${members.length} members.`;
+                statusLine.className = "status";
+            } catch (error) {
+                statusLine.textContent = "Could not load. Is json-server running on port 3000?";
+                statusLine.className = "status error";
+            }
+        }
+
+        loadMembers();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 2 SOLUTION - decisions, loops & functions
+    ==================================================
+    if/else, a for loop, a function declaration and an arrow function.
+    Checked in the Console.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 2 - Logic</title>
+</head>
+<body>
+
+    <h1>Decisions, loops &amp; functions (open the Console)</h1>
+
+    <script>
+        /* 1. grade(score) returns a word using if / else if / else. */
+        function grade(score) {
+            if (score >= 70) {
+                return "distinction";
+            } else if (score >= 50) {
+                return "pass";
+            } else {
+                return "try again";
+            }
+        }
+        console.log("40 ->", grade(40));
+        console.log("55 ->", grade(55));
+        console.log("90 ->", grade(90));
+
+        /* 2. An arrow function. */
+        const double = (n) => n * 2;
+        console.log("double(9) =", double(9));
+
+        /* 3. The 3-times table with a for loop and a template literal. */
+        for (let n = 1; n <= 10; n = n + 1) {
+            console.log(`${n} x 3 = ${n * 3}`);
+        }
+
+        /* 4. Add every number from 1 to 100. */
+        let total = 0;
+        for (let n = 1; n <= 100; n = n + 1) {
+            total = total + n;
+        }
+        console.log("Sum 1..100 =", total);   /* 5050 */
+
+        /* 5. activeLabel returns yes/no from a boolean. */
+        function activeLabel(isActive) {
+            if (isActive) {
+                return "yes";
+            } else {
+                return "no";
+            }
+        }
+        console.log("true  ->", activeLabel(true));
+        console.log("false ->", activeLabel(false));
+    </script>
+
+</body>
+</html>

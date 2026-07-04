@@ -1,0 +1,18 @@
+/*
+    07_styles.css - our first EXTERNAL stylesheet.
+
+    A CSS file is a list of RULES. Each rule:
+
+        selector {
+            property: value;
+        }
+
+    "Find every element matching the selector, apply these declarations."
+    Note the pattern: colon between property and value, semicolon at the
+    end of every line. (Swapping those is THE classic beginner typo.)
+*/
+
+.external-demo {
+    color: royalblue;
+    font-style: italic;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+    13 - OBJECTS (a record with named fields)
+    =========================================
+    An array is a list where items are found by POSITION (0, 1, 2...). An
+    OBJECT is a record where values are found by NAME. Perfect for describing
+    one THING with several labelled details - like a single member.
+
+    You write one with curly braces, as name: value pairs (we call each pair a
+    PROPERTY):
+
+        const member = {
+            id: 1,
+            name: "Aidan",
+            email: "aidan@example.com",
+            active: true
+        };
+
+    Reach a value by its name, with a dot:
+
+        member.name     ->  "Aidan"
+        member.active   ->  true
+
+    That { id, name, email, active } shape is THE data shape of this whole
+    course. It matches the table columns from Day 1 exactly. From here on, a
+    "member" means an object with those four properties.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Objects Investigation</title>
+</head>
+<body>
+
+    <h1>Objects (watch the Console)</h1>
+
+    <script>
+        /* One member, as an object. This is our data shape for the week. */
+        const member = {
+            id: 1,
+            name: "Aidan",
+            email: "aidan@example.com",
+            active: true
+        };
+
+        /* The whole record at once. */
+        console.log("The member:", member);
+
+        /* Reach individual values by name, using a dot. */
+        console.log("Name:", member.name);
+        console.log("Email:", member.email);
+        console.log("Active?", member.active);
+
+        /* Change a property by assigning to it. */
+        member.active = false;
+        console.log("After resigning, active is:", member.active);
+
+        /* Objects and template literals are a natural pair - this is exactly
+           how we'll build a row of the members table. */
+        const line = `${member.name} <${member.email}> - active: ${member.active}`;
+        console.log(line);
+
+        /* An object can hold different types together: number, string, boolean. */
+        console.log("id is a", typeof member.id, "- name is a", typeof member.name);
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> in the Console type <code>member.name</code>,
+       then <code>member.town</code> - asking for a property that doesn't exist
+       gives <code>undefined</code>, no error. Then add one:
+       <code>member.town = "Cork"</code> and log <code>member</code> again.</p>
+
+</body>
+</html>

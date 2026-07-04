@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+    11 - ARRAYS (a list of things)
+    ==============================
+    An ARRAY is an ordered list of values in a single box. You write one with
+    square brackets, values separated by commas:
+
+        const names = ["Aidan", "Alice", "Bob"];
+
+    Each item has a POSITION, called its index, and - this catches everyone -
+    counting starts at 0:
+
+        names[0]  is "Aidan"    (the FIRST item)
+        names[1]  is "Alice"
+        names[2]  is "Bob"      (the LAST item, here)
+
+    names.length tells you how many items there are (3 here). Because we start
+    at 0, the last index is always length - 1.
+
+    A few everyday actions:
+        names.push("Carol")   add to the end
+        names[0] = "Ada"      overwrite an item
+        names.length          how many
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arrays Investigation</title>
+</head>
+<body>
+
+    <h1>Arrays (watch the Console)</h1>
+
+    <script>
+        /* An array literal: a list in square brackets. */
+        const names = ["Aidan", "Alice", "Bob"];
+        console.log("The whole list:", names);
+
+        /* Reach an item by its index. First is 0, NOT 1. */
+        console.log("First:", names[0]);
+        console.log("Second:", names[1]);
+
+        /* How many items? */
+        console.log("How many:", names.length);
+
+        /* The last item: length - 1, because we started at 0. */
+        console.log("Last:", names[names.length - 1]);
+
+        /* Add to the end with push. The array can grow. */
+        names.push("Carol");
+        console.log("After push:", names);
+        console.log("Now how many:", names.length);
+
+        /* Overwrite an item by assigning to its index. */
+        names[0] = "Ada";
+        console.log("After changing index 0:", names);
+
+        /* Walk the list with a for loop, index by index. */
+        for (let i = 0; i < names.length; i = i + 1) {
+            console.log(`Item ${i} is ${names[i]}`);
+        }
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> in the Console type <code>names[1]</code>, then
+       <code>names.length</code>, then <code>names[99]</code> - asking for an
+       item that isn't there gives <code>undefined</code> rather than an error.
+       Good to recognise.</p>
+
+</body>
+</html>

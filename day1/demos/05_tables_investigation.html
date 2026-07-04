@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+    05 - TABLES INVESTIGATION
+    =========================
+    Tables are for DATA - rows and columns of related values.
+    (In the 1990s people used tables to lay out whole pages.
+     We have better tools now - you'll meet them tomorrow. Never do this.)
+
+    Structure:
+        table            the whole thing
+          caption        the table's title
+          thead          the header row(s)
+            tr           a table ROW
+              th         a header cell
+          tbody          the data rows
+            tr
+              td         a data cell
+
+    NOTE: yes, it looks plain - no lines, everything squashed together.
+    Borders and spacing are CSS box-model properties: first thing tomorrow.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tables Investigation</title>
+</head>
+<body>
+
+    <h1>Tables hold data</h1>
+
+    <table>
+        <caption>Club members</caption>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Aidan</td>
+                <td>aidan@example.com</td>
+                <td>yes</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Alice</td>
+                <td>alice@example.com</td>
+                <td>yes</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Bob</td>
+                <td>bob@example.com</td>
+                <td>no</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Remember this table - our project renders exactly this data shape
+       (id, name, email, active) all week, and by Thursday it will be
+       loading live from a server.</p>
+
+</body>
+</html>

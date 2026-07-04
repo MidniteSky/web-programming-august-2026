@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--
+    03 - REST VERBS MAPPED TO CRUD
+    ==============================
+    Every useful app does four things to its data. People call them CRUD:
+
+        CREATE   make a new thing
+        READ     look at existing things
+        UPDATE   change a thing
+        DELETE   remove a thing
+
+    Our Member Manager is a CRUD app: add a member, view the list, edit someone,
+    remove someone. That's the whole job.
+
+    On the web, we ask for each of these with an HTTP METHOD (also called a
+    "verb"). A request is a verb plus a URL - "do THIS to THAT". A style of
+    designing APIs this way is called REST, and json-server follows it. The four
+    verbs line up with CRUD almost one-to-one:
+
+        CRUD      HTTP verb   Example request              Meaning
+        ------    ---------   ---------------------------  -----------------------
+        Create    POST        POST   /members             add a new member
+        Read      GET         GET    /members             fetch the whole list
+        Read      GET         GET    /members/3           fetch just member #3
+        Update    PUT         PUT    /members/3           replace member #3
+        Delete    DELETE      DELETE /members/3           remove member #3
+
+    Read that middle column aloud: "GET members", "POST members", "DELETE members
+    slash three". The verb is the action; the URL is the thing.
+
+    A couple of honest notes:
+      - GET just reads; it never changes anything. That's why your browser can do
+        it safely just by visiting a URL (demo 04).
+      - There is also PATCH (change PART of a thing). We use PUT this week and
+        leave PATCH as a name to recognise.
+
+    Nothing to run - this is the map of the day. Blocks 3 and 4 build each verb
+    into the capstone: GET + POST first, then DELETE + PUT.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>REST verbs and CRUD</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 760px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: #1d5c8f;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            border: 1px solid #d0c9b8;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+
+        thead th {
+            background-color: #1d5c8f;
+            color: #ffffff;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>REST verbs mapped to CRUD</h1>
+
+    <p>Every app <strong>C</strong>reates, <strong>R</strong>eads,
+       <strong>U</strong>pdates and <strong>D</strong>eletes its data. On the web
+       each of those is an HTTP <strong>verb</strong> plus a URL - "do this to
+       that".</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>CRUD</th>
+                <th>Verb</th>
+                <th>Example request</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Create</td>
+                <td><code>POST</code></td>
+                <td><code>POST /members</code></td>
+                <td>add a new member</td>
+            </tr>
+            <tr>
+                <td>Read</td>
+                <td><code>GET</code></td>
+                <td><code>GET /members</code></td>
+                <td>fetch the whole list</td>
+            </tr>
+            <tr>
+                <td>Read</td>
+                <td><code>GET</code></td>
+                <td><code>GET /members/3</code></td>
+                <td>fetch just member #3</td>
+            </tr>
+            <tr>
+                <td>Update</td>
+                <td><code>PUT</code></td>
+                <td><code>PUT /members/3</code></td>
+                <td>replace member #3</td>
+            </tr>
+            <tr>
+                <td>Delete</td>
+                <td><code>DELETE</code></td>
+                <td><code>DELETE /members/3</code></td>
+                <td>remove member #3</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>The verb is the <em>action</em>; the URL is the <em>thing</em>.
+       <code>GET</code> only ever reads - which is why your browser can do it
+       just by visiting a URL, as we'll see next in demo 04.</p>
+
+</body>
+</html>

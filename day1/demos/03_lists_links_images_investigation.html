@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+    03 - LISTS, LINKS & IMAGES INVESTIGATION
+    ========================================
+    Three workhorses of every web page.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lists, Links and Images Investigation</title>
+</head>
+<body>
+
+    <h1>Lists, Links and Images</h1>
+
+    <h2>Unordered list (bullets)</h2>
+    <ul>
+        <li>HTML - structure</li>
+        <li>CSS - appearance</li>
+        <li>JavaScript - behaviour</li>
+    </ul>
+
+    <h2>Ordered list (numbered)</h2>
+    <ol>
+        <li>Browser sends a request</li>
+        <li>Server sends back HTML</li>
+        <li>Browser renders the page</li>
+    </ol>
+
+    <h2>Lists can nest</h2>
+    <ul>
+        <li>Day 1: HTML
+            <ul>
+                <li>text elements</li>
+                <li>lists, links, images</li>
+            </ul>
+        </li>
+        <li>Day 2: CSS in depth</li>
+    </ul>
+
+    <hr>
+
+    <h2>Links - the "hypertext" in HTML</h2>
+
+    <p>An <strong>absolute</strong> link goes to a full web address:<br>
+       <a href="https://developer.mozilla.org">MDN Web Docs - the reference we trust</a></p>
+
+    <p>A <strong>relative</strong> link goes to a file near this one:<br>
+       <a href="01_first_page.html">back to our first page</a></p>
+
+    <p>A <strong>mailto</strong> link opens the visitor's email program:<br>
+       <a href="mailto:membership@example.com">email the membership club</a></p>
+
+    <p>Adding target="_blank" opens the link in a new tab:<br>
+       <a href="https://developer.mozilla.org" target="_blank">MDN in a new tab</a></p>
+
+    <hr>
+
+    <h2>Images</h2>
+
+    <!-- src   = where the image file lives (here: a relative path)
+         alt   = text for screen readers, search engines, and broken images
+         width = display width in pixels (height scales automatically) -->
+    <img src="images/sample-logo.svg" alt="Member Manager club logo" width="150">
+
+    <h3>Why alt matters</h3>
+    <p>This next image has a WRONG src on purpose - look what the browser
+       shows instead:</p>
+    <img src="images/does-not-exist.png" alt="Photo of the club's annual dinner" width="150">
+
+    <p>Without good alt text, a visitor using a screen reader - or anyone on a
+       flaky connection - gets nothing at all.</p>
+
+</body>
+</html>

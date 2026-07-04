@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+    11 - POST A NEW MEMBER FROM A FORM (the capstone's Create)
+    =========================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    >>> WATCH db.json in VS Code while you submit - it changes by itself. That's
+    >>> the "the file IS the database" moment. (Reset it afterwards - see the
+    >>> README's reset recipe - or you'll accumulate test members.)
+
+    Reading (GET) is half the job. Now we WRITE: POST a new member. A POST needs
+    more than a URL, because we're sending data along with it. Three extra parts:
+
+        fetch(url, {
+            method: "POST",                               // the verb
+            headers: { "Content-Type": "application/json" }, // "I'm sending JSON"
+            body: JSON.stringify(newMember)               // the data, as JSON text
+        })
+
+    - method: without this, fetch defaults to GET. We want POST.
+    - headers: one header, Content-Type, telling the server the body is JSON. (We
+      touch no other headers all week - no keys, no tokens.)
+    - body: the member object turned into a JSON STRING with JSON.stringify
+      (demo 02). You send text; the server parses it back.
+
+    Notice we do NOT send an id. json-server assigns the next id itself and sends
+    the finished, saved member back in its reply - so we read response.json() to
+    get the real new member (with its server-given id).
+
+    AFTER a successful write, the screen must catch up with the server. Two honest
+    options:
+        (a) RE-FETCH the whole list - simplest, always correct, one more GET.
+        (b) APPEND just the returned member to what's on screen - fewer requests.
+    We'll use re-fetch in the capstone (simple and never wrong); this demo shows
+    append so you've seen both.
+
+    Same async/await + try/catch + response.ok shape as every request today.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POST from a form</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 640px; }
+        h1 { font-family: Georgia, "Times New Roman", serif; color: #1d5c8f; }
+        label { font-weight: bold; display: block; margin-top: 0.5rem; }
+        input[type="text"], input[type="email"] { width: 100%; padding: 0.5rem; border: 1px solid #d0c9b8; border-radius: 4px; }
+        button { background-color: #1d5c8f; color: #fff; border: none; border-radius: 4px; padding: 0.6rem 1.2rem; font-size: 1rem; cursor: pointer; margin-top: 0.75rem; }
+        ul { background-color: #f5f2ea; border: 1px solid #d0c9b8; padding: 1rem 1rem 1rem 2rem; border-radius: 6px; }
+        #feedback { font-weight: bold; min-height: 1.5rem; }
+        #feedback.ok { color: seagreen; }
+        #feedback.error { color: #b00020; }
+    </style>
+</head>
+<body>
+
+    <h1>Add a member (POST)</h1>
+
+    <form id="addForm">
+        <label for="name">Name</label>
+        <input type="text" id="name">
+
+        <label for="email">Email</label>
+        <input type="email" id="email">
+
+        <label><input type="checkbox" id="active" checked> Active member</label>
+
+        <button type="submit">Add member</button>
+    </form>
+
+    <p id="feedback"></p>
+
+    <h2>Members now on the server</h2>
+    <ul id="list"></ul>
+
+    <script>
+        const API = "http://localhost:3000/members";
+        const form = document.querySelector("#addForm");
+        const nameInput = document.querySelector("#name");
+        const emailInput = document.querySelector("#email");
+        const activeInput = document.querySelector("#active");
+        const feedback = document.querySelector("#feedback");
+        const list = document.querySelector("#list");
+
+        /* Put one member on screen. */
+        function addToList(member) {
+            const li = document.createElement("li");
+            const state = member.active ? "active" : "inactive";
+            li.textContent = `#${member.id} ${member.name} (${member.email}) - ${state}`;
+            list.append(li);
+        }
+
+        /* GET the list to show the starting point (and after a reset). */
+        async function loadMembers() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                const members = await response.json();
+                list.textContent = "";
+                members.forEach(addToList);
+            } catch (error) {
+                feedback.textContent = "Could not load. Is json-server running on port 3000?";
+                feedback.className = "error";
+            }
+        }
+
+        /* Handle the form: build a member, POST it, then update the screen. */
+        form.addEventListener("submit", async (event) => {
+            /* Stop the browser's own submit (the Day 1 URL thread, again). */
+            event.preventDefault();
+
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            if (name === "" || email === "") {
+                feedback.textContent = "Please fill in both name and email.";
+                feedback.className = "error";
+                return;
+            }
+
+            /* NO id - the server assigns it. Just the fields we know. */
+            const newMember = { name, email, active: activeInput.checked };
+
+            try {
+                feedback.textContent = "Saving...";
+                feedback.className = "";
+
+                const response = await fetch(API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(newMember)
+                });
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+
+                /* The reply is the SAVED member, now with a real id. */
+                const saved = await response.json();
+                console.log("Server saved:", saved);
+
+                /* Option (b): append the returned member. (The capstone re-fetches
+                   the whole list instead - both are fine; see the header note.) */
+                addToList(saved);
+
+                feedback.textContent = `Added ${saved.name} as #${saved.id}.`;
+                feedback.className = "ok";
+                form.reset();
+                activeInput.checked = true;
+            } catch (error) {
+                console.log("POST failed:", error.message);
+                feedback.textContent = "Could not save. Is json-server running on port 3000?";
+                feedback.className = "error";
+            }
+        });
+
+        loadMembers();
+    </script>
+
+</body>
+</html>

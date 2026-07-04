@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+    11 - FLEXBOX INVESTIGATION
+    ==========================
+    The moment you've waited for since yesterday: putting boxes side by side,
+    evenly and on purpose. FLEXBOX lays out items along ONE axis - a row or a
+    column - and shares out the space for you.
+
+    Two halves to remember:
+        - the CONTAINER: you set display: flex on the PARENT
+        - the ITEMS: its direct children become flex items automatically
+
+    Properties you set on the CONTAINER:
+        display: flex           turn it on (items become a row by default)
+        flex-direction: row     row (default) | column
+        justify-content         spacing ALONG the main axis:
+                                flex-start | center | flex-end |
+                                space-between | space-around
+        align-items             alignment ACROSS the axis (e.g. vertical
+                                centring in a row): center | stretch | ...
+        gap                     even space between items - no margins needed
+        flex-wrap: wrap         let items drop to the next line if cramped
+
+    On an ITEM:
+        flex: 1                 "grow to share the leftover space equally"
+
+    This is the tool that fixes our Day 1 navigation. Watch.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flexbox Investigation</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 1rem;
+            background-color: #f5f2ea;
+        }
+
+        h2 {
+            margin-top: 1.5rem;
+        }
+
+        /* ---- 1. A NAV BAR: links in a row, centred, evenly spaced ---- */
+        /* Set display: flex on the CONTAINER (the nav). Its child links
+           line up automatically. justify-content centres the group; gap
+           spaces them. This is the Day 1 nav problem, solved. */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            background-color: #163f61;
+            padding: 0.75rem;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* ---- 2. A ROW OF CARDS that share the space equally ---------- */
+        .cards {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;   /* on a narrow screen, cards wrap instead of squashing */
+        }
+        .card {
+            /* flex: 1 means "grow to take an equal share of the row". */
+            flex: 1;
+            min-width: 150px;  /* ...but don't shrink below this before wrapping */
+            background-color: #ffffff;
+            border: 2px solid #1d5c8f;
+            padding: 1rem;
+        }
+
+        /* ---- 3. PERFECT CENTRING (the party trick) ------------------ */
+        /* Vertically AND horizontally centring something used to be a dark
+           art. With flexbox it's two lines: justify (across) + align (down). */
+        .hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 160px;
+            background-color: #d8e6f2;
+            border: 2px dashed #1d5c8f;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Flexbox: side by side, at last</h1>
+
+    <h2>1. A navigation bar</h2>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Members</a>
+    </nav>
+
+    <h2>2. A row of equal cards</h2>
+    <div class="cards">
+        <div class="card">Card one</div>
+        <div class="card">Card two</div>
+        <div class="card">Card three</div>
+    </div>
+
+    <h2>3. Centre anything, both ways</h2>
+    <div class="hero">
+        <p>Perfectly centred, no magic numbers.</p>
+    </div>
+
+    <hr>
+
+    <p><strong>Try it:</strong> inspect the nav in DevTools. Next to
+       <code>display: flex</code> there's a little <code>flex</code> badge -
+       click it to get an overlay showing the axes and the gaps. Then change
+       <code>justify-content</code> to <code>space-between</code> and watch
+       the links push to the edges.</p>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+    14 - AN ARRAY OF OBJECTS (the members list)
+    ===========================================
+    Put the two big ideas together and you get the single most common data
+    shape on the web: a LIST of RECORDS - an array of objects.
+
+        const members = [
+            { id: 1, name: "Aidan", email: "aidan@example.com", active: true },
+            { id: 2, name: "Alice", email: "alice@example.com", active: true },
+            ...
+        ];
+
+    Now everything from the last few demos clicks together:
+        - a for loop or forEach walks the list, one member at a time
+        - each member is an object, so member.name reaches inside it
+        - filter picks members that pass a test (e.g. only the active ones)
+        - map turns each member into something else (e.g. just their name)
+
+    This exact array is what the Member Manager capstone renders into the
+    table this afternoon. Meet it here in the Console first.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array of Objects Investigation</title>
+</head>
+<body>
+
+    <h1>The members list (watch the Console)</h1>
+
+    <script>
+        /* The six canonical club members - our data all week.
+           Bob and Dave are inactive; everyone else is active. */
+        const members = [
+            { id: 1, name: "Aidan", email: "aidan@example.com", active: true },
+            { id: 2, name: "Alice", email: "alice@example.com", active: true },
+            { id: 3, name: "Bob",   email: "bob@example.com",   active: false },
+            { id: 4, name: "Carol", email: "carol@example.com", active: true },
+            { id: 5, name: "Dave",  email: "dave@example.com",  active: false },
+            { id: 6, name: "Eve",   email: "eve@example.com",   active: true }
+        ];
+
+        console.log("How many members:", members.length);
+
+        /* Walk the list. Each item, m, is a member object. */
+        members.forEach((m) => {
+            console.log(`#${m.id} ${m.name} (${m.email}) active: ${m.active}`);
+        });
+
+        /* filter: keep only the active members. */
+        const activeMembers = members.filter((m) => m.active);
+        console.log("Active members:", activeMembers);
+        console.log("Active count:", activeMembers.length);
+
+        /* map: turn the list of member objects into a list of just names. */
+        const names = members.map((m) => m.name);
+        console.log("Just the names:", names);
+
+        /* filter searching by text - a preview of this afternoon's live search.
+           Keep members whose name contains the letters "a" (case-insensitive). */
+        const matches = members.filter((m) =>
+            m.name.toLowerCase().includes("a")
+        );
+        console.log('Names containing "a":', matches.map((m) => m.name));
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> change the filter to
+       <code>(m) =&gt; m.active === false</code> to list the inactive members.
+       Then <code>map</code> the list to each member's email. This is the whole
+       toolkit the capstone needs.</p>
+
+</body>
+</html>

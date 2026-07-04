@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- Member Manager v2 (Day 2 capstone) - members page.
+     This page is the heart of the week:
+       Day 2 - the table is styled, and the page is responsive (TODAY)
+       Day 3 - JavaScript renders the rows from an array
+       Day 4 - the data comes live from a REST API (and the form works!)
+       Day 5 - professional Bootstrap UI with dialogs and toasts
+
+     Note for future days: the <tbody> is kept clean (rows only), because
+     from Day 3 JavaScript will empty it and render the rows itself. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Manager - Members</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Member Manager</h1>
+        <p class="tagline">Keeping track of our club, one member at a time.</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="members.html">Members</a>
+    </nav>
+
+    <!-- members-grid: on wide screens the table sits beside the form
+         (Grid, 2fr 1fr); on a phone they stack. See styles.css. -->
+    <main class="members-grid">
+
+        <section>
+            <h2>Current members</h2>
+            <!-- table-scroll: a plain container that lets a wide table
+                 scroll sideways on a narrow phone instead of breaking the
+                 whole page layout. A div is the right tool here - there is
+                 no semantic element for "a scrollable region". -->
+            <div class="table-scroll">
+                <table>
+                    <caption>Club members, July 2026</caption>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Aidan</td>
+                            <td>aidan@example.com</td>
+                            <td class="active-yes">yes</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Alice</td>
+                            <td>alice@example.com</td>
+                            <td class="active-yes">yes</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Bob</td>
+                            <td>bob@example.com</td>
+                            <td class="active-no">no</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Carol</td>
+                            <td>carol@example.com</td>
+                            <td class="active-yes">yes</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Dave</td>
+                            <td>dave@example.com</td>
+                            <td class="active-no">no</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Eve</td>
+                            <td>eve@example.com</td>
+                            <td class="active-yes">yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Add a member</h2>
+            <!-- Markup only, still. Pressing submit just reloads the page
+                 with the values in the URL - the browser's built-in
+                 behaviour. JavaScript takes over on Day 3. -->
+            <form>
+                <p>
+                    <label for="txtName">Name</label><br>
+                    <input type="text" id="txtName" name="name">
+                </p>
+                <p>
+                    <label for="txtEmail">Email</label><br>
+                    <input type="email" id="txtEmail" name="email">
+                </p>
+                <p>
+                    <input type="checkbox" id="chkActive" name="active" value="true">
+                    <label for="chkActive">Active member</label>
+                </p>
+                <p>
+                    <button type="submit">Add member</button>
+                </p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The Member Manager Club</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 2 SOLUTION - Selectors, pseudo-classes & variables
+    ===========================================================
+    Key points: nav links and the header heading are reached by STRUCTURE
+    (nav a, header h1) with no styling classes; the list is striped with a
+    structural pseudo-class; and one rule loses a specificity contest on
+    purpose so you can spot it struck through in DevTools.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2 - Selectors</title>
+    <style>
+        /* Palette + spacing defined once, used via var(). */
+        :root {
+            --primary: #1d5c8f;
+            --primary-dark: #163f61;
+            --space: 1rem;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: var(--space);
+        }
+
+        /* Descendant selector - the h1 inside the header. No class needed. */
+        header h1 {
+            color: var(--primary);
+        }
+
+        /* Descendant selector - every link inside the nav. No class needed. */
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: var(--space);
+        }
+
+        /* Pseudo-class: react to hover, pure CSS. */
+        nav a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        li {
+            padding: 0.4rem;
+            list-style: none;
+        }
+
+        /* Structural pseudo-classes: stripe every second row, embolden the first. */
+        li:nth-child(even) {
+            background-color: #e8e2d4;
+        }
+        li:first-child {
+            font-weight: bold;
+        }
+
+        /* A deliberate specificity contest on the LAST item:
+           the element rule (0,0,1) LOSES to the class rule (0,1,0),
+           even though the class is written first. Inspect it in DevTools
+           to see the li colour struck through. */
+        .highlight {
+            color: firebrick;
+        }
+        li {
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Selectors</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Members</a>
+    </nav>
+
+    <ul>
+        <li>Aidan</li>
+        <li>Alice</li>
+        <li>Bob</li>
+        <li>Carol</li>
+        <li class="highlight">Eve (firebrick - the class beats the element rule)</li>
+    </ul>
+
+</body>
+</html>

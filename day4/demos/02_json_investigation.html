@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+    02 - JSON: THE LANGUAGE DATA TRAVELS IN
+    =======================================
+    On Day 3 we mentioned JSON in passing. Today we actually use it, so let's
+    pin it down. Keep the Console open (F12 -> Console) - everything logs there.
+
+    JSON = "JavaScript Object Notation". It is a TEXT format for data. It looks
+    almost exactly like a JavaScript object or array, with two strict rules:
+
+        1. Every key is in DOUBLE quotes:   "name": "Aidan"   (not name: "Aidan")
+        2. Strings use DOUBLE quotes only - never single quotes.
+
+    Allowed values: strings, numbers, booleans (true/false), null, arrays, and
+    nested objects. No functions, no comments, no trailing commas.
+
+    Why it matters: a web request can only send TEXT down the wire, not a live
+    JavaScript object. So data travels as a JSON string and gets converted at
+    each end. Two built-in functions do the converting:
+
+        JSON.stringify(value)  ->  turns an object/array INTO a JSON string
+                                   (to SEND it). Think: "make it a string".
+        JSON.parse(text)       ->  turns a JSON string BACK into a real object
+                                   (once it ARRIVES). Think: "parse the text".
+
+    They are exact opposites. stringify on the way out, parse on the way in.
+    You'll rarely call them by hand this week (fetch does it for you - demo 06),
+    but seeing them makes fetch far less mysterious.
+
+    No server needed for this one - pure JavaScript in the Console.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON Investigation</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; }
+        code { background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>JSON: open the Console (F12)</h1>
+    <p>All the output is in the <strong>Console</strong>. Read the comments in
+       the source alongside it.</p>
+
+    <script>
+        /* ---- A real JavaScript object (a live thing, with quotes optional on keys) ---- */
+        const member = { id: 1, name: "Aidan", email: "aidan@example.com", active: true };
+        console.log("1. A live JS object:", member);
+        console.log("   Reach into it normally:", member.name);
+
+        /* ---- stringify: object -> JSON text (for SENDING) ----
+           Notice in the Console: every key is now double-quoted, and the whole
+           thing is one string. This is what would travel to a server. */
+        const asText = JSON.stringify(member);
+        console.log("2. After JSON.stringify (a string):", asText);
+        console.log("   Its type is now:", typeof asText);   // "string"
+
+        /* You cannot reach into a string with a dot - proof it's just text: */
+        console.log("   asText.name is:", asText.name);       // undefined - it's text!
+
+        /* ---- parse: JSON text -> object (for RECEIVING) ----
+           This is what happens when a reply arrives from the server. */
+        const backToObject = JSON.parse(asText);
+        console.log("3. After JSON.parse (an object again):", backToObject);
+        console.log("   Now member.name works again:", backToObject.name);
+
+        /* ---- JSON handles arrays and nesting too ---- */
+        const two = [
+            { id: 1, name: "Aidan", active: true },
+            { id: 2, name: "Alice", active: false }
+        ];
+        console.log("4. An array, stringified:", JSON.stringify(two));
+
+        /* ---- The classic gotcha: JSON is FUSSY ----
+           Uncomment the next line to watch JSON.parse throw. Single quotes and
+           unquoted keys are NOT valid JSON - only double quotes count. Reading
+           that red error is a useful skill (it names the position of the fault). */
+        // JSON.parse("{ name: 'Aidan' }");
+    </script>
+
+</body>
+</html>

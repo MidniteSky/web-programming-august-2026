@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 1 SOLUTION - Bootstrap-ify a plain page
+    ================================================
+    A worked answer for the Block 1 exercise: take a plain "club noticeboard"
+    page and rebuild it with Bootstrap - a navbar, a responsive grid of cards, a
+    styled table, and a form. There's no single "right" layout; yours may differ.
+    What matters is that the whole thing is Bootstrap classes with no hand-written
+    CSS of your own.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1 - Bootstrap noticeboard</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- Navbar component. -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Club Noticeboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#nav" aria-controls="nav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Notices</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+
+        <h1 class="mb-4">This month's notices</h1>
+
+        <!-- Responsive grid of cards: three across on desktop, stacked on phone. -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-3 h-100">
+                    <div class="card-body">
+                        <h2 class="card-title h5">Subs due</h2>
+                        <p class="card-text">Annual membership subs are due by the
+                           end of the month.</p>
+                        <a href="#" class="btn btn-primary btn-sm">Pay now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3 h-100">
+                    <div class="card-body">
+                        <h2 class="card-title h5">New members</h2>
+                        <p class="card-text">A warm welcome to everyone who joined
+                           us this month.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3 h-100">
+                    <div class="card-body">
+                        <h2 class="card-title h5">AGM</h2>
+                        <p class="card-text">The AGM is on the first Tuesday. All
+                           welcome; biscuits provided.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Add to calendar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- A styled table. -->
+        <h2 class="h4 mt-4">Upcoming dates</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-primary">
+                    <tr><th>Date</th><th>Event</th><th>Where</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1st</td><td>Monthly meetup</td><td>The hall</td></tr>
+                    <tr><td>14th</td><td>Committee meeting</td><td>Online</td></tr>
+                    <tr><td>28th</td><td>Summer social</td><td>The park</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- A form with Bootstrap controls. -->
+        <h2 class="h4 mt-4">Suggest a notice</h2>
+        <form class="col-md-6">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title">
+            </div>
+            <div class="mb-3">
+                <label for="detail" class="form-label">Details</label>
+                <textarea class="form-control" id="detail" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Suggest</button>
+        </form>
+
+    </main>
+
+    <!-- Bootstrap JS bundle (for the navbar toggle). LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

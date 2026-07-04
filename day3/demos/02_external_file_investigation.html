@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+    02 - LINKING AN EXTERNAL SCRIPT FILE
+    ====================================
+    A page can either hold its script inline (as demo 01 did) or point to a
+    separate .js file - exactly like the choice between an embedded <style>
+    block and an external stylesheet on Day 1.
+
+    The rule we adopt for the whole week (the same one we adopted for CSS):
+        real project code lives in its own EXTERNAL .js file.
+
+    We link it with a <script> element that has a src attribute instead of
+    code inside it:
+
+        <script src="02_external_file.js"></script>
+
+    Keep it at the end of the body, same as before. Open 02_external_file.js
+    in your editor to see what is running.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>External Script Investigation</title>
+</head>
+<body>
+
+    <h1>The script lives in its own file</h1>
+
+    <p>There is no JavaScript written in this HTML page at all. Everything it
+       does comes from the linked file. Open the <strong>Console</strong>
+       (F12) and you'll see two messages printed by
+       <code>02_external_file.js</code>.</p>
+
+    <!-- src points to the external file; there is no code between the tags.
+         This is how the Member Manager will load its members.js later today. -->
+    <script src="02_external_file.js"></script>
+
+</body>
+</html>

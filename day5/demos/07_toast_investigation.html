@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+    07 - TOASTS (the little "Saved!" pop-up)
+    ========================================
+    A toast is a small notification that slides in, usually in a corner, says
+    something brief ("Member saved", "Deleted"), and fades away - without freezing
+    the page or demanding a click. It's the friendly feedback the Member Manager
+    has been missing: right now it writes messages into a paragraph; toasts make
+    them feel like a real app's confirmations.
+
+    Toasts need Bootstrap's JavaScript bundle. The pattern:
+      1. Put a .toast element inside a .toast-container (fixed to a corner).
+      2. Make a controller: new bootstrap.Toast(element).
+      3. Call .show() whenever you want it to appear. It hides itself.
+
+    A common real-world trick (used in the capstone): keep ONE toast in the page,
+    and just change its text before each .show() - so "Saved Alice" and
+    "Deleted Bob" reuse the same toast.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07 - Toasts</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <main class="container py-4">
+
+        <h1 class="mb-4">Toasts</h1>
+
+        <p>Click a button; watch the bottom-right corner.</p>
+
+        <button type="button" class="btn btn-success" id="saveBtn">Save</button>
+        <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+
+    </main>
+
+    <!-- The toast container, pinned to the bottom-right. position-fixed keeps it
+         in the corner as the page scrolls; p-3 gives it a little breathing room. -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <!-- One reusable toast. We change #toastBody's text before each show. -->
+        <div id="appToast" class="toast" role="alert" aria-live="polite" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Member Manager</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastBody">
+                Something happened.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS bundle - toasts REQUIRE it. LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script>
+        /* Make one Toast controller for the single toast in the page. */
+        const toastEl = document.querySelector("#appToast");
+        const toast = new bootstrap.Toast(toastEl);
+        const toastBody = document.querySelector("#toastBody");
+
+        /* A tiny helper: set the message, then show it. Reused for every event. */
+        function showToast(message) {
+            toastBody.textContent = message;
+            toast.show();
+        }
+
+        document.querySelector("#saveBtn").addEventListener("click", () => {
+            showToast("Member saved.");
+        });
+
+        document.querySelector("#deleteBtn").addEventListener("click", () => {
+            showToast("Member deleted.");
+        });
+    </script>
+
+</body>
+</html>

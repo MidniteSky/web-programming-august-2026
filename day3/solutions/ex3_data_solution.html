@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 3 SOLUTION - arrays & objects (the members data)
+    =========================================================
+    The array of member objects behind the capstone, explored in the Console
+    with forEach, filter and map.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3 - Members Data</title>
+</head>
+<body>
+
+    <h1>The members data (open the Console)</h1>
+
+    <script>
+        /* 1. The six canonical members. Bob and Dave are inactive. */
+        const members = [
+            { id: 1, name: "Aidan", email: "aidan@example.com", active: true },
+            { id: 2, name: "Alice", email: "alice@example.com", active: true },
+            { id: 3, name: "Bob",   email: "bob@example.com",   active: false },
+            { id: 4, name: "Carol", email: "carol@example.com", active: true },
+            { id: 5, name: "Dave",  email: "dave@example.com",  active: false },
+            { id: 6, name: "Eve",   email: "eve@example.com",   active: true }
+        ];
+        console.log("The list:", members);
+        console.log("How many:", members.length);
+
+        /* 2. First name, last email - mind the 0-based index. */
+        console.log("First name:", members[0].name);
+        console.log("Last email:", members[members.length - 1].email);
+
+        /* 3. One line per member with forEach. */
+        members.forEach((m) => {
+            console.log(`#${m.id} ${m.name} (${m.email}) active: ${m.active}`);
+        });
+
+        /* 4. Only the active members. */
+        const activeMembers = members.filter((m) => m.active);
+        console.log("Active count:", activeMembers.length);
+
+        /* 5. Just the names. */
+        const names = members.map((m) => m.name);
+        console.log("Names:", names);
+
+        /* 6. Names containing the letter "a" (case-insensitive) - a preview
+              of the capstone's live search. */
+        const withA = members.filter((m) =>
+            m.name.toLowerCase().includes("a")
+        );
+        console.log('Contain "a":', withA.map((m) => m.name));
+    </script>
+
+</body>
+</html>

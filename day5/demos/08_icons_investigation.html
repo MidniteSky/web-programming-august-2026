@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+    08 - ICONS (Bootstrap Icons)
+    ============================
+    Little pictograms - a pencil for Edit, a bin for Delete, a plus for Add.
+    They make buttons quicker to read at a glance. Bootstrap Icons is a separate
+    stylesheet from Bootstrap itself (its own CDN link), but it works the same
+    way: include the CSS, then use class names.
+
+    An icon is just an empty <i> (or <span>) with two classes:
+        <i class="bi bi-pencil"></i>
+    "bi" switches on the icon font; "bi-pencil" picks which glyph. Browse the
+    full set at icons.getbootstrap.com and copy the class name you want.
+
+    Icons are drawn as a FONT, so they take their size and colour from the text
+    around them (font-size, color) - no image files to manage.
+
+    ACCESSIBILITY NOTE (we come back to this in Block 4): an icon on its own is
+    invisible to a screen reader. If a button is ICON-ONLY, give it an
+    aria-label, and add aria-hidden="true" to the icon so it isn't announced
+    twice. If the button already has visible text beside the icon, you don't need
+    the label - the text does the job.
+
+    >>> OFFLINE NOTE: the local copy of this icon set lives in day5/lib/ - the
+    >>> CSS there points at day5/lib/fonts/ for the actual glyph files. The local
+    >>> swap line below loads it.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08 - Icons</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons - a SEPARATE stylesheet. LOCAL SWAP (the offline copy in
+         day5/lib/ pulls its fonts from day5/lib/fonts/ automatically):
+    <link rel="stylesheet" href="../lib/bootstrap-icons.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+</head>
+<body>
+
+    <main class="container py-4">
+
+        <h1 class="mb-4">Bootstrap Icons</h1>
+
+        <!-- Icons on their own, at heading size. They inherit colour/size. -->
+        <p style="font-size: 2rem;">
+            <i class="bi bi-pencil"></i>
+            <i class="bi bi-trash text-danger"></i>
+            <i class="bi bi-plus-circle text-primary"></i>
+            <i class="bi bi-check-circle text-success"></i>
+            <i class="bi bi-people-fill"></i>
+        </p>
+
+        <!-- Icons INSIDE buttons, beside visible text. The text labels the
+             button, so no aria-label is needed here. The "me-1" adds a small
+             margin to the right of the icon so it isn't jammed against the word. -->
+        <h2 class="h5 mt-4">Buttons with icons + text</h2>
+        <p>
+            <button type="button" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Add member
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+                <i class="bi bi-pencil me-1" aria-hidden="true"></i>Edit
+            </button>
+            <button type="button" class="btn btn-danger">
+                <i class="bi bi-trash me-1" aria-hidden="true"></i>Delete
+            </button>
+        </p>
+
+        <!-- ICON-ONLY buttons: no visible text, so each NEEDS an aria-label, and
+             the icon gets aria-hidden. Otherwise a screen-reader user hears
+             nothing but "button". -->
+        <h2 class="h5 mt-4">Icon-only buttons (need an aria-label)</h2>
+        <p>
+            <button type="button" class="btn btn-outline-secondary" aria-label="Edit member">
+                <i class="bi bi-pencil" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-danger" aria-label="Delete member">
+                <i class="bi bi-trash" aria-hidden="true"></i>
+            </button>
+        </p>
+
+    </main>
+
+    <!-- Bootstrap JS bundle (not needed for icons, but kept for consistency).
+         LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

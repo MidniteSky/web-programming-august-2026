@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+    01 - WHAT IS AN API?
+    ===================
+    For three days our pages have only known what we typed into them. Today they
+    learn to ASK another program for information, and to send information back.
+    The thing they talk to is an API.
+
+    API stands for "Application Programming Interface". Ignore the mouthful -
+    here is the whole idea:
+
+        An API is a program you talk to by sending it messages,
+        instead of by clicking buttons on a screen.
+
+    The restaurant analogy that everyone uses (because it works):
+        - YOU (our web page) are the customer.
+        - The KITCHEN (a server somewhere) has the food (the data).
+        - You never walk into the kitchen. You talk to the WAITER.
+        - The MENU is the list of things you're allowed to ask for.
+      The waiter is the API. The menu is its list of URLs. You order in a
+      language both sides agree on; the kitchen does the work; the waiter brings
+      back a result. You don't need to know how the kitchen works - only how to
+      order.
+
+    On the web, "sending a message" means making an HTTP request (the same HTTP
+    from Day 1 - the thing your browser does every time you visit a URL). The
+    reply usually comes back as JSON - that's demo 02.
+
+    This week our "kitchen" is a tiny practice server called json-server, running
+    on your own machine. It turns a plain file (db.json) into a real web API you
+    can talk to. You'll start it in demo 04. No internet, no accounts, no magic.
+
+    Nothing to run here - this page is just the mental model. Open it, read it,
+    then move on to demo 02.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>What is an API?</title>
+    <style>
+        /* Plain, taught-properties-only styling so the page is easy to read. */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 720px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h1, h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: #1d5c8f;
+        }
+
+        .card {
+            background-color: #f5f2ea;
+            border: 1px solid #d0c9b8;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>What is an API?</h1>
+
+    <p>An <strong>API</strong> is a program your program talks to by sending
+       messages, instead of by clicking buttons. Today our Member Manager stops
+       keeping its members in a hand-typed list and starts <em>asking a server</em>
+       for them.</p>
+
+    <div class="card">
+        <h2>The waiter, not the kitchen</h2>
+        <p>Our page is the customer. A server somewhere holds the data - that's
+           the kitchen. We never go into the kitchen; we talk to the
+           <strong>waiter</strong> (the API). The <strong>menu</strong> is the
+           list of URLs we're allowed to ask for. We order in a shared language
+           (HTTP), and a result comes back - usually as <strong>JSON</strong>.</p>
+    </div>
+
+    <div class="card">
+        <h2>Our kitchen this week</h2>
+        <p>A tiny practice server called <strong>json-server</strong>, running on
+           your own machine. It turns a plain file, <code>db.json</code>, into a
+           real web API. You'll meet its menu in demo 04:</p>
+        <ul>
+            <li><code>http://localhost:3000/members</code> - the whole list</li>
+            <li><code>http://localhost:3000/members/1</code> - just Aidan</li>
+        </ul>
+    </div>
+
+    <p><strong>Next:</strong> demo 02 - the language the waiter speaks back in,
+       JSON, and the two functions that turn it into JavaScript and back.</p>
+
+</body>
+</html>

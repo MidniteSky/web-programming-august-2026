@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+    04 - SEMANTIC STRUCTURE INVESTIGATION
+    =====================================
+    Two ways to build the SAME page skeleton.
+    Version A uses anonymous boxes. Version B says what each part IS.
+
+    Both LOOK identical in the browser today. The difference is meaning:
+    screen readers, search engines - and CSS selectors from tomorrow -
+    can all understand Version B.
+
+    Our rule for the whole week:
+        never use a <div> where a semantic element exists.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Semantic Structure Investigation</title>
+</head>
+<body>
+
+    <h1>Version A - divs all the way down (the old way)</h1>
+
+    <!-- div = a generic block container with NO meaning.
+         span = the same idea, but inline (inside a line of text). -->
+    <div>
+        <div>My Website (this is meant to be the header)</div>
+        <div>Home | About | Members (this is meant to be navigation)</div>
+        <div>
+            <div>Welcome! (this is meant to be the main content)</div>
+            <p>Some text with <span>a highlighted phrase</span> inside it.</p>
+        </div>
+        <div>(c) 2026 (this is meant to be the footer)</div>
+    </div>
+
+    <p>The browser has no idea which div is which. Neither does a screen
+       reader. Neither will YOU, six months from now.</p>
+
+    <hr>
+
+    <h1>Version B - semantic elements (the modern way)</h1>
+
+    <!-- header = introductory content for the page -->
+    <header>
+        <h2>My Website</h2>
+    </header>
+
+    <!-- nav = the page's main navigation links -->
+    <nav>
+        <a href="04_semantic_structure_investigation.html">Home</a>
+        <a href="05_tables_investigation.html">Tables</a>
+        <a href="06_forms_investigation.html">Forms</a>
+    </nav>
+
+    <!-- main = THE content of this page. Exactly one per page. -->
+    <main>
+
+        <section>
+            <h2>Welcome</h2>
+            <p>A section groups related content that shares a heading.</p>
+        </section>
+
+        <section>
+            <h2>News</h2>
+            <article>
+                <h3>Course started today</h3>
+                <p>An article is a self-contained piece - a news story,
+                   a blog post, a product card.</p>
+            </article>
+        </section>
+    </main>
+
+    <!-- footer = closing content: copyright, contact, small print -->
+    <footer>
+        <p>(c) 2026 - The Member Manager Club</p>
+    </footer>
+
+    <p><strong>Try it:</strong> inspect both versions in DevTools (F12).
+       Which one can you actually read?</p>
+
+</body>
+</html>

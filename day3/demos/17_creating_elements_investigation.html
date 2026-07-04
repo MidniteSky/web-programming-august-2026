@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+    17 - CREATING ELEMENTS: createElement & append
+    ==============================================
+    Reading and changing existing elements is half the job. The other half is
+    BUILDING new ones in code - which is how the capstone fills the members
+    table from an array.
+
+    Three steps, every time:
+        1. MAKE an element:      const li = document.createElement("li");
+        2. FILL it:              li.textContent = "A new item";
+        3. ATTACH it:            list.append(li);   // add as the last child
+
+    To build a whole table row you make a <tr>, make a <td> for each cell, set
+    each cell's textContent, append the cells to the row, then append the row
+    to the <tbody>. It reads like plain instructions once you've done it once.
+
+    A note on textContent vs innerHTML: there is another property, innerHTML,
+    that takes a string of raw HTML. It's tempting, but if any of that string
+    ever came from a user typing into a form, they could sneak real HTML (even
+    a <script>) into your page. So our habit from day one is:
+        build elements with createElement + textContent.
+    textContent treats everything as plain text - safe by default. (innerHTML
+    has its uses; we simply don't reach for it with user-supplied data.)
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Creating Elements Investigation</title>
+    <style>
+        /* Just enough to see the table - all Day 1/2 properties. */
+        table { border-collapse: collapse; }
+        th, td { border: 1px solid #1d5c8f; padding: 0.4rem 0.75rem; }
+    </style>
+</head>
+<body>
+
+    <h1>Building the page from data</h1>
+
+    <h2>A list, built in code</h2>
+    <ul id="fruitList"></ul>
+
+    <h2>A table, built from an array of objects</h2>
+    <table>
+        <thead>
+            <tr><th>Id</th><th>Name</th><th>Active</th></tr>
+        </thead>
+        <!-- This tbody starts empty; JavaScript fills it. Exactly the plan
+             for the Member Manager. -->
+        <tbody id="memberRows"></tbody>
+    </table>
+
+    <script>
+        /* ---- Build a simple list ---- */
+        const fruits = ["Apples", "Pears", "Plums"];
+        const list = document.querySelector("#fruitList");
+
+        fruits.forEach((fruit) => {
+            /* 1. make it  2. fill it  3. attach it */
+            const li = document.createElement("li");
+            li.textContent = fruit;
+            list.append(li);
+        });
+
+        /* ---- Build table rows from an array of objects ---- */
+        const members = [
+            { id: 1, name: "Aidan", active: true },
+            { id: 2, name: "Bob",   active: false }
+        ];
+        const tbody = document.querySelector("#memberRows");
+
+        members.forEach((m) => {
+            const row = document.createElement("tr");
+
+            /* One cell per column. textContent keeps it plain and safe. */
+            const idCell = document.createElement("td");
+            idCell.textContent = m.id;
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = m.name;
+
+            const activeCell = document.createElement("td");
+            /* Turn the boolean into friendly text, like Day 2's yes/no column.
+               An if/else keeps it plain - no new syntax needed. */
+            if (m.active) {
+                activeCell.textContent = "yes";
+            } else {
+                activeCell.textContent = "no";
+            }
+
+            /* Attach the cells to the row, then the row to the tbody. */
+            row.append(idCell);
+            row.append(nameCell);
+            row.append(activeCell);
+            tbody.append(row);
+        });
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> add another fruit to the array and another
+       member object, then save. Both the list and the table grow to match -
+       you never touched the HTML. That is the whole trick of the capstone.</p>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 4 SOLUTION - full CRUD (DELETE + PUT added to Exercise 3)
+    =================================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    Exercise 3's GET + POST, now with a per-row Delete (confirm first) and
+    in-place Edit / Save / Cancel using PUT and the data-original-value restore.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 4 - full CRUD</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 860px; }
+        table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+        th, td { border: 1px solid #d0c9b8; padding: 0.5rem 0.75rem; text-align: left; }
+        thead th { background-color: #1d5c8f; color: #fff; }
+        input[type="text"], input[type="email"] { width: 100%; padding: 0.4rem; border: 1px solid #d0c9b8; border-radius: 4px; }
+        label { font-weight: bold; }
+        button { border: none; border-radius: 4px; padding: 0.35rem 0.7rem; cursor: pointer; color: #fff; margin-right: 0.25rem; }
+        .add { background-color: #1d5c8f; padding: 0.6rem 1.2rem; }
+        .edit { background-color: #1d5c8f; }
+        .save { background-color: seagreen; }
+        .cancel { background-color: #999; }
+        .delete { background-color: #b00020; }
+        .status { font-weight: bold; }
+        .status.error { color: #b00020; }
+        .status.ok { color: seagreen; }
+        .active-yes { color: seagreen; font-weight: bold; }
+        .active-no { color: #999; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>Members - full CRUD</h1>
+    <p id="status" class="status">Loading...</p>
+
+    <table>
+        <thead>
+            <tr><th>Id</th><th>Name</th><th>Email</th><th>Active</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+    </table>
+
+    <h2>Add a member</h2>
+    <form id="addForm">
+        <p><label for="name">Name</label> <input type="text" id="name"></p>
+        <p><label for="email">Email</label> <input type="email" id="email"></p>
+        <p><label><input type="checkbox" id="active" checked> Active member</label></p>
+        <p><button type="submit" class="add">Add member</button></p>
+    </form>
+
+    <script>
+        const API = "http://localhost:3000/members";
+        const statusLine = document.querySelector("#status");
+        const rows = document.querySelector("#rows");
+        const form = document.querySelector("#addForm");
+        const nameInput = document.querySelector("#name");
+        const emailInput = document.querySelector("#email");
+        const activeInput = document.querySelector("#active");
+
+        function setStatus(text, kind) {
+            statusLine.textContent = text;
+            statusLine.className = kind ? `status ${kind}` : "status";
+        }
+
+        /* ---- READ: GET + render ---- */
+        async function loadMembers() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                const members = await response.json();
+                renderTable(members);
+                setStatus(`Loaded ${members.length} members.`);
+            } catch (error) {
+                setStatus("Could not load - is the server running?", "error");
+            }
+        }
+
+        function renderTable(members) {
+            rows.textContent = "";
+            members.forEach((member) => rows.append(buildRow(member)));
+        }
+
+        /* Build a row in normal state, with its own edit/save/cancel/delete. */
+        function buildRow(member) {
+            const tr = document.createElement("tr");
+
+            const idCell = document.createElement("td");
+            idCell.textContent = member.id;
+            const nameCell = document.createElement("td");
+            nameCell.textContent = member.name;
+            const emailCell = document.createElement("td");
+            emailCell.textContent = member.email;
+            const activeCell = document.createElement("td");
+            activeCell.textContent = member.active ? "yes" : "no";
+            activeCell.className = member.active ? "active-yes" : "active-no";
+            const actionCell = document.createElement("td");
+
+            function showButtons() {
+                actionCell.textContent = "";
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "Edit";
+                editBtn.className = "edit";
+                editBtn.addEventListener("click", startEdit);
+
+                const delBtn = document.createElement("button");
+                delBtn.textContent = "Delete";
+                delBtn.className = "delete";
+                delBtn.addEventListener("click", () => onDelete(member));
+
+                actionCell.append(editBtn, delBtn);
+            }
+
+            /* ---- UPDATE: edit in place ---- */
+            function startEdit() {
+                const nameField = document.createElement("input");
+                nameField.type = "text";
+                nameField.value = member.name;
+                nameField.dataset.originalValue = member.name;
+                nameCell.textContent = "";
+                nameCell.append(nameField);
+
+                const emailField = document.createElement("input");
+                emailField.type = "text";
+                emailField.value = member.email;
+                emailField.dataset.originalValue = member.email;
+                emailCell.textContent = "";
+                emailCell.append(emailField);
+
+                actionCell.textContent = "";
+                const saveBtn = document.createElement("button");
+                saveBtn.textContent = "Save";
+                saveBtn.className = "save";
+                saveBtn.addEventListener("click", () => saveEdit(nameField, emailField));
+
+                const cancelBtn = document.createElement("button");
+                cancelBtn.textContent = "Cancel";
+                cancelBtn.className = "cancel";
+                cancelBtn.addEventListener("click", () => {
+                    /* Restore from the remembered originals - no server call. */
+                    nameCell.textContent = nameField.dataset.originalValue;
+                    emailCell.textContent = emailField.dataset.originalValue;
+                    showButtons();
+                });
+
+                actionCell.append(saveBtn, cancelBtn);
+            }
+
+            async function saveEdit(nameField, emailField) {
+                const newName = nameField.value.trim();
+                const newEmail = emailField.value.trim();
+                if (newName === "" || newEmail === "") {
+                    setStatus("Name and email can't be blank.", "error");
+                    return;
+                }
+                /* PUT replaces the whole record - spread keeps every field. */
+                const updated = { ...member, name: newName, email: newEmail };
+                try {
+                    const response = await fetch(`${API}/${member.id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(updated)
+                    });
+                    if (!response.ok) throw new Error(`Status ${response.status}`);
+                    await loadMembers();
+                    setStatus(`Saved changes to ${newName}.`, "ok");
+                } catch (error) {
+                    setStatus("Could not save - is the server running?", "error");
+                }
+            }
+
+            /* ---- DELETE: confirm, then remove ---- */
+            async function onDelete(m) {
+                /* TEMPORARY confirm() - a proper dialog replaces this on Day 5. */
+                if (!confirm(`Delete ${m.name}? This cannot be undone.`)) return;
+                try {
+                    const response = await fetch(`${API}/${m.id}`, { method: "DELETE" });
+                    if (!response.ok) throw new Error(`Status ${response.status}`);
+                    await loadMembers();
+                    setStatus(`Deleted ${m.name}.`, "ok");
+                } catch (error) {
+                    setStatus("Could not delete - is the server running?", "error");
+                }
+            }
+
+            showButtons();
+            tr.append(idCell, nameCell, emailCell, activeCell, actionCell);
+            return tr;
+        }
+
+        /* ---- CREATE: POST ---- */
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            if (name === "" || email === "") {
+                setStatus("Please fill in both name and email.", "error");
+                return;
+            }
+            try {
+                const response = await fetch(API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, active: activeInput.checked })
+                });
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                await loadMembers();
+                setStatus(`Added ${name}.`, "ok");
+                form.reset();
+                activeInput.checked = true;
+            } catch (error) {
+                setStatus("Could not save - is the server running?", "error");
+            }
+        });
+
+        loadMembers();
+    </script>
+
+</body>
+</html>

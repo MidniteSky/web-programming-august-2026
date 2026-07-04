@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--
+    14 - STRETCH (only if you're ahead): INFINITE SCROLL
+    ====================================================
+    >>> THIS IS OPTIONAL STRETCH MATERIAL. Skip it unless you've finished the
+    >>> capstone and fancy a bonus. Nothing else depends on it.
+
+    "Infinite scroll" is the pattern where more items load automatically as you
+    reach the bottom of a list (social feeds do this). It's built from things you
+    know - fetch + async/await + DOM - plus one new browser tool worth meeting:
+    the IntersectionObserver.
+
+    An IntersectionObserver watches an element and tells you when it scrolls into
+    view. We put an invisible "sentinel" at the bottom of the list; when it comes
+    into view, we fetch the next page and add it. That's the whole trick.
+
+    json-server can hand out pages with query params (from the Day 4 server guide):
+        /members?_page=2&_limit=3   ->  the 2nd page of 3 members
+    Our db.json only has six members, so to make the effect obvious we treat a
+    small _limit as one "page" and keep asking for the next until the server runs
+    out.
+
+    >>> NEEDS THE SERVER RUNNING:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 - Stretch: infinite scroll</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <main class="container py-4" style="max-width: 620px;">
+
+        <h1 class="mb-1">Infinite scroll <span class="badge text-bg-secondary">stretch</span></h1>
+        <p class="text-muted">Members load two at a time as you scroll down.</p>
+
+        <!-- The list we append cards into. -->
+        <div id="list"></div>
+
+        <!-- The sentinel: an element we watch. When it scrolls into view, we
+             load the next page. It shows the current status too. -->
+        <p id="sentinel" class="text-center text-muted py-3">Loading...</p>
+
+    </main>
+
+    <!-- Bootstrap JS bundle. LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script>
+        const API = "http://localhost:3000/members";
+        const list = document.querySelector("#list");
+        const sentinel = document.querySelector("#sentinel");
+
+        /* Which page to fetch next, and how many per page. Small limit so the
+           effect is visible with only six members. */
+        let page = 1;
+        const perPage = 2;
+        /* A guard so we don't fire several fetches at once, and a flag for "the
+           server has no more members". */
+        let loading = false;
+        let finished = false;
+
+        /* Build one member card (Day 3 DOM skills; textContent, not innerHTML). */
+        function buildCard(member) {
+            const card = document.createElement("div");
+            card.className = "card mb-2";
+
+            const body = document.createElement("div");
+            body.className = "card-body";
+
+            const title = document.createElement("h2");
+            title.className = "h6 mb-1";
+            title.textContent = `${member.id}. ${member.name}`;
+
+            const email = document.createElement("p");
+            email.className = "mb-0 text-muted small";
+            email.textContent = member.email;
+
+            body.append(title, email);
+            card.append(body);
+            return card;
+        }
+
+        /* Fetch the next page and append it. Your standard Day 4 fetch, with the
+           _page/_limit query params from the server guide. */
+        async function loadNextPage() {
+            if (loading || finished) {
+                return;
+            }
+            loading = true;
+            try {
+                const response = await fetch(`${API}?_page=${page}&_limit=${perPage}`);
+                if (!response.ok) {
+                    throw new Error(`Server answered ${response.status}`);
+                }
+                const members = await response.json();
+
+                /* Empty page means we've reached the end - stop watching. */
+                if (members.length === 0) {
+                    finished = true;
+                    sentinel.textContent = "That's everyone.";
+                    observer.disconnect();
+                    return;
+                }
+
+                members.forEach((member) => list.append(buildCard(member)));
+                page = page + 1;
+            } catch (error) {
+                console.log("Load failed:", error.message);
+                sentinel.textContent =
+                    "Could not load. Is json-server running on port 3000?";
+                sentinel.className = "text-center text-danger py-3";
+            } finally {
+                loading = false;
+            }
+        }
+
+        /* The new tool: watch the sentinel. The callback runs whenever it enters
+           or leaves the viewport; we act when it's showing (isIntersecting). */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    loadNextPage();
+                }
+            });
+        });
+
+        /* Start watching, and load the first page. */
+        observer.observe(sentinel);
+    </script>
+
+</body>
+</html>

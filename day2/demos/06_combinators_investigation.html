@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+    06 - COMBINATOR SELECTORS INVESTIGATION
+    =======================================
+    Yesterday we invented classes like .site-title and .nav-link to reach
+    elements, and promised "a neater way tomorrow". Here it is.
+
+    A COMBINATOR selects elements by their RELATIONSHIP in the HTML tree,
+    so you often don't need to add a class at all:
+
+        A B     DESCENDANT: any B somewhere inside an A (any depth)
+        A > B   CHILD: only a B that is a DIRECT child of A (one level)
+        A + B   ADJACENT SIBLING: the B immediately after an A
+        A ~ B   GENERAL SIBLING: every B after an A, same parent
+
+    The big idea: "nav a" means "every link inside the nav" - no class
+    needed. Our markup already SAYS what things are (that's why semantic
+    HTML mattered on Day 1). Combinators let the CSS read that structure.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combinator Selectors Investigation</title>
+    <style>
+        /* DESCENDANT: "any <a> anywhere inside <nav>".
+           This is the neater way we promised: no .nav-link class needed. */
+        nav a {
+            color: #1d5c8f;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* DESCENDANT again: "the <h1> inside <header>".
+           This replaces yesterday's .site-title class entirely. */
+        header h1 {
+            color: #163f61;
+        }
+
+        /* CHILD (>): only list items that are DIRECT children of .menu.
+           A deeper, nested <li> is NOT matched - compare in the browser. */
+        .menu > li {
+            font-weight: bold;
+        }
+
+        /* ADJACENT SIBLING (+): the paragraph immediately AFTER an h2. */
+        h2 + p {
+            color: #1d5c8f;
+            font-style: italic;
+        }
+
+        /* GENERAL SIBLING (~): every .note that follows the divider. */
+        hr ~ .note {
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Combinators</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Members</a>
+    </nav>
+
+    <h2>Descendant vs child</h2>
+    <p>This paragraph sits right after the h2, so it is blue and italic.</p>
+    <p>This one does not - it is a sibling further down, untouched.</p>
+
+    <!-- The child combinator (>) matches only the TOP-level items here.
+         The nested list's items stay normal weight. -->
+    <ul class="menu">
+        <li>Top-level item (bold - direct child)
+            <ul>
+                <li>Nested item (normal - a grandchild, not a child)</li>
+            </ul>
+        </li>
+        <li>Another top-level item (bold)</li>
+    </ul>
+
+    <hr>
+
+    <p class="note">A note after the divider (grey).</p>
+    <p class="note">Another note after the divider (also grey).</p>
+
+    <p><strong>Try it:</strong> in DevTools inspect a nav link. Its colour
+       comes from the rule <code>nav a</code> - notice there is no class on
+       the link at all. Tomorrow's-you thanks today's-you for the tidy markup.</p>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+    07 - PSEUDO-CLASSES INVESTIGATION
+    =================================
+    A PSEUDO-CLASS styles an element in a particular STATE or POSITION,
+    without you adding any class in the HTML. They start with a single colon.
+
+    State pseudo-classes (react to the user):
+        :hover     the pointer is over the element
+        :focus     the element is selected (a clicked/tabbed-to input)
+        :active    the element is being pressed
+
+    Structural pseudo-classes (react to position in the list of siblings):
+        :first-child     the first child of its parent
+        :last-child      the last child
+        :nth-child(even) every second one (also odd, or 3n, etc.)
+
+    ALL of this is pure CSS. No JavaScript needed to react to a hover or a
+    focus - which is exactly why our "no JS today" rule is no hardship.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pseudo-classes Investigation</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 1rem;
+        }
+
+        /* :hover - the link changes when the pointer is over it.
+           This is the "selector superpower" teased on Day 1. */
+        a {
+            color: #1d5c8f;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #163f61;
+        }
+
+        /* :focus - vital for keyboard users. When this input is selected,
+           it gets a clear ring. Never remove focus styles without a
+           replacement - it's an accessibility lifeline (payoff on Day 5). */
+        input {
+            padding: 0.4rem;
+            border: 1px solid #999999;
+        }
+        input:focus {
+            outline: 3px solid #1d5c8f;
+            background-color: #f0f6fb;
+        }
+
+        /* Structural pseudo-classes on a list of members. */
+        li {
+            padding: 0.4rem 0.6rem;
+            list-style: none;
+        }
+        /* every second item - zebra striping, no extra classes */
+        li:nth-child(even) {
+            background-color: #e8e2d4;
+        }
+        /* the first and last get special treatment */
+        li:first-child {
+            font-weight: bold;
+        }
+        li:last-child {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Pseudo-classes</h1>
+
+    <h2>:hover</h2>
+    <p><a href="#">Hover your pointer over this link.</a></p>
+
+    <h2>:focus</h2>
+    <p>Click into this box, or press Tab to reach it:
+       <input type="text" placeholder="click me"></p>
+
+    <h2>:nth-child, :first-child, :last-child</h2>
+    <ul>
+        <li>Aidan (first-child - bold)</li>
+        <li>Alice (even - tinted)</li>
+        <li>Bob</li>
+        <li>Carol (even - tinted)</li>
+        <li>Dave</li>
+        <li>Eve (last-child - italic, and even - tinted)</li>
+    </ul>
+
+    <hr>
+
+    <p><strong>Try it:</strong> in DevTools, select the link, then in the
+       Styles pane click <code>:hov</code> and force the <code>:hover</code>
+       state on. Now you can see hover styling without keeping the mouse
+       perfectly still - a genuinely useful trick.</p>
+
+</body>
+</html>

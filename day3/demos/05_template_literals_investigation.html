@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+    05 - TEMPLATE LITERALS
+    ======================
+    Gluing strings together with + quickly gets fiddly:
+
+        "Hello " + name + ", you are " + age + " years old."
+
+    ...miss a space or a + and it breaks. TEMPLATE LITERALS are a tidier way.
+    Instead of "quotes" you use `backticks` (the key above Tab, top-left of the
+    keyboard), and you drop values straight in with ${ ... }:
+
+        `Hello ${name}, you are ${age} years old.`
+
+    Everything between ${ and } is JavaScript - a variable, a sum, anything -
+    and its value is slotted into the text. Backtick strings can also span
+    several lines without any fuss.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template Literals Investigation</title>
+</head>
+<body>
+
+    <h1>Template literals (watch the Console)</h1>
+
+    <script>
+        const name = "Bob";
+        const age = 42;
+
+        /* The old way: + and lots of careful spaces and quotes. */
+        const oldWay = "Hello " + name + ", you are " + age + " years old.";
+        console.log(oldWay);
+
+        /* The tidy way: backticks and ${ } - read it left to right, it just
+           says what it means. */
+        const newWay = `Hello ${name}, you are ${age} years old.`;
+        console.log(newWay);
+
+        /* ${ } can hold a calculation, not just a plain variable. */
+        console.log(`Next year ${name} will be ${age + 1}.`);
+
+        /* Backtick strings can run across several lines as written. */
+        const card = `Member card
+  Name: ${name}
+  Age:  ${age}`;
+        console.log(card);
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> in the Console, set <code>const town = "Cork"</code>
+       then type <code>`I live in ${town}`</code> using backticks. Notice the
+       template literal is exactly how we'll build each table row's text later
+       today.</p>
+
+</body>
+</html>

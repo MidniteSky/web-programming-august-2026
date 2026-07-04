@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+    15 - REACHING THE PAGE: querySelector & textContent
+    ===================================================
+    Until now our code has only talked to the Console. Time to touch the actual
+    page. The browser turns your HTML into a live tree of objects called the
+    DOM (Document Object Model). JavaScript can read and change that tree, and
+    the page updates instantly.
+
+    To grab an element, we ask with a CSS SELECTOR - the very same selectors we
+    learned for styling on Day 2:
+
+        document.querySelector("h1")        the FIRST matching element
+        document.querySelector(".tagline")  first with class "tagline"
+        document.querySelector("#total")    the element with id "total"
+        document.querySelectorAll("li")     ALL matches, as a list
+
+    Once you hold an element, textContent is its text - you can READ it or
+    OVERWRITE it:
+
+        const h = document.querySelector("h1");
+        h.textContent = "New heading";     // the page changes immediately
+
+    We use textContent (plain text) rather than innerHTML (raw HTML) as our
+    default. It's simpler and safer - more on why in demo 17.
+
+    (Script embedded so this demo stands alone; project code is external. The
+     script sits at the END of the body so the elements exist before it runs.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>querySelector Investigation</title>
+</head>
+<body>
+
+    <h1>Original heading</h1>
+    <p class="tagline">Original tagline.</p>
+
+    <ul>
+        <li>First item</li>
+        <li>Second item</li>
+        <li>Third item</li>
+    </ul>
+
+    <p id="count">Counting...</p>
+
+    <script>
+        /* Grab the first <h1> and READ its text. */
+        const heading = document.querySelector("h1");
+        console.log("The heading says:", heading.textContent);
+
+        /* OVERWRITE its text - watch the page change the moment this runs. */
+        heading.textContent = "Changed by JavaScript!";
+
+        /* Grab by class, exactly like a CSS selector. */
+        const tagline = document.querySelector(".tagline");
+        tagline.textContent = "This tagline was rewritten in code.";
+
+        /* querySelectorAll returns ALL matches - loop them with forEach. */
+        const items = document.querySelectorAll("li");
+        console.log("Number of list items:", items.length);
+        items.forEach((item) => {
+            console.log("  list item:", item.textContent);
+        });
+
+        /* Grab by id and drop a live count into it. */
+        const countPara = document.querySelector("#count");
+        countPara.textContent = `There are ${items.length} items in the list.`;
+    </script>
+
+</body>
+</html>

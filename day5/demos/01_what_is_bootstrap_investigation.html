@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+    01 - WHAT IS BOOTSTRAP? (and how to include it)
+    ===============================================
+    Bootstrap is a big, ready-made stylesheet (plus a little JavaScript) written
+    by other people so you don't have to hand-write every button, table and form
+    from scratch. You've spent four days hand-rolling CSS - that was the point,
+    so you understand what's underneath. Today you get to stand on someone
+    else's shoulders.
+
+    The deal: you add ONE stylesheet link, then you decorate your HTML with
+    Bootstrap's class names (class="btn btn-primary", class="table", and so on).
+    Bootstrap's CSS already has rules for those classes, so your plain elements
+    come out looking designed. No new CSS file of your own required.
+
+    Look at the page this produces: every styled thing below is a plain HTML
+    element with a Bootstrap class on it. We wrote NO CSS of our own here.
+
+    Open DevTools (F12) -> Elements, click a button, and look at the Styles
+    panel: the rules all come from bootstrap.min.css, not from us.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 - What is Bootstrap?</title>
+
+    <!-- Bootstrap 5.3.8 CSS, from the jsDelivr CDN. Needs internet the first
+         time; the browser then caches it. This one <link> is the whole setup. -->
+    <!-- LOCAL SWAP: if your machine blocks CDNs, comment the <link> below out
+         and use the offline copy shipped in day5/lib/ instead:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- container: Bootstrap's centred, padded page wrapper. More on this in
+         demo 02 (the grid). For now it just stops content hugging the edges. -->
+    <main class="container py-4">
+
+        <h1 class="mb-3">What is Bootstrap?</h1>
+
+        <!-- .lead is a Bootstrap class for a slightly larger intro paragraph. -->
+        <p class="lead">
+            Every styled thing on this page is a plain HTML element with a
+            Bootstrap class on it. We didn't write a single line of our own CSS.
+        </p>
+
+        <hr>
+
+        <!-- BUTTONS: class="btn" plus a colour class. Compare the last one -
+             a plain <button> with no class, wearing the browser's default look. -->
+        <h2 class="h4 mt-4">Buttons</h2>
+        <p>
+            <button type="button" class="btn btn-primary">Primary</button>
+            <button type="button" class="btn btn-secondary">Secondary</button>
+            <button type="button" class="btn btn-success">Success</button>
+            <button type="button" class="btn btn-danger">Danger</button>
+            <button type="button" class="btn btn-outline-primary">Outline</button>
+            <button type="button">A plain button, no Bootstrap class</button>
+        </p>
+
+        <!-- ALERT: a coloured message box, no CSS from us. -->
+        <div class="alert alert-info mt-3" role="alert">
+            This coloured box is just <code>&lt;div class="alert alert-info"&gt;</code>.
+        </div>
+
+        <!-- A TABLE: same <table> markup you've written all week, plus one class. -->
+        <h2 class="h4 mt-4">A table</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Id</th><th>Name</th><th>Active</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Aidan</td><td>yes</td></tr>
+                <tr><td>2</td><td>Alice</td><td>yes</td></tr>
+                <tr><td>3</td><td>Bob</td><td>no</td></tr>
+            </tbody>
+        </table>
+
+        <p class="text-muted">
+            That's the whole idea. Next (demo 02): Bootstrap's grid, the part that
+            does responsive layout for you.
+        </p>
+
+    </main>
+
+    <!-- Bootstrap's JavaScript bundle. Not strictly needed on THIS page (nothing
+         here is interactive), but we load it everywhere so the pattern is one you
+         recognise - modals and toasts (Block 2) do need it. -->
+    <!-- LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

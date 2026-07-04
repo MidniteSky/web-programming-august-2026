@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+    05 - STYLING THE MEMBERS TABLE WITH THE BOX MODEL
+    =================================================
+    This is the promise we made yesterday: "the table has no lines - borders
+    arrive tomorrow." Tomorrow is today. We take the exact same members table
+    from Day 1 and turn it from a squashed word-heap into something readable,
+    using only the box model.
+
+    New table-specific properties:
+        border-collapse: collapse   merge the double cell borders into one
+                                    crisp line (the default leaves a gap
+                                    and doubled borders - almost never wanted)
+        padding on th/td            room inside each cell so text isn't
+                                    jammed against the lines
+
+    Everything else here is border, padding and text properties you already
+    know. No layout yet - just the box model doing an honest day's work.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Members Table - Box Model Investigation</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333333;
+            background-color: #f5f2ea;
+            padding: 1rem;
+        }
+
+        /* Make the table fill its space and merge its borders. */
+        table {
+            border-collapse: collapse;   /* one line per edge, not two */
+            width: 100%;
+        }
+
+        caption {
+            font-style: italic;
+            color: #666666;
+            /* space between the caption and the table it labels */
+            margin-bottom: 0.5rem;
+        }
+
+        /* One rule for every header AND data cell: a line and inner padding.
+           Grouping selector (th, td) - just like Day 1. */
+        th, td {
+            border: 1px solid #d0c9b8;
+            padding: 0.5rem 0.75rem;   /* the single biggest readability win */
+            text-align: left;
+        }
+
+        /* The header row: our house blue, white text. */
+        thead th {
+            background-color: #1d5c8f;
+            color: #ffffff;
+        }
+
+        /* Zebra striping. tbody tr:nth-child(even) is a pseudo-class -
+           a proper tour of those comes in Block 2. Enjoy the preview: it
+           tints every second row so the eye can track across wide rows. */
+        tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        /* The active-yes / active-no classes carry straight over from Day 1. */
+        .active-yes {
+            color: seagreen;
+            font-weight: bold;
+        }
+        .active-no {
+            color: #999999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>The same table, now with a box model</h1>
+
+    <table>
+        <caption>Club members, July 2026</caption>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Aidan</td>
+                <td>aidan@example.com</td>
+                <td class="active-yes">yes</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Alice</td>
+                <td>alice@example.com</td>
+                <td class="active-yes">yes</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Bob</td>
+                <td>bob@example.com</td>
+                <td class="active-no">no</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Carol</td>
+                <td>carol@example.com</td>
+                <td class="active-yes">yes</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Dave</td>
+                <td>dave@example.com</td>
+                <td class="active-no">no</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Eve</td>
+                <td>eve@example.com</td>
+                <td class="active-yes">yes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <p><strong>Try it:</strong> in DevTools, change
+       <code>border-collapse</code> to <code>separate</code> and watch the
+       lines double up with gaps between them. Then put it back - now you
+       know exactly what that one word buys you.</p>
+
+</body>
+</html>

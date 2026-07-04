@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+    18 - EVENTS: addEventListener
+    =============================
+    A page that only runs once, top to bottom, is still a document. What makes
+    it a PROGRAM is responding to the user. An EVENT is something that happens -
+    a click, a key press, typing in a box. We LISTEN for events and run a
+    function when they occur.
+
+        button.addEventListener("click", () => {
+            ...this runs every time the button is clicked
+        });
+
+    Read it as: "on this button, listen for a click, and when it happens, run
+    this function." The function you hand over is called the HANDLER. It waits,
+    quietly, and fires each time the event happens - not just once.
+
+    Common event names you'll meet today:
+        "click"   a mouse click (or tap, or Enter on a focused button)
+        "input"   the value of a text box changed (fires on every keystroke)
+        "submit"  a form was submitted (demo 19)
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Events Investigation</title>
+    <style>
+        /* Small helpers, all taught properties. */
+        button { padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
+        #output { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Events: making the page respond</h1>
+
+    <p><button id="clickBtn">Click me</button></p>
+    <p>Clicks so far: <span id="output">0</span></p>
+
+    <p>
+        <label for="typeBox">Type here:</label>
+        <input type="text" id="typeBox">
+    </p>
+    <p>You typed: <span id="echo"></span></p>
+
+    <script>
+        /* ---- Respond to a click ---- */
+        const button = document.querySelector("#clickBtn");
+        const output = document.querySelector("#output");
+
+        /* A counter that survives between clicks - it lives in the outer
+           scope, so each click can read and update it. */
+        let clicks = 0;
+
+        button.addEventListener("click", () => {
+            clicks = clicks + 1;
+            output.textContent = clicks;
+            console.log("Clicked! Total:", clicks);
+        });
+
+        /* ---- Respond to typing ---- */
+        const box = document.querySelector("#typeBox");
+        const echo = document.querySelector("#echo");
+
+        /* "input" fires on EVERY keystroke. We read the box's current value
+           and echo it straight back onto the page - a live preview of the
+           capstone's search box. */
+        box.addEventListener("input", () => {
+            echo.textContent = box.value;
+        });
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> click the button a few times, then type slowly
+       in the box and watch the echo update on each key. The handler runs again
+       and again - that is what "listening" means.</p>
+
+</body>
+</html>

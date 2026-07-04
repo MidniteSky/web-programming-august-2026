@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 3 SOLUTION - Flexbox & Grid
+    ====================================
+    Part A: a Flexbox navbar (row, centred, gap).
+    Part B: a Grid of cards (three columns, then auto-fit).
+    Part C: centre a line of text both ways with Flexbox.
+    Not a single float in sight - that's the point.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3 - Layout</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f2ea;
+        }
+
+        h2 { margin: 1.5rem 1rem 0.5rem; }
+
+        /* Part A - Flexbox navbar */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            background-color: #163f61;
+            padding: 0.75rem;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Part B - Grid of cards. Swap the columns line for the auto-fit
+           version below to make the column count respond to width. */
+        .grid {
+            display: grid;
+            /* grid-template-columns: repeat(3, 1fr); */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            padding: 0 1rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border: 2px solid #1d5c8f;
+            padding: 1rem;
+        }
+
+        /* Part C - centre both ways with Flexbox */
+        .centre-box {
+            display: flex;
+            justify-content: center;   /* horizontal */
+            align-items: center;       /* vertical   */
+            height: 200px;
+            margin: 0 1rem;
+            background-color: #d8e6f2;
+            border: 2px dashed #1d5c8f;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Members</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <h2>Part B - a grid of cards (resize me)</h2>
+    <div class="grid">
+        <div class="card">One</div>
+        <div class="card">Two</div>
+        <div class="card">Three</div>
+        <div class="card">Four</div>
+        <div class="card">Five</div>
+        <div class="card">Six</div>
+    </div>
+
+    <h2>Part C - centred both ways</h2>
+    <div class="centre-box">
+        <p>Dead centre, no magic numbers.</p>
+    </div>
+
+</body>
+</html>

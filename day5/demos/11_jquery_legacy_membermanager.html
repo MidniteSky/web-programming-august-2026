@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+    11 - jQUERY LEGACY LITERACY (read-only)
+    =======================================
+    This is a trimmed, real jQuery version of the Member Manager, adapted from
+    the tutor's ACTUAL July 2024 delivery of this course. Back then, jQuery was
+    the standard way to touch the DOM and make AJAX calls. It isn't any more -
+    modern JavaScript does all of this natively, which is what you learned this
+    week - but you will still MEET jQuery in older codebases. So the skill today
+    is READING it and knowing what each line would be in vanilla JS.
+
+    >>> WE DO NOT WRITE NEW jQUERY. This file is read-only. Your exercise is to
+    >>> translate the FIVE marked lines in 11_jquery_legacy_membermanager.js into
+    >>> the vanilla JavaScript you already know. Answers are in
+    >>> solutions/jquery_translation_answers.md.
+
+    How to spot jQuery when you see it in the wild:
+      - the dollar sign: $("#something") or jQuery("#something")
+      - a <script> tag loading jquery from a CDN (see the foot of this file)
+      - method chaining: $("#x").addClass("y").fadeIn()
+      - $.ajax / $.getJSON for server calls (fetch's ancestor)
+
+    (This page loads the same json-server as Day 4, so if you start the server in
+    a folder with db.json you can watch it work - but reading is the goal.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11 - jQuery legacy Member Manager</title>
+    <link rel="stylesheet" href="11_jquery_legacy_membermanager.css">
+</head>
+<body>
+
+    <h1>Member Manager <small>(the jQuery version, 2024)</small></h1>
+
+    <button id="btnAdd">Add Member</button>
+    <hr>
+
+    <table id="tblMembers">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <!-- jQuery fills this tbody in from the server. -->
+        <tbody></tbody>
+    </table>
+
+    <!-- A hand-rolled modal (this is how you did dialogs before Bootstrap). -->
+    <div class="modal" id="dlgAdd">
+        <div class="modal-content">
+            <h2>Add Member</h2>
+            Name: <input id="txtName"><br>
+            Email: <input id="txtEmail"><br>
+            Active: <input type="checkbox" id="chkActive"><br>
+            <button id="btnSave">Save</button>
+            <button id="btnCancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- jQuery itself, from its CDN. The tell-tale sign of a jQuery page.
+         (We load it here only so this legacy file reads authentically; we never
+         add jQuery to anything we build.) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="11_jquery_legacy_membermanager.js"></script>
+
+</body>
+</html>

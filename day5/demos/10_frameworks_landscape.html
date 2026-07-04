@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!--
+    10 - THE FRAMEWORK LANDSCAPE (a read-only tour)
+    ===============================================
+    You keep hearing the names: React, Vue, Svelte, Angular. This page is a map,
+    not a lesson. We are NOT going to write any framework code today - and none of
+    the snippets below actually run. They're printed as text, inside code boxes,
+    so you can see the SHAPE of each and recognise it in the wild. Understanding
+    when you'd reach for one of these - and when you truly don't need to - is more
+    useful right now than a half-hour of syntax you won't retain.
+
+    The one big idea they share:
+      You've spent two days doing "imperative" DOM work - find an element, change
+      its text, add a row, remove a row; step-by-step instructions. Frameworks are
+      "declarative": you describe what the page should look like FOR A GIVEN STATE,
+      and the framework works out which bits of the DOM to change when the state
+      changes. That's the whole pitch: as apps get big, "just tell me what it
+      should look like" scales better than "here are 200 manual DOM edits".
+
+    Everything below is inside <pre><code> - it is TEXT on the page. There is no
+    framework loaded here, on purpose.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 - The framework landscape</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <main class="container py-4" style="max-width: 820px;">
+
+        <h1 class="mb-3">The framework landscape</h1>
+        <p class="lead">A map of the big names - read-only. Nothing here runs.</p>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>These snippets do not work in this file.</strong> They're
+            printed as text so you can recognise the style. Frameworks need a build
+            step (Node, npm, a bundler) that's well beyond this course.
+        </div>
+
+        <!-- The shared idea, shown with plain JS you DO know vs a framework. -->
+        <h2 class="h4 mt-4">Imperative (what you know) vs declarative (frameworks)</h2>
+        <p>The vanilla way - step-by-step DOM instructions, the Day 3-4 style:</p>
+        <pre class="bg-light border rounded p-3"><code>// find the element, then change it, by hand
+const count = document.querySelector("#count");
+let n = 0;
+button.addEventListener("click", () =&gt; {
+    n = n + 1;
+    count.textContent = n;   // you update the DOM yourself
+});</code></pre>
+
+        <p>The declarative way - describe the result; the framework updates the DOM:</p>
+        <pre class="bg-light border rounded p-3"><code>// React: describe the UI for the current state; React does the DOM edits
+function Counter() {
+    const [n, setN] = useState(0);
+    return &lt;button onClick={() =&gt; setN(n + 1)}&gt;{n}&lt;/button&gt;;
+}</code></pre>
+
+        <h2 class="h4 mt-4">The big three, side by side</h2>
+
+        <h3 class="h5 mt-3">React</h3>
+        <p>The most widely used, backed by Meta. Huge job market and ecosystem.
+           Uses "JSX" - HTML-like syntax written inside JavaScript.</p>
+        <pre class="bg-light border rounded p-3"><code>function Hello({ name }) {
+    return &lt;p&gt;Hello, {name}!&lt;/p&gt;;
+}</code></pre>
+
+        <h3 class="h5 mt-3">Vue</h3>
+        <p>Approachable, often praised for gentle onboarding. Keeps HTML, CSS and
+           JS in one "single-file component" that looks close to what you know.</p>
+        <pre class="bg-light border rounded p-3"><code>&lt;template&gt;
+    &lt;p&gt;Hello, {{ name }}!&lt;/p&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+    const name = "Alice";
+&lt;/script&gt;</code></pre>
+
+        <h3 class="h5 mt-3">Svelte</h3>
+        <p>Newer; compiles your components away to small, plain JavaScript at build
+           time, so there's little framework left at runtime. Very tidy syntax.</p>
+        <pre class="bg-light border rounded p-3"><code>&lt;script&gt;
+    let name = "Bob";
+&lt;/script&gt;
+
+&lt;p&gt;Hello, {name}!&lt;/p&gt;</code></pre>
+
+        <p class="text-muted"><em>Angular</em> also exists - older, larger, common
+           in big corporate apps; a full framework rather than a library.</p>
+
+        <!-- The honest "do you need one" section - the point of the whole page. -->
+        <h2 class="h4 mt-4">When do you actually need one?</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3 h-100">
+                    <div class="card-body">
+                        <h3 class="card-title h5">Reach for a framework when...</h3>
+                        <ul class="mb-0">
+                            <li>the app is large and full of interactive state that
+                                changes a lot (dashboards, editors, live data)</li>
+                            <li>a team needs a shared structure and reusable
+                                components across many screens</li>
+                            <li>you're maintaining something already built in one</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3 h-100">
+                    <div class="card-body">
+                        <h3 class="card-title h5">You probably don't need one for...</h3>
+                        <ul class="mb-0">
+                            <li>a handful of pages, a blog, a brochure site, a form</li>
+                            <li>anything the vanilla DOM handles comfortably - like
+                                the Member Manager you just built</li>
+                            <li>learning: fundamentals first, frameworks later</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info" role="alert">
+            <strong>The honest take:</strong> frameworks solve a real problem -
+            keeping a big, stateful UI in sync - but they add a build step,
+            dependencies and concepts on top of the fundamentals. Because you now
+            understand what the DOM actually does, learning one later will be far
+            easier: you'll know what it's doing <em>for</em> you. There are pointers
+            to good, free learning paths in <code>learner-guide/where-next.md</code>.
+        </div>
+
+    </main>
+
+    <!-- Bootstrap JS bundle (page has no interactive components; kept for
+         consistency). LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

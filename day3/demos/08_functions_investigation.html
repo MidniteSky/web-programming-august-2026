@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+    08 - FUNCTIONS
+    ==============
+    A FUNCTION is a named recipe: a chunk of code you write once and then RUN
+    (we say "call") whenever you need it, as many times as you like. It is the
+    single most useful idea in programming - it stops us repeating ourselves.
+
+        function greet(name) {        // define it: name is a PARAMETER
+            return `Hello, ${name}!`; // return: hand a value back to the caller
+        }
+
+        greet("Alice")                // call it: "Alice" is the ARGUMENT
+
+    Three things to hold onto:
+      - PARAMETERS are the labelled blanks in the ( ) - inputs the function
+        expects. ARGUMENTS are the real values you pass in when you call it.
+      - return hands a value back. A function without return still runs its
+        code but hands back nothing.
+      - A function does NOTHING until it is called. Defining is writing the
+        recipe; calling is cooking it.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Functions Investigation</title>
+</head>
+<body>
+
+    <h1>Functions (watch the Console)</h1>
+
+    <script>
+        /* ---- Define a function that RETURNS a value ---- */
+        /* name is a parameter - a blank to be filled in when we call greet. */
+        function greet(name) {
+            return `Hello, ${name}!`;
+        }
+
+        /* ---- Call it, with different arguments ---- */
+        console.log(greet("Alice"));
+        console.log(greet("Bob"));
+        /* The returned value is just a value - we can store it in a box. */
+        const message = greet("Carol");
+        console.log(message);
+
+        /* ---- A function with two parameters ---- */
+        function add(a, b) {
+            return a + b;
+        }
+        console.log("add(2, 3) =", add(2, 3));
+
+        /* ---- A function can decide, using everything we've met ---- */
+        function activeLabel(isActive) {
+            if (isActive) {
+                return "yes";
+            } else {
+                return "no";
+            }
+        }
+        console.log("Active true  ->", activeLabel(true));
+        console.log("Active false ->", activeLabel(false));
+
+        /* ---- A function that DOES something rather than returning ---- */
+        /* No return here - it just prints. Both kinds are useful. */
+        function announce(text) {
+            console.log("ANNOUNCEMENT:", text);
+        }
+        announce("The meeting starts at seven.");
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> in the Console type <code>greet("you")</code> -
+       the function is available to call by hand. Then call <code>add(10, 5)</code>.
+       Defining a function is writing a recipe; calling it is cooking.</p>
+
+</body>
+</html>

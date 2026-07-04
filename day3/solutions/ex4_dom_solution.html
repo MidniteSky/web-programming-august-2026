@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 4 SOLUTION - the DOM: build and respond
+    ================================================
+    querySelector, createElement + textContent + append, and two event
+    listeners (click and input) with a little validation. Things happen on the
+    PAGE this time, not just in the Console.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 4 - The DOM</title>
+    <style>
+        /* Small helper for the validation message - a Day 1/2 property. */
+        .error { color: #b00020; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1 id="title">Members</h1>
+    <button id="addBtn">Add a name</button>
+    <ul id="nameList"></ul>
+
+    <p>
+        <label for="nameBox">Name</label>
+        <input type="text" id="nameBox">
+    </p>
+    <p id="message"></p>
+
+    <!-- Script at the end of the body, so every element above exists. -->
+    <script>
+        /* 1. Change the heading's text on load. */
+        const title = document.querySelector("#title");
+        title.textContent = "Our members";
+
+        /* 2. Build the list from an array. */
+        const list = document.querySelector("#nameList");
+        const names = ["Aidan", "Alice", "Bob"];
+
+        /* A small helper so we don't repeat the make/fill/attach steps. */
+        function addNameToList(name) {
+            const li = document.createElement("li");
+            li.textContent = name;
+            list.append(li);
+        }
+
+        names.forEach((name) => addNameToList(name));
+
+        /* 3. A click adds one more row each time. */
+        const addBtn = document.querySelector("#addBtn");
+        let extra = 0;
+        addBtn.addEventListener("click", () => {
+            extra = extra + 1;
+            addNameToList(`New member ${extra}`);
+        });
+
+        /* 4 & 5. Echo typing into the message, with empty-box validation. */
+        const nameBox = document.querySelector("#nameBox");
+        const message = document.querySelector("#message");
+
+        nameBox.addEventListener("input", () => {
+            const typed = nameBox.value.trim();
+            if (typed === "") {
+                message.textContent = "Type a name";
+                message.className = "error";
+            } else {
+                message.textContent = `You typed: ${typed}`;
+                message.className = "";
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+    07 - REPEATING WORK: loops
+    ==========================
+    Computers are brilliant at doing the same thing over and over without
+    getting bored. A LOOP repeats a block of code.
+
+    The classic counting loop, the "for" loop, has three parts in its ( ):
+
+        for (start ; keep-going condition ; step) {
+            ...repeat this
+        }
+
+        for (let i = 0 ; i < 5 ; i = i + 1) { ... }
+             ^ start at 0   ^ while under 5   ^ add 1 each time
+
+    By tradition the counter is called i (for "index"), and we usually start
+    counting at 0 - which matters a lot tomorrow's-worth-of-times when we reach
+    arrays, because the first item lives at position 0, not 1.
+
+    There is also a gentler loop for going through a list of things, for...of,
+    which we'll meet properly with arrays. And a while loop that repeats "as
+    long as" a condition holds. The for loop is the workhorse - start here.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loops Investigation</title>
+</head>
+<body>
+
+    <h1>Loops (watch the Console)</h1>
+
+    <script>
+        /* ---- Count 0 to 4 ---- */
+        /* i starts at 0; the loop keeps going while i < 5; each pass adds 1. */
+        for (let i = 0; i < 5; i = i + 1) {
+            console.log("Count is", i);
+        }
+
+        /* ---- Count 1 to 5 (start at 1, stop at <= 5) ---- */
+        for (let n = 1; n <= 5; n = n + 1) {
+            console.log(`${n} times 3 is ${n * 3}`);
+        }
+
+        /* ---- A loop that builds up a result ---- */
+        /* Add every number from 1 to 10. total changes each pass, so it's a
+           let, not a const. */
+        let total = 0;
+        for (let n = 1; n <= 10; n = n + 1) {
+            total = total + n;
+        }
+        console.log("Sum of 1 to 10 is", total);
+
+        /* ---- while: repeat AS LONG AS a condition holds ---- */
+        let countdown = 3;
+        while (countdown > 0) {
+            console.log("Lift-off in", countdown);
+            countdown = countdown - 1;   /* must move towards stopping, or it
+                                            loops forever! */
+        }
+        console.log("Lift-off!");
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> change the first loop to <code>i &lt;= 5</code>
+       and count the lines - one more than before. Off-by-one counting is a
+       rite of passage; slow down and read the condition out loud.</p>
+
+</body>
+</html>

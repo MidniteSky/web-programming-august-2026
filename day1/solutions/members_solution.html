@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- Solution for Exercise 3 Parts B and C (table + fully labelled form) -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Members</title>
+</head>
+<body>
+
+    <header>
+        <h1>Club Members</h1>
+    </header>
+
+    <nav>
+        <a href="aboutme_solution.html">About me</a>
+        <a href="members_solution.html">Members</a>
+    </nav>
+
+    <main>
+
+        <section>
+            <h2>Current members</h2>
+            <table>
+                <caption>Club members, July 2026</caption>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Aidan</td>
+                        <td>aidan@example.com</td>
+                        <td>yes</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Alice</td>
+                        <td>alice@example.com</td>
+                        <td>yes</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Bob</td>
+                        <td>bob@example.com</td>
+                        <td>no</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Carol</td>
+                        <td>carol@example.com</td>
+                        <td>yes</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Dave</td>
+                        <td>dave@example.com</td>
+                        <td>no</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Add a member</h2>
+            <!-- Pressing submit reloads the page with ?name=...&email=...
+                 in the URL: the browser trying to send the form data itself.
+                 We take over that job with JavaScript on Day 3/4. -->
+            <form>
+                <p>
+                    <label for="txtName">Name</label><br>
+                    <input type="text" id="txtName" name="name">
+                </p>
+                <p>
+                    <label for="txtEmail">Email</label><br>
+                    <input type="email" id="txtEmail" name="email">
+                </p>
+                <p>
+                    <input type="checkbox" id="chkActive" name="active" value="true">
+                    <label for="chkActive">Active member</label>
+                </p>
+                <p>
+                    <button type="submit">Add member</button>
+                </p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Day 1 exercise solution.</p>
+    </footer>
+
+</body>
+</html>

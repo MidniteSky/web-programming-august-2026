@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+    15 - TRANSITIONS & SIMPLE ANIMATIONS INVESTIGATION
+    ==================================================
+    The polish at the end of the day. A TRANSITION smooths a change that
+    would otherwise snap instantly - a colour on hover, say - so it eases
+    over time. Pure CSS; no JavaScript.
+
+        transition: <property> <duration> <easing>;
+        e.g. transition: background-color 0.3s ease;
+
+    Put the transition on the element's NORMAL state; it then animates
+    whenever any listed property changes (on :hover, :focus, etc.).
+
+    For movement that repeats or runs on its own, use @keyframes + animation.
+    We'll keep it to one gentle example - a subtle attention pulse.
+
+    Taste note: motion should serve the user, not show off. A quick fade on
+    hover = good. A spinning, bouncing everything = a headache (and an
+    accessibility problem for people sensitive to motion). Use sparingly.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transitions and Animations Investigation</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 1rem;
+            background-color: #f5f2ea;
+        }
+
+        /* ---- 1. A HOVER TRANSITION on a button --------------------- */
+        /* The transition lives on the NORMAL state. On hover, the colour
+           and the small lift both ease over 0.25s instead of snapping. */
+        .button {
+            display: inline-block;
+            background-color: #1d5c8f;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            transition: background-color 0.25s ease, transform 0.25s ease;
+        }
+        .button:hover {
+            background-color: #163f61;
+            transform: translateY(-3px);   /* a subtle 3px lift */
+        }
+
+        /* ---- 2. A CARD THAT RAISES ON HOVER ------------------------ */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #d0c9b8;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-width: 300px;
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ---- 3. A KEYFRAMES ANIMATION (runs on its own) ------------ */
+        /* @keyframes names a sequence; animation plays it. This one gently
+           pulses the opacity to draw a little attention. */
+        @keyframes pulse {
+            0%   { opacity: 1; }
+            50%  { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        .badge {
+            display: inline-block;
+            background-color: seagreen;
+            color: #ffffff;
+            padding: 0.3rem 0.7rem;
+            margin-top: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Transitions and animations</h1>
+
+    <h2>1. Hover transition</h2>
+    <p><a class="button" href="#">Hover me - I ease, I don't snap</a></p>
+
+    <h2>2. Card lift on hover</h2>
+    <div class="card">
+        <h3>Hover this card</h3>
+        <p>The shadow fades in smoothly thanks to a transition.</p>
+    </div>
+
+    <h2>3. A self-running keyframes pulse</h2>
+    <span class="badge">NEW</span>
+
+    <hr>
+
+    <p><strong>Try it:</strong> in DevTools, select the button and change the
+       transition duration to <code>2s</code>. Now the hover colour change
+       crawls - useful for actually watching what's being animated. Then set
+       it to <code>0s</code> to feel the harsh instant snap we're smoothing
+       away.</p>
+
+    <p><em>Remember:</em> these are the first thing to cut if we're short on
+       time - lovely, but not load-bearing.</p>
+
+</body>
+</html>

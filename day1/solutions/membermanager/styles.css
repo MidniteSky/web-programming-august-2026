@@ -1,0 +1,87 @@
+/*
+    Member Manager v1 - the shared stylesheet (Day 1 capstone)
+    ===========================================================
+    ONE file styles all three pages. That's why external CSS wins.
+
+    Day 1 toolkit only: colours, fonts, text properties, backgrounds.
+    It will look cramped - spacing, borders and layout arrive on Day 2,
+    and this same site will suddenly look like a real website.
+*/
+
+/* ---- whole site ---------------------------------------------------- */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f2ea;
+    color: #333333;
+}
+
+h1, h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #1d5c8f;
+}
+
+p {
+    line-height: 1.6;
+}
+
+/* ---- header & navigation ------------------------------------------- */
+
+header {
+    background-color: #1d5c8f;
+    text-align: center;
+}
+
+/* Day 1 note: we use classes for these. Tomorrow we learn a neater way
+   to say "the h1 INSIDE the header" (descendant selectors). */
+
+.site-title {
+    color: #ffffff;
+}
+
+.tagline {
+    color: #d8e6f2;
+    font-style: italic;
+}
+
+nav {
+    background-color: #163f61;
+    text-align: center;
+}
+
+.nav-link {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;   /* nav links are obviously clickable already */
+}
+
+/* ---- members table -------------------------------------------------- */
+
+caption {
+    font-style: italic;
+    color: #666666;
+}
+
+th {
+    background-color: #1d5c8f;
+    color: #ffffff;
+    text-align: left;
+}
+
+.active-yes {
+    color: seagreen;
+    font-weight: bold;
+}
+
+.active-no {
+    color: #999999;
+    font-style: italic;
+}
+
+/* ---- footer ---------------------------------------------------------- */
+
+footer {
+    text-align: center;
+    color: #888888;
+    font-size: 14px;
+}

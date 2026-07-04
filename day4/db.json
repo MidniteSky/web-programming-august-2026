@@ -1,0 +1,40 @@
+{
+  "members": [
+    {
+      "id": 1,
+      "name": "Aidan",
+      "email": "aidan@example.com",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Alice",
+      "email": "alice@example.com",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Bob",
+      "email": "bob@example.com",
+      "active": false
+    },
+    {
+      "id": 4,
+      "name": "Carol",
+      "email": "carol@example.com",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "Dave",
+      "email": "dave@example.com",
+      "active": false
+    },
+    {
+      "id": 6,
+      "name": "Eve",
+      "email": "eve@example.com",
+      "active": true
+    }
+  ]
+}

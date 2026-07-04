@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 1 SOLUTION - JSON & the verbs
+    ======================================
+    JSON.stringify / JSON.parse round-trip, and the CRUD-to-verb map written out
+    in a comment. Console-only - no server needed.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 1 - JSON &amp; the verbs</title>
+</head>
+<body>
+
+    <h1>Exercise 1 - open the Console (F12)</h1>
+
+    <script>
+        /* 1. A member object. */
+        const member = { id: 7, name: "Frank", email: "frank@example.com", active: true };
+        console.log("1. Object:", member);
+
+        /* 2. Stringify -> a JSON string (double-quoted keys). */
+        const text = JSON.stringify(member);
+        console.log("2. JSON string:", text);
+
+        /* 3. Parse back -> a real object again. */
+        const back = JSON.parse(text);
+        console.log("3. Parsed back, .name works:", back.name);
+
+        /* 4. The verb + URL for each action (the REST map from demo 03):
+              (a) fetch all members   ->  GET    /members
+              (b) fetch member 4      ->  GET    /members/4
+              (c) add a member        ->  POST   /members
+              (d) delete member 5     ->  DELETE /members/5
+              (e) replace member 2    ->  PUT    /members/2                  */
+
+        /* 5. Deliberately invalid JSON - uncomment to see the error.
+              It's invalid for TWO reasons: the key `name` isn't quoted, and the
+              value uses single quotes. JSON needs double quotes on both. */
+        // JSON.parse("{ name: 'Frank' }");
+    </script>
+
+</body>
+</html>

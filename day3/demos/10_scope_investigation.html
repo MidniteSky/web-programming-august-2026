@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+    10 - SCOPE (where a variable lives)
+    ===================================
+    SCOPE answers the question "from where can I see this variable?" The rule
+    with let and const is simple and friendly:
+
+        a variable declared inside { } lives ONLY inside those { }.
+
+    Those braces might belong to a function, an if, or a loop. Outside them,
+    the variable doesn't exist - trying to use it is an error. This is a good
+    thing: it keeps each part of a program tidy and separate, so a variable in
+    one function can't accidentally clobber one somewhere else.
+
+    A variable declared at the top level (inside no braces) is GLOBAL - visible
+    everywhere. We use a few deliberate globals (our members list will be one),
+    but as a habit, declare things in the smallest scope that works.
+
+    (This block scoping is a headline reason we use let/const and never var -
+    var leaks out of blocks in surprising ways. Another reason to leave it in
+    the past where it belongs.)
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scope Investigation</title>
+</head>
+<body>
+
+    <h1>Scope (watch the Console)</h1>
+
+    <script>
+        /* ---- A GLOBAL variable: declared at the top, visible everywhere ---- */
+        const clubName = "The Member Manager Club";
+
+        function showClub() {
+            /* Inside the function we can happily SEE the global. */
+            console.log("Inside the function, clubName is:", clubName);
+
+            /* ---- A LOCAL variable: born and trapped inside this function ---- */
+            const secretCode = 1234;
+            console.log("Inside the function, secretCode is:", secretCode);
+        }
+
+        showClub();
+
+        /* Out here, secretCode does not exist. Uncomment the next line and the
+           Console shows a red "secretCode is not defined" error - a useful
+           error to recognise:
+           console.log(secretCode); */
+
+        /* ---- Block scope inside a loop ---- */
+        for (let i = 0; i < 3; i = i + 1) {
+            /* message is fresh each pass and only exists inside these braces. */
+            const message = `Pass number ${i}`;
+            console.log(message);
+        }
+        /* Out here, neither i nor message exists. */
+
+        console.log("Back outside; clubName still works:", clubName);
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> uncomment the <code>console.log(secretCode)</code>
+       line and open the Console - read the exact error message. Learning to
+       read red error text calmly is a real skill; we practise it all day.</p>
+
+</body>
+</html>

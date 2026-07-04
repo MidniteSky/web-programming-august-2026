@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+    09 - TOOLTIPS (little hover hints)
+    ==================================
+    A tooltip is the small bubble of text that appears when you hover over (or
+    tab to) an element - handy for explaining an icon-only button or a truncated
+    value. They pair nicely with the icons from demo 08.
+
+    Tooltips are slightly different from modals and toasts: for performance,
+    Bootstrap does NOT switch them on automatically. You mark an element with
+    data-bs-toggle="tooltip" and a data-bs-title, then run one line of JavaScript
+    that finds all such elements and turns each into a tooltip. That one line is
+    copied straight from the Bootstrap docs - you're not expected to invent it.
+
+    (It still needs the JavaScript bundle, like modals and toasts.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09 - Tooltips</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap-icons.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+</head>
+<body>
+
+    <main class="container py-4">
+
+        <h1 class="mb-4">Tooltips</h1>
+
+        <p>Hover over these (or tab to them with the keyboard):</p>
+
+        <!-- Each element opts in with data-bs-toggle="tooltip"; the bubble text
+             is data-bs-title; data-bs-placement picks the side. -->
+        <p>
+            <button type="button" class="btn btn-secondary"
+                    data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-title="I appear above the button">
+                Hover me (top)
+            </button>
+
+            <button type="button" class="btn btn-secondary"
+                    data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    data-bs-title="I appear below">
+                Hover me (bottom)
+            </button>
+        </p>
+
+        <!-- Explaining an icon-only button - a classic tooltip use. Note it also
+             carries an aria-label, so it's clear to screen readers too. -->
+        <p>
+            <button type="button" class="btn btn-danger" aria-label="Delete member"
+                    data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="Delete this member">
+                <i class="bi bi-trash" aria-hidden="true"></i>
+            </button>
+        </p>
+
+    </main>
+
+    <!-- Bootstrap JS bundle - tooltips REQUIRE it. LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script>
+        /* The one line from the Bootstrap docs: find every element marked as a
+           tooltip and switch it on. Copy this verbatim when you need tooltips. */
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        [...tooltipTriggerList].map((el) => new bootstrap.Tooltip(el));
+    </script>
+
+</body>
+</html>

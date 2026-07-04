@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+    12 - ARRAY METHODS: forEach, map, filter, sort
+    ==============================================
+    Looping by hand with for works, but arrays come with tidy built-in tools
+    that take a small function and apply it to every item. This is exactly why
+    we practised arrow functions - they make these one-liners readable.
+
+        forEach   DO something with each item (no new list comes back)
+        map       MAKE a new list by transforming each item
+        filter    KEEP only the items that pass a true/false test
+        sort      put the items in order
+
+    The shape is always the same: you hand the method a function, and it calls
+    your function once per item, passing the item in.
+
+        numbers.forEach((n) => console.log(n));
+        numbers.map((n) => n * 2);
+        numbers.filter((n) => n > 3);
+
+    A gotcha worth knowing: sort, by default, sorts as TEXT (so 10 comes before
+    2). For numbers, give it a tiny compare function: sort((a, b) => a - b).
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array Methods Investigation</title>
+</head>
+<body>
+
+    <h1>forEach / map / filter / sort (watch the Console)</h1>
+
+    <script>
+        const numbers = [5, 2, 8, 1, 9, 3];
+
+        /* ---- forEach: do something with each item ---- */
+        /* The arrow function receives one item at a time as n. */
+        console.log("forEach - print each:");
+        numbers.forEach((n) => console.log("  got", n));
+
+        /* ---- map: build a NEW list from each item ---- */
+        /* Here: each number doubled. The original list is untouched. */
+        const doubled = numbers.map((n) => n * 2);
+        console.log("map - doubled:", doubled);
+        console.log("original unchanged:", numbers);
+
+        /* ---- filter: keep only items that pass the test ---- */
+        /* Keep the numbers greater than 4. The test returns true or false. */
+        const big = numbers.filter((n) => n > 4);
+        console.log("filter - bigger than 4:", big);
+
+        /* ---- sort: put them in order ---- */
+        /* For NUMBERS, pass a compare function so they sort numerically. */
+        const inOrder = numbers.slice();        /* slice() copies first, so we
+                                                   don't reorder the original */
+        inOrder.sort((a, b) => a - b);
+        console.log("sort - ascending:", inOrder);
+
+        /* ---- The gotcha: sort with no function sorts as TEXT ---- */
+        const textSorted = [10, 2, 30, 4].slice();
+        textSorted.sort();
+        console.log("sort as text (surprise!):", textSorted);
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> change the filter test to <code>n &lt; 4</code>
+       and predict the result before saving. Then <code>map</code> the names
+       array from the last demo to <code>(name) =&gt; name.toUpperCase()</code>.
+       These four tools do most of tomorrow's heavy lifting.</p>
+
+</body>
+</html>

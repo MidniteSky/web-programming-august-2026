@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+    06 - fetch WITH .then (OUR FIRST REQUEST FROM CODE)
+    ==================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    >>> TEACHING TIP (tutor may switch this on): starting the server with
+    >>>     ... --port 3000 --delay 2000
+    >>> makes every reply take 2 seconds, so you can SEE the wait happen.
+
+    In demo 04 you made GET requests by typing URLs in the address bar. fetch is
+    "do that, but from JavaScript":
+
+        fetch("http://localhost:3000/members")
+
+    Here's the new idea, and it's the big one for today. A request takes TIME -
+    the message travels to the server and back. JavaScript does NOT freeze and
+    wait; it fires the request and keeps running. So fetch can't hand you the
+    data straight away - the data hasn't arrived yet. Instead it hands back a
+    PROMISE: an "I'll get back to you" ticket.
+
+    You say what to do WHEN it arrives with .then():
+
+        fetch(url)
+            .then((response) => response.json())   // step 1: unwrap the reply
+            .then((data) => {  ...use data...  });  // step 2: here's your data
+
+    Two .then steps trip everyone up at first, so go slow:
+      - The FIRST thing back is a "response" object - the envelope (status,
+        headers), not the contents yet. response.json() opens the envelope and
+        reads the JSON body. That ITSELF takes a moment, so it returns another
+        promise - which is why we need a second .then.
+      - The SECOND .then finally receives the actual data (our array of members).
+
+    Read .then as the word "then": fetch the members, THEN read the body, THEN
+    use the data. Each step waits for the one before.
+
+    If anything goes wrong along the whole chain (e.g. the server is off),
+    .catch() at the end runs instead. Always end a chain with .catch.
+
+    This .then style is worth understanding because you'll SEE it in code
+    everywhere. But in demo 08 we rewrite it in a way most people find easier to
+    read - async/await - and that becomes our standard for the rest of the week.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetch with .then</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 720px; }
+        #status { font-weight: bold; }
+        ul { background-color: #f5f2ea; border: 1px solid #d0c9b8; padding: 1rem 1rem 1rem 2rem; border-radius: 6px; }
+        code { background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>fetch with .then</h1>
+    <p id="status">Loading members...</p>
+    <ul id="list"></ul>
+    <p>Open the <strong>Console</strong> and the <strong>Network</strong> tab too
+       - watch the request happen.</p>
+
+    <script>
+        const statusLine = document.querySelector("#status");
+        const list = document.querySelector("#list");
+
+        /* The base URL lives in ONE constant. If your server is on a different
+           port, you change it here, once. */
+        const API = "http://localhost:3000/members";
+
+        /* Fire the request, then say what to do when the reply arrives. */
+        fetch(API)
+            /* Step 1: the reply is an "envelope". Open it and read the JSON body.
+               This returns another promise, so we hand it on to the next .then. */
+            .then((response) => {
+                console.log("The response envelope:", response);
+                return response.json();
+            })
+            /* Step 2: NOW we have the real data - our array of members. */
+            .then((members) => {
+                console.log("The data:", members);
+                statusLine.textContent = `Loaded ${members.length} members.`;
+
+                /* Build one <li> per member - the Day 3 pattern, unchanged. */
+                members.forEach((member) => {
+                    const li = document.createElement("li");
+                    li.textContent = `${member.name} (${member.email})`;
+                    list.append(li);
+                });
+            })
+            /* If ANY step above failed, we land here instead. Most often: the
+               server isn't running. A friendly message beats a silent page. */
+            .catch((error) => {
+                console.log("Something went wrong:", error);
+                statusLine.textContent =
+                    "Could not load members. Is json-server running on port 3000?";
+            });
+    </script>
+
+</body>
+</html>

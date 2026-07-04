@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+    04 - DISPLAY: BLOCK vs INLINE vs INLINE-BLOCK
+    =============================================
+    Why do headings and paragraphs each start on a new line, but links and
+    <strong> sit happily inside a line of text? Because every element has a
+    default DISPLAY type.
+
+        block         starts on a new line and takes the FULL width
+                      available. Respects width, height, and all margins/
+                      padding. Examples: div, p, h1-h6, section, header, ul, li.
+
+        inline        flows INSIDE a line, only as wide as its content.
+                      width/height are ignored; top/bottom margins do nothing.
+                      Examples: a, span, strong, em, img (nearly).
+
+        inline-block  a hybrid: flows inline (sits beside its neighbours)
+                      but DOES respect width, height and all padding/margin.
+                      Handy for things like nav buttons... though tomorrow
+                      afternoon Flexbox will do this job far better.
+
+    You can override the default with the display property - but do it with
+    intent, not by accident.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Block vs Inline Investigation</title>
+    <style>
+        .swatch {
+            background-color: #d8e6f2;
+            border: 2px solid #1d5c8f;
+            padding: 8px;
+            margin: 4px;
+        }
+
+        /* block: each one grabs a full line, even though the text is short */
+        .as-block {
+            display: block;
+        }
+
+        /* inline: these sit in a row and ignore width/height entirely */
+        .as-inline {
+            display: inline;
+            width: 300px;    /* IGNORED - inline boxes shrink to their content */
+            height: 100px;   /* IGNORED too */
+        }
+
+        /* inline-block: sit in a row like inline, but width/height now WORK */
+        .as-inline-block {
+            display: inline-block;
+            width: 140px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>block, inline, inline-block</h1>
+
+    <h2>display: block (a new line each, full width)</h2>
+    <span class="swatch as-block">I am a span forced to behave like a block.</span>
+    <span class="swatch as-block">So am I - notice we stack vertically.</span>
+
+    <h2>display: inline (in a row, width/height ignored)</h2>
+    <div class="swatch as-inline">A div forced inline.</div>
+    <div class="swatch as-inline">We sit side by side, hugging our text.</div>
+    <div class="swatch as-inline">The width: 300px we set is quietly ignored.</div>
+
+    <h2>display: inline-block (in a row, but sized)</h2>
+    <div class="swatch as-inline-block">140 x 60</div>
+    <div class="swatch as-inline-block">140 x 60</div>
+    <div class="swatch as-inline-block">140 x 60</div>
+
+    <hr>
+
+    <p><strong>Try it:</strong> inspect an inline swatch in DevTools and add
+       <code>height: 200px</code> in the Styles pane. Nothing happens - inline
+       boxes don't have a height you can set. Change display to
+       <code>inline-block</code> and suddenly it obeys. This is the single
+       most common "why won't my box resize?" puzzle.</p>
+
+    <p>Getting boxes to sit side by side <em>properly</em> - evenly spaced,
+       centred, equal height - is a job for Flexbox. That's this afternoon.</p>
+
+</body>
+</html>

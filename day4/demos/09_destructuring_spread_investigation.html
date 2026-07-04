@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+    09 - DESTRUCTURING & SPREAD (now that there's data to unpack)
+    ============================================================
+    Two small pieces of modern JavaScript syntax. They don't do anything you
+    couldn't already do - they just make working with objects and arrays tidier.
+    Now that we're pulling records back from a server, they earn their place.
+
+    Keep the Console open - no server needed for this one.
+
+    ---- DESTRUCTURING: unpack an object into variables in one line ----
+    Instead of reaching in property by property:
+
+        const name = member.name;
+        const email = member.email;
+
+    ...pull several out at once, naming them in { }:
+
+        const { name, email } = member;   // two variables, name and email
+
+    The names in the braces must MATCH the property names. Read it as "take name
+    and email OUT of member." It's especially handy at the top of a function that
+    receives an object - you unpack the bits you need and get on with it.
+
+    Arrays destructure by POSITION instead of name:
+        const [first, second] = ["Aidan", "Alice"];   // first = "Aidan"
+
+    ---- SPREAD: pour the contents of one object/array into another ----
+    The ... "spread" operator copies everything out of an object or array:
+
+        const copy = { ...member };                 // a shallow copy
+        const updated = { ...member, active: false }; // copy, but override one field
+
+    That second line is the pattern we'll actually use for editing (Block 4):
+    "everything the member already was, but with active flipped." The later
+    property wins, so { ...member, active: false } keeps id/name/email and just
+    changes active. Same idea for arrays:
+
+        const more = [...members, newMember];   // all the old ones, plus one
+
+    These are the ONLY two bits of new syntax in Block 2, and they're optional
+    sugar - if they ever feel like a fog, the longhand from Day 3 is always fine.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Destructuring &amp; spread</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 720px; }
+        code { background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>Destructuring &amp; spread: open the Console</h1>
+    <p>Tidier ways to pull data out of objects and to copy them. Read the source
+       comments alongside the Console output.</p>
+
+    <script>
+        const member = { id: 1, name: "Aidan", email: "aidan@example.com", active: true };
+
+        /* ---- Destructuring an object: pull out the bits we want ---- */
+        /* The names in { } must match the property names on the object. */
+        const { name, email } = member;
+        console.log("1. Destructured:", name, "-", email);
+
+        /* The longhand it replaces (identical result) - use whichever reads
+           clearer to you: */
+        const nameLong = member.name;
+        console.log("   Same thing the long way:", nameLong);
+
+        /* ---- Destructuring in a function's parameter list ----
+           A common, tidy use: unpack the object right where it arrives. */
+        function describe({ name, email, active }) {
+            const state = active ? "active" : "inactive";
+            return `${name} <${email}> is ${state}`;
+        }
+        console.log("2. describe():", describe(member));
+
+        /* ---- Array destructuring: by POSITION, not name ---- */
+        const [first, second] = ["Aidan", "Alice", "Bob"];
+        console.log("3. Array by position:", first, "then", second);
+
+        /* ---- Spread: copy an object ---- */
+        const copy = { ...member };
+        console.log("4. A copy via spread:", copy);
+
+        /* ---- Spread with an override: the edit pattern for Block 4 ----
+           "Everything member was, but active is now false." The later key wins. */
+        const deactivated = { ...member, active: false };
+        console.log("5. Copy with one field changed:", deactivated);
+        console.log("   Original is untouched:", member.active);   // still true
+
+        /* ---- Spread with arrays: all the old items, plus a new one ---- */
+        const members = [member, { id: 2, name: "Alice", email: "alice@example.com", active: true }];
+        const withEve = [...members, { id: 3, name: "Eve", email: "eve@example.com", active: true }];
+        console.log("6. Array plus one, via spread. Lengths:", members.length, "->", withEve.length);
+    </script>
+
+</body>
+</html>

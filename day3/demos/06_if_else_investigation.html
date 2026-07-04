@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+    06 - MAKING DECISIONS: if / else
+    ================================
+    So far every line has run, top to bottom, no matter what. Real programs
+    need to CHOOSE. That is what if / else does:
+
+        if (a question that is true or false) {
+            ...run this when it is TRUE
+        } else {
+            ...run this when it is FALSE
+        }
+
+    The bit in the ( ) is a CONDITION - it must boil down to true or false,
+    which is exactly what the comparison operators from demo 04 give us.
+    The { } curly braces hold the block of code to run.
+
+    Need more than two paths? Chain with else if:
+
+        if (...) { } else if (...) { } else { }
+
+    Remember the day's trap: the condition uses === (a question), never = (which
+    would try to SET a value and is almost always a mistake here).
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>if / else Investigation</title>
+</head>
+<body>
+
+    <h1>if / else (watch the Console)</h1>
+
+    <script>
+        /* ---- A simple two-way choice ---- */
+        const age = 20;
+
+        if (age >= 18) {
+            console.log("An adult.");
+        } else {
+            console.log("Not yet 18.");
+        }
+
+        /* ---- More than two outcomes: else if ---- */
+        const score = 72;
+
+        if (score >= 70) {
+            console.log("Grade: distinction");
+        } else if (score >= 50) {
+            console.log("Grade: pass");
+        } else {
+            console.log("Grade: try again");
+        }
+
+        /* ---- Conditions are just true/false values ---- */
+        const isActive = false;
+
+        /* We can test a boolean directly - no need for "=== true". */
+        if (isActive) {
+            console.log("This member is active.");
+        } else {
+            console.log("This member is inactive.");
+        }
+
+        /* ---- Combine conditions with && and || ---- */
+        const name = "Carol";
+        const memberCount = 6;
+
+        if (memberCount > 0 && name !== "") {
+            console.log(`We have ${memberCount} members, including ${name}.`);
+        }
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> change <code>age</code> to 15 and save - the
+       other branch runs. Then deliberately write <code>if (age = 18)</code>
+       with ONE equals sign and watch it misbehave (it always looks "true").
+       That is the = vs === trap in the wild.</p>
+
+</body>
+</html>

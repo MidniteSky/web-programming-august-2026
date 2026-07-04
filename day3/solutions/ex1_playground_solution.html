@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+    EXERCISE 1 SOLUTION - Console playground
+    ========================================
+    Variables, types, operators and template literals. Everything here is
+    checked in the Console (F12 -> Console).
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 1 - Playground</title>
+</head>
+<body>
+
+    <h1>Console playground (open the Console)</h1>
+
+    <script>
+        /* 1. Three const values of three different types. */
+        const myName = "Alex";
+        const luckyNumber = 7;
+        const likesTea = true;
+        console.log("Name:", myName);
+        console.log("Lucky number:", luckyNumber);
+        console.log("Likes tea:", likesTea);
+
+        /* 2. Their types. */
+        console.log(typeof myName, typeof luckyNumber, typeof likesTea);
+
+        /* 3. A let that changes - const would refuse the reassignment. */
+        let count = 0;
+        console.log("count starts at", count);
+        count = count + 1;
+        console.log("count is now", count);
+
+        /* 4. Some arithmetic. */
+        console.log("Addition:", 8 + 5);
+        console.log("Division:", 20 / 4);
+        console.log("Remainder of 17 / 5:", 17 % 5);
+
+        /* 5. The same sentence two ways: + then a template literal. */
+        const withPlus = myName + "'s lucky number is " + luckyNumber + ".";
+        const withTemplate = `${myName}'s lucky number is ${luckyNumber}.`;
+        console.log(withPlus);
+        console.log(withTemplate);
+
+        /* 6. Equality: same value, but different types on the second one. */
+        console.log("3 === 3 ?", 3 === 3);
+        console.log('"3" === 3 ?', "3" === 3);   /* false: text vs number */
+    </script>
+
+</body>
+</html>

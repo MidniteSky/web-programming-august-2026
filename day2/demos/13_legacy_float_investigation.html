@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+    13 - LEGACY FLOAT LAYOUT  *** READ-ONLY - DO NOT WRITE THIS ***
+    ==============================================================
+    #####################################################################
+    #  READ-ONLY LEGACY EXAMPLE. This is here so you RECOGNISE it in    #
+    #  old code, NOT so you write it. Do NOT use float for layout in    #
+    #  any exercise or in the capstone. If you catch yourself typing    #
+    #  `float:` to place a box, stop - reach for Flexbox or Grid.       #
+    #####################################################################
+
+    Before Flexbox (2017-ish) and Grid, people built multi-column layouts
+    by FLOATING boxes left. `float` was invented for one honest job: letting
+    text wrap around an image, like in a newspaper. Everyone then abused it
+    for whole-page layouts, and it fought back:
+
+        - floated elements leave the normal flow, so their parent COLLAPSES
+          to zero height unless you add a "clearfix" hack (see below);
+        - vertical centring was near-impossible;
+        - equal-height columns needed ugly workarounds.
+
+    Flexbox and Grid exist precisely because this hurt. You'll still meet
+    float layouts in code written before ~2018 - now you'll know what you're
+    looking at, and what to replace it with.
+
+    (Everything below is the OLD way. Admire the museum piece; don't take
+     it home.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Legacy Float Layout (read-only)</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+        }
+
+        .banner {
+            background-color: #d8e6f2;
+            padding: 1rem;
+        }
+
+        /* THE OLD WAY: shove each column left and give it a width in %.
+           This is exactly what we are NOT doing in our own work. */
+        .col-left {
+            float: left;
+            width: 25%;
+            background-color: #e8e2d4;
+            padding: 1rem;
+        }
+        .col-main {
+            float: left;
+            width: 50%;
+            background-color: #ffffff;
+            padding: 1rem;
+        }
+        .col-right {
+            float: left;
+            width: 25%;
+            background-color: #e8e2d4;
+            padding: 1rem;
+        }
+
+        /* THE CLEARFIX HACK: because the floated columns left the normal
+           flow, the row's parent forgets they exist and collapses. This
+           incantation forces it to contain them. A whole generation of
+           developers memorised this. Flexbox/Grid need nothing of the sort. */
+        .row::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .footer {
+            background-color: #163f61;
+            color: #ffffff;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="banner">
+        <strong>READ-ONLY MUSEUM PIECE.</strong> This three-column layout is
+        built with floats - the pre-2018 way. We are studying it, not copying
+        it. Our own layouts use Flexbox and Grid.
+    </div>
+
+    <div class="row">
+        <div class="col-left">Left column (float: left, 25%)</div>
+        <div class="col-main">Main column (float: left, 50%). Notice we
+            needed a "clearfix" on the row so this parent didn't collapse.</div>
+        <div class="col-right">Right column (float: left, 25%)</div>
+    </div>
+
+    <div class="footer">Footer - only sits below the columns thanks to the
+        clearfix hack above.</div>
+
+    <hr>
+
+    <p style="padding: 1rem;"><strong>The takeaway:</strong> if you open an
+       old codebase and see <code>float</code> plus a <code>clearfix</code>,
+       you're looking at a layout that would today be a handful of clean
+       Flexbox or Grid lines. Recognise it - then modernise it.</p>
+
+</body>
+</html>

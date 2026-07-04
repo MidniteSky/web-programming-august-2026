@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+    05 - PAGE UPGRADE: AFTER
+    ========================
+    The same "club events" page as demo 04 - same content, same structure - but
+    the hand-written <style> block is GONE. In its place: one Bootstrap link and
+    a sprinkle of class names. That's the trade Bootstrap offers.
+
+    Diff it against demo 04 in your head:
+      - the <style> block (30-odd lines) -> deleted
+      - <header>            -> the .navbar component
+      - .event boxes        -> .card components
+      - <button>            -> class="btn btn-primary" / "btn btn-outline-..."
+      - the two events now sit in a responsive grid (col-md-6): side by side on
+        a laptop, stacked on a phone - and we wrote no media query.
+
+    The honest verdict: Bootstrap made this faster and more consistent, and it's
+    responsive for free. The cost is that everything now looks a bit like every
+    other Bootstrap site, and you're carrying a big stylesheet. For a club site,
+    a good trade. For a brand that needs to look unique, less so. Knowing BOTH
+    ways - hand-rolled and framework - is the point of this week.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05 - After</title>
+
+    <!-- Bootstrap 5.3.8 CSS - replaces our whole hand-written <style> block.
+         LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- Was <header> + hand-styled nav; now the navbar component. -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">The Club</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#clubNav" aria-controls="clubNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="clubNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <h2 class="mb-3">Upcoming events</h2>
+
+        <!-- Two events in a responsive row: col-md-6 each. -->
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Was .event; now a .card. -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="card-title h5">Monthly meetup</h3>
+                        <p class="card-text">First Tuesday of the month.
+                           Everyone welcome.</p>
+                        <button type="button" class="btn btn-primary">Book a place</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="card-title h5">Summer social</h3>
+                        <p class="card-text">An afternoon in the park, weather
+                           permitting (it won't).</p>
+                        <button type="button" class="btn btn-outline-primary">Book a place</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS bundle - needed for the navbar toggle. LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

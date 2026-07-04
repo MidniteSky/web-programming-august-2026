@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+    04 - A TOUR OF json-server (RUN THIS ONE)
+    =========================================
+    >>> START THE SERVER FIRST. In a terminal, in the folder that contains
+    >>> db.json (VS Code: Terminal -> New Terminal), run EXACTLY:
+    >>>
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    >>>
+    >>> The first run downloads the package (needs internet, once). You'll see:
+    >>>     Resources:  http://localhost:3000/members
+    >>> Leave it running. Stop it later with Ctrl+C.
+    >>> (Windows may pop up a firewall prompt on first run - that's normal,
+    >>>  allow access on private networks.)
+
+    THE BIG IDEA (the best five minutes of the week):
+    json-server takes the plain file db.json and serves it as a real web API.
+    The file IS the database. Open db.json in VS Code on one side and the browser
+    on the other, and you can watch them stay in step.
+
+    Here's the thing that surprises everyone: your browser's ADDRESS BAR already
+    makes GET requests. Every URL you've ever typed was a GET. So you can tour
+    the entire "read" side of the API without writing a single line of code -
+    just click the links on this page (they open localhost:3000).
+
+    THE MENU (click each, watch what comes back):
+        /members         the whole list        (GET, the Read verb)
+        /members/1       just Aidan            (GET one item)
+        /members/99      nothing - a 404       (the server says "no such thing")
+
+    QUERY PARAMETERS (extra instructions after a ?):
+        /members?_sort=name          sorted by name
+        /members?active=true         only active members
+        /members?q=al                full-text search for "al"
+        /members?_page=1&_limit=3    just the first three
+
+    DEVTOOLS MOMENT - the NETWORK TAB (today's DevTools skill):
+    Open DevTools (F12) -> Network tab -> reload /members. Click the "members"
+    row. You just watched the exact request the browser made: the METHOD (GET),
+    the STATUS (200 = OK, or 404 = not found), and the RESPONSE (the JSON). When
+    we write fetch next block, it does precisely this - "the thing you just did,
+    but from code."
+
+    Tip: Firefox pretty-prints JSON in the address bar; Chrome/Edge show it raw,
+    which is fine. Either way, the Network tab shows it cleanly.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>A tour of json-server</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333333;
+            line-height: 1.7;
+            max-width: 720px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h1, h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: #1d5c8f;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+
+        .cmd {
+            display: block;
+            background-color: #163f61;
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        li { margin-bottom: 0.35rem; }
+    </style>
+</head>
+<body>
+
+    <h1>A tour of json-server</h1>
+
+    <p><strong>Start the server first</strong>, in the folder that contains
+       <code>db.json</code>:</p>
+
+    <code class="cmd">npx json-server@0.17.4 --watch db.json --port 3000</code>
+
+    <p>Leave it running. Now click the links below - each one is a
+       <strong>GET</strong> request your browser makes just by visiting a URL.
+       No code needed yet.</p>
+
+    <h2>The menu</h2>
+    <ul>
+        <li><a href="http://localhost:3000/members" target="_blank">/members</a>
+            - the whole list</li>
+        <li><a href="http://localhost:3000/members/1" target="_blank">/members/1</a>
+            - just Aidan</li>
+        <li><a href="http://localhost:3000/members/99" target="_blank">/members/99</a>
+            - nothing: a <strong>404</strong> ("no such thing")</li>
+    </ul>
+
+    <h2>Query parameters (instructions after a <code>?</code>)</h2>
+    <ul>
+        <li><a href="http://localhost:3000/members?_sort=name" target="_blank">/members?_sort=name</a>
+            - sorted by name</li>
+        <li><a href="http://localhost:3000/members?active=true" target="_blank">/members?active=true</a>
+            - only active members</li>
+        <li><a href="http://localhost:3000/members?q=al" target="_blank">/members?q=al</a>
+            - search for "al"</li>
+        <li><a href="http://localhost:3000/members?_page=1&amp;_limit=3" target="_blank">/members?_page=1&amp;_limit=3</a>
+            - the first three</li>
+    </ul>
+
+    <h2>DevTools moment: the Network tab</h2>
+    <p>Press <strong>F12</strong>, open the <strong>Network</strong> tab, then
+       reload <code>/members</code>. Click the <code>members</code> row and read
+       the <strong>method</strong> (GET), the <strong>status</strong> (200), and
+       the <strong>response</strong> (the JSON). Next block we write
+       <code>fetch</code>, which does exactly this from code.</p>
+
+    <p><strong>The file is the database:</strong> open <code>db.json</code> in
+       VS Code, change a name by hand, save, then reload <code>/members</code> in
+       the browser - your edit is there. Nothing magic underneath.</p>
+
+</body>
+</html>

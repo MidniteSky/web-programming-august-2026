@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+    03 - CORE COMPONENTS (navbar, cards, tables, buttons, forms)
+    ============================================================
+    Bootstrap ships a set of ready-made "components" - common bits of a website
+    that everyone builds, pre-styled. You assemble them from HTML plus the right
+    class names. This file is a catalogue of the five you'll use in the capstone.
+
+    You are NOT expected to memorise the class names. Nobody does. The workflow
+    is: find the component you want in the Bootstrap docs
+    (getbootstrap.com -> Docs -> Components), copy the example, and change the
+    words. We're showing them here so you recognise them when you meet them.
+
+    The two that need real attention for the capstone:
+      - the NAVBAR, because it replaces your hand-rolled Day 2 nav, and
+      - FORM CONTROLS (form-control / form-label / form-check), because the
+        add-member form uses them.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 - Core components</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- ============ NAVBAR ============
+         A responsive navigation bar. On a phone the links collapse behind the
+         "hamburger" button (navbar-toggler); the JS bundle handles the toggle.
+         navbar-expand-lg = "show the links in a row from large screens up;
+         collapse them below that." This replaces your Day 2 Flexbox nav. -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Member Manager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#mainNav" aria-controls="mainNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Members</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+
+        <!-- ============ CARDS ============
+             A card is a bordered, padded content box - the "section" boxes you
+             made on Day 2, but pre-styled. Great inside grid columns. -->
+        <h2 class="h4">Cards</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="card-title h5">A card</h3>
+                        <p class="card-text">Cards group related content with a
+                           border and padding. Drop one in each grid column.</p>
+                        <a href="#" class="btn btn-primary btn-sm">Action</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="card-title h5">Another card</h3>
+                        <p class="card-text">Because both sit in
+                           <code>col-md-6</code>, they stack on a phone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TABLE ============
+             Your ordinary <table>, plus classes. .table-striped adds the zebra
+             stripes you wrote by hand on Day 2; .table-hover highlights the row
+             under the pointer. .table-responsive lets a wide table scroll
+             sideways on a phone (the job your .table-scroll div did). -->
+        <h2 class="h4 mt-4">Tables</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-primary">
+                    <tr><th>Id</th><th>Name</th><th>Email</th><th>Active</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Aidan</td><td>aidan@example.com</td>
+                        <td><span class="badge text-bg-success">yes</span></td></tr>
+                    <tr><td>3</td><td>Bob</td><td>bob@example.com</td>
+                        <td><span class="badge text-bg-secondary">no</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ============ BUTTONS ============
+             btn + a colour. Add btn-sm / btn-lg for size. -->
+        <h2 class="h4 mt-4">Buttons</h2>
+        <p>
+            <button type="button" class="btn btn-primary">Primary</button>
+            <button type="button" class="btn btn-success">Success</button>
+            <button type="button" class="btn btn-danger">Danger</button>
+            <button type="button" class="btn btn-outline-secondary">Outline</button>
+            <button type="button" class="btn btn-primary btn-sm">Small</button>
+        </p>
+
+        <!-- ============ FORM CONTROLS ============
+             The add-member form uses exactly these three:
+               form-label   on each <label>
+               form-control on text/email inputs (full-width, padded, bordered)
+               form-check   wraps a checkbox + its label neatly
+             mb-3 ("margin-bottom level 3") spaces the fields out. -->
+        <h2 class="h4 mt-4">Form controls</h2>
+        <form class="col-md-6">
+            <div class="mb-3">
+                <label for="demoName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="demoName">
+            </div>
+            <div class="mb-3">
+                <label for="demoEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="demoEmail">
+            </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="demoActive">
+                <label class="form-check-label" for="demoActive">Active member</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Add member</button>
+        </form>
+
+    </main>
+
+    <!-- Bootstrap JS bundle - REQUIRED here for the navbar's collapse toggle on
+         narrow screens. LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

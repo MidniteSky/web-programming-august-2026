@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+    14 - RESPONSIVE & MOBILE-FIRST INVESTIGATION
+    ============================================
+    More than half of all web visits are on phones. A "responsive" site
+    reshapes itself to fit whatever screen it lands on. Three ingredients:
+
+    1. THE VIEWPORT META TAG (in <head> - see below). Without it, phones
+       pretend to be a ~980px desktop and shrink the page to a squint. This
+       one line tells the phone "use your real width". It's non-negotiable,
+       and it's why we finally add it today.
+       (Tip: in VS Code, type `!` then Tab - the Emmet shortcut - and it
+        generates a full HTML skeleton WITH this tag already in place. On
+        Day 1 we wrote the skeleton by hand to learn it; now let the tool help.)
+
+    2. MEDIA QUERIES: blocks of CSS that only apply at certain widths.
+           @media (min-width: 600px) { ... }   applies from 600px UP
+
+    3. MOBILE-FIRST: write the phone layout as your PLAIN, default CSS, then
+       ADD complexity for bigger screens with min-width queries. This is
+       easier to reason about than the reverse, and phones (the constrained
+       device) get the simplest CSS. So: single column by default, columns
+       added as the screen grows.
+
+    Plus FLUID IMAGES so a big picture never overflows a small screen:
+        img { max-width: 100%; height: auto; }
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- THE VIEWPORT META TAG. Missing on Day 1; essential from today.
+         "Render at the device's own width, at 100% zoom." -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- GOOGLE FONTS (mentioned, not required):
+         You can load a nicer font from Google with a <link> in the head, e.g.
+           <link rel="stylesheet"
+             href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+         then use font-family: "Roboto", Arial, sans-serif;
+         IMPORTANT for this course: some training/office machines block
+         outside requests, so that link may silently fail. Always keep a
+         web-safe fallback in the stack (the Arial, sans-serif part) so the
+         page still reads fine offline. We deliberately do NOT rely on it in
+         our project - our fonts are the web-safe stacks from Day 1. -->
+
+    <title>Responsive and Mobile-First Investigation</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 1rem;
+        }
+
+        /* ---- MOBILE-FIRST DEFAULT: one column, stacked ------------- */
+        /* No media query here. This is the phone layout - the baseline. */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;   /* single column */
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .cell {
+            background-color: #d8e6f2;
+            border: 2px solid #1d5c8f;
+            padding: 1rem;
+        }
+
+        /* Fluid image: never wider than its container. */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .status::before { content: "Current layout: mobile (single column)"; }
+
+        /* ---- FROM 600px UP: go to two columns --------------------- */
+        @media (min-width: 600px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+            .status::before { content: "Current layout: tablet (two columns)"; }
+        }
+
+        /* ---- FROM 900px UP: go to three columns ------------------- */
+        @media (min-width: 900px) {
+            .grid { grid-template-columns: repeat(3, 1fr); }
+            .status::before { content: "Current layout: desktop (three columns)"; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Responsive layout</h1>
+
+    <!-- The generated text in this box updates as the window crosses each
+         breakpoint - live proof the media queries are firing. -->
+    <p class="status"></p>
+
+    <div class="grid">
+        <div class="cell">One</div>
+        <div class="cell">Two</div>
+        <div class="cell">Three</div>
+        <div class="cell">Four</div>
+        <div class="cell">Five</div>
+        <div class="cell">Six</div>
+    </div>
+
+    <h2>A fluid image</h2>
+    <img src="images/sample-logo.svg" alt="Member Manager club logo" width="400">
+
+    <hr>
+
+    <p><strong>Try it:</strong> open DevTools and click the little
+       phone/tablet icon (top-left of the DevTools panel) to enter
+       <em>responsive device mode</em>. Drag the screen width handle and
+       watch the grid go three columns -> two -> one as you cross 900 and
+       600 pixels. Then pick "iPhone" from the device dropdown to preview a
+       real phone size.</p>
+
+</body>
+</html>

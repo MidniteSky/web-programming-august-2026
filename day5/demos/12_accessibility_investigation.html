@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--
+    12 - ACCESSIBILITY ESSENTIALS (the payoff for a week of good habits)
+    ====================================================================
+    Accessibility ("a11y") means building pages everyone can use - including
+    people who navigate by keyboard, or who can't see the screen and hear it read
+    aloud by a screen reader, or who need larger text or higher contrast. It is
+    not an add-on: it's mostly just doing the HTML properly, which you've been
+    doing all week. This file collects the essentials and shows the common
+    mistake beside its fix.
+
+    Five things that carry most of the weight:
+      1. SEMANTIC HTML - real <header>/<nav>/<main>/<footer>, real <button>s.
+         Screen readers use these landmarks to let people jump around. A <div>
+         you clicked into a button is invisible to them.
+      2. LABELS - every input needs a <label> tied to it, so its purpose is
+         announced (and clicking the label focuses the field).
+      3. ALT TEXT - every meaningful image needs alt="..." describing it.
+      4. CONTRAST - text must stand out from its background enough to read.
+      5. KEYBOARD - everything clickable must be reachable and usable with Tab and
+         Enter, with a VISIBLE focus ring so you can see where you are.
+
+    >>> DevTools moment (today's): run a Lighthouse audit. F12 -> Lighthouse tab
+    >>> -> tick "Accessibility" -> Analyze page load. It scores the page and lists
+    >>> concrete fixes. Run it on THIS page, then on your finished capstone.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 - Accessibility essentials</title>
+
+    <!-- Bootstrap 5.3.8 CSS. LOCAL SWAP:
+    <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- Real landmarks: a screen reader can jump straight to nav, main, footer. -->
+    <header class="bg-primary text-white py-3">
+        <div class="container">
+            <h1 class="h3 mb-0">Accessibility essentials</h1>
+        </div>
+    </header>
+
+    <nav class="navbar navbar-expand bg-body-tertiary">
+        <div class="container">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#semantic">Semantic</a></li>
+                <li class="nav-item"><a class="nav-link" href="#labels">Labels</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contrast">Contrast</a></li>
+                <li class="nav-item"><a class="nav-link" href="#keyboard">Keyboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+
+        <!-- 1. SEMANTIC HTML / real buttons -->
+        <section id="semantic" class="mb-5">
+            <h2 class="h4">1. Semantic HTML &amp; real buttons</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card border-danger mb-3">
+                        <div class="card-header text-bg-danger">Avoid</div>
+                        <div class="card-body">
+                            <!-- A "button" that isn't one: no keyboard focus, no
+                                 Enter/Space, invisible to assistive tech. -->
+                            <p><code>&lt;div onclick="..."&gt;Delete&lt;/div&gt;</code></p>
+                            <div class="text-decoration-underline text-primary" role="presentation">
+                                Delete (a div - can't Tab to it)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-success mb-3">
+                        <div class="card-header text-bg-success">Prefer</div>
+                        <div class="card-body">
+                            <!-- A real button: focusable and operable for free. -->
+                            <p><code>&lt;button&gt;Delete&lt;/button&gt;</code></p>
+                            <button type="button" class="btn btn-danger">Delete (a real button)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. LABELS -->
+        <section id="labels" class="mb-5">
+            <h2 class="h4">2. Label every input</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card border-danger mb-3">
+                        <div class="card-header text-bg-danger">Avoid</div>
+                        <div class="card-body">
+                            <!-- Placeholder is NOT a label: it vanishes on typing
+                                 and isn't reliably announced. -->
+                            <input type="text" class="form-control" placeholder="Name">
+                            <p class="small text-muted mt-2 mb-0">Placeholder only - no label.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-success mb-3">
+                        <div class="card-header text-bg-success">Prefer</div>
+                        <div class="card-body">
+                            <!-- for="id" ties the label to the input: it's
+                                 announced, and clicking it focuses the field. -->
+                            <label for="a11yName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="a11yName">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Icon-only control: no visible text, so it needs an aria-label. -->
+            <p class="mt-2">Icon-only buttons need an <code>aria-label</code>
+               (see demo 08): a bare bin icon reads as just "button" otherwise.</p>
+        </section>
+
+        <!-- 3. CONTRAST -->
+        <section id="contrast" class="mb-5">
+            <h2 class="h4">3. Enough contrast to read</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card border-danger mb-3">
+                        <div class="card-header text-bg-danger">Avoid</div>
+                        <div class="card-body">
+                            <!-- Light grey on white: pretty, but many people
+                                 can't read it. Lighthouse flags this. -->
+                            <p style="color: #cccccc;">Light grey text on white.
+                               Can you read this comfortably? Many can't.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-success mb-3">
+                        <div class="card-header text-bg-success">Prefer</div>
+                        <div class="card-body">
+                            <!-- The course body colour: a solid, readable dark. -->
+                            <p style="color: #333333;">Dark text on white - clear
+                               for everyone. Aim for a contrast ratio of at least
+                               4.5:1 for normal text.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. KEYBOARD / visible focus -->
+        <section id="keyboard" class="mb-5">
+            <h2 class="h4">4. Keyboard &amp; a visible focus ring</h2>
+            <p>Put your mouse down. Press <kbd>Tab</kbd> repeatedly and watch the
+               outline move between the links, inputs and buttons - then
+               <kbd>Enter</kbd> or <kbd>Space</kbd> to activate. Everything must be
+               reachable this way, and you must be able to SEE where you are.</p>
+            <p><strong>Never</strong> hide the focus ring with
+               <code>outline: none;</code> and nothing to replace it - it strands
+               keyboard users. Bootstrap gives focused controls a clear ring by
+               default; your Day 2 CSS added one on inputs too.</p>
+            <p>
+                <a href="#semantic" class="btn btn-outline-primary">A link</a>
+                <button type="button" class="btn btn-primary">A button</button>
+                <input type="text" class="form-control d-inline-block" style="width:auto;"
+                       aria-label="Try tabbing to this field">
+            </p>
+        </section>
+
+        <div class="alert alert-info" role="alert">
+            <strong>The good news:</strong> you already do most of this. Semantic
+            HTML has been the house rule since Day 1, your forms have had labels
+            all week, and your images have carried alt text. Accessibility is
+            largely a by-product of building things properly - which is exactly
+            why we insisted on it from the start.
+        </div>
+
+    </main>
+
+    <footer class="bg-primary text-white py-3">
+        <div class="container">
+            <p class="mb-0 small">&copy; 2026 The Member Manager Club</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS bundle. LOCAL SWAP:
+    <script src="../lib/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

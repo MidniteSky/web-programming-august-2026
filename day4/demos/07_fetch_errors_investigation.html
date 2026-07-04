@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+    07 - ERROR HANDLING: response.ok AND .catch
+    ===========================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+
+    Two DIFFERENT things can go wrong with a request, and beginners mix them up.
+    Getting this straight now saves a lot of confusion later.
+
+    1. THE REQUEST NEVER ARRIVES (a "network error").
+       The server is off, the wifi dropped, the URL's host is wrong. fetch's
+       promise REJECTS, and .catch() runs. This is the "is json-server running?"
+       case from demo 06.
+
+    2. THE REQUEST ARRIVES, but the answer is "no" (an HTTP error).
+       You asked for /members/99, which doesn't exist -> status 404. You did a
+       bad POST -> status 400. THE SERVER ANSWERED. It just said no.
+       Here's the trap: fetch treats "the server answered no" as SUCCESS. The
+       promise does NOT reject on a 404. .catch() does NOT run. As far as fetch
+       is concerned, it delivered a reply, and that's its whole job.
+
+    So we have to check the reply ourselves, using response.ok:
+        - response.ok is true  for status 200-299 (a "yes")
+        - response.ok is false for 404, 400, 500, ... (a "no")
+    If it's not ok, we THROW an error on purpose, which sends us to .catch - so
+    both kinds of problem end up handled in the same place.
+
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Server said ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => { ...use it... })
+            .catch((error) => { ...one place for BOTH failure kinds... });
+
+    Try both failures below and watch the Console. This response.ok check comes
+    with us into async/await next demo, and into the capstone.
+
+    (CORS, in one sentence, since someone always asks: a browser blocks a page
+    from calling a server on a different origin unless that server allows it -
+    json-server allows it by default, so it never bites us this week.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetch error handling</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 720px; }
+        button { background-color: #1d5c8f; color: #fff; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; margin: 0.25rem 0; }
+        #out { font-weight: bold; margin-top: 1rem; min-height: 1.5rem; }
+        code { background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>Two kinds of failure</h1>
+
+    <p>
+        <button id="okBtn">1. Ask for member 1 (works)</button><br>
+        <button id="notFoundBtn">2. Ask for member 99 (404 - server says "no")</button><br>
+        <button id="deadBtn">3. Ask a dead address (network error)</button>
+    </p>
+    <p id="out"></p>
+    <p>Keep the <strong>Console</strong> open to see which path each one takes.</p>
+
+    <script>
+        const out = document.querySelector("#out");
+        const BASE = "http://localhost:3000/members";
+
+        /* One function, reused for all three buttons. It always ends in .catch,
+           and it turns a "not ok" reply into a thrown error so that HTTP errors
+           and network errors share the SAME handler. */
+        function load(url) {
+            out.textContent = "Asking...";
+
+            fetch(url)
+                .then((response) => {
+                    console.log("Status was:", response.status, "ok?", response.ok);
+
+                    /* The crucial check: a 404 is a reply, not a crash. If it's
+                       not ok, we throw, which jumps us to .catch below. */
+                    if (!response.ok) {
+                        throw new Error(`Server answered ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((member) => {
+                    out.textContent = `Got it: ${member.name} (${member.email})`;
+                })
+                .catch((error) => {
+                    /* BOTH kinds of failure arrive here. */
+                    console.log("Handled in .catch:", error.message);
+                    out.textContent = `Could not load. ${error.message}. ` +
+                        "(If it's a network error, check json-server is running.)";
+                });
+        }
+
+        /* 1. A real member - succeeds. */
+        document.querySelector("#okBtn")
+            .addEventListener("click", () => load(`${BASE}/1`));
+
+        /* 2. A missing member - the SERVER answers 404. .catch still runs,
+              because we threw on !response.ok. */
+        document.querySelector("#notFoundBtn")
+            .addEventListener("click", () => load(`${BASE}/99`));
+
+        /* 3. A port nothing is listening on - the request never arrives, so
+              fetch itself rejects and .catch runs. */
+        document.querySelector("#deadBtn")
+            .addEventListener("click", () => load("http://localhost:9999/members/1"));
+    </script>
+
+</body>
+</html>

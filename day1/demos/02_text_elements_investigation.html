@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+    02 - TEXT ELEMENTS INVESTIGATION
+    ================================
+    The everyday elements for putting TEXT on a page.
+
+    Conventions we follow all week (get the habits early):
+      * tag names in lowercase:        <h1> not <H1>
+      * attribute values in "quotes":  lang="en"
+      * consistent indentation:        children indented inside parents
+      * close what you open:           <p> ... </p>
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Elements Investigation</title>
+</head>
+<body>
+
+    <h1>Headings: h1 is the page's one main heading</h1>
+    <h2>h2 is a section heading</h2>
+    <h3>h3 is a sub-section heading</h3>
+    <h4>h4, h5 and h6 exist too...</h4>
+    <h5>...but if you need h5...</h5>
+    <h6>...your page is probably over-complicated.</h6>
+
+    <!-- hr = a horizontal rule: a thematic break between sections -->
+    <hr>
+
+    <h2>Paragraphs and whitespace</h2>
+
+    <p>This is a paragraph. Notice something important:
+       no        matter        how        much
+       space or how many
+       line breaks
+       we type in the file, the browser COLLAPSES it all to single spaces.
+       Layout is controlled by elements and (from this afternoon) CSS -
+       never by mashing the space bar.</p>
+
+    <p>Need a line break inside a paragraph? There is <br>
+       the br element - but if you are using lots of them,
+       you probably wanted separate paragraphs or a list instead.</p>
+
+    <h2>Emphasis - meaning, not looks</h2>
+
+    <p>Use <strong>strong</strong> for text with strong importance,
+       and <em>emphasis</em> for stressed wording.
+       Yes, they LOOK like bold and italic - but they carry MEANING:
+       a screen reader changes its tone of voice for them.
+       (This "say what you mean" idea pays off big on Day 5.)</p>
+
+    <!-- This is an HTML comment. The browser ignores it completely.
+         Use comments to leave notes for yourself and your team. -->
+
+    <p>There is a comment in the source code right above this paragraph.
+       View the source (Ctrl+U) or check DevTools - can you find it?</p>
+
+</body>
+</html>

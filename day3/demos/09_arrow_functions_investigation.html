@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+    09 - ARROW FUNCTIONS
+    ====================
+    An ARROW FUNCTION is a shorter way to write a function. It does the same
+    job as the "function" keyword from demo 08 - same idea, less typing. You'll
+    see both styles everywhere, so read both fluently.
+
+    The same greet function, three ways:
+
+        function greet(name) { return `Hi ${name}`; }   // demo 08's way
+
+        const greet = (name) => { return `Hi ${name}`; }  // arrow, full form
+
+        const greet = (name) => `Hi ${name}`;   // arrow, short form:
+                                                 // one expression, no braces,
+                                                 // no "return" - it's implied
+
+    Read the arrow => as "goes to": inputs => result.
+
+    Why bother? Because in the next block we hand small functions TO other
+    functions (forEach, map, filter). Arrow functions make those short and
+    readable. That is where they earn their keep.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arrow Functions Investigation</title>
+</head>
+<body>
+
+    <h1>Arrow functions (watch the Console)</h1>
+
+    <script>
+        /* ---- The full arrow form: braces and an explicit return ---- */
+        const greet = (name) => {
+            return `Hi ${name}`;
+        };
+        console.log(greet("Alice"));
+
+        /* ---- The short form: one expression, return is implied ---- */
+        /* No braces, no "return" word - the result of the expression is
+           handed back automatically. */
+        const square = (n) => n * n;
+        console.log("square(6) =", square(6));
+
+        /* ---- Two parameters ---- */
+        const add = (a, b) => a + b;
+        console.log("add(4, 5) =", add(4, 5));
+
+        /* ---- No parameters still needs the empty ( ) ---- */
+        const now = () => "right now";
+        console.log("When?", now());
+
+        /* Same recipe, two spellings: this arrow function and demo 08's
+           "function" version behave identically. Use whichever reads clearest;
+           the wider world uses both. */
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> rewrite <code>square</code> in the full form
+       with braces and an explicit <code>return</code>, confirm it still gives
+       36, then shrink it back. Getting comfortable switching between the two
+       forms pays off in the very next block.</p>
+
+</body>
+</html>

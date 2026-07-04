@@ -1,0 +1,260 @@
+/*
+    Member Manager v2 - the shared stylesheet (Day 2 capstone)
+    ==========================================================
+    ONE file styles all three pages. Since Day 1 it has grown up:
+      - a reset + box-sizing habit at the top
+      - the palette lives in CSS variables (change it in one place)
+      - the box model gives everything room to breathe
+      - Flexbox lays out the navbar
+      - CSS Grid lays out the content (and the members table beside its form)
+      - it is mobile-first: the plain rules are the phone layout, and
+        min-width media queries add columns as the screen grows
+
+    Written mobile-first: read the default rules as "the phone version",
+    then the @media blocks as "extra rules for bigger screens".
+*/
+
+/* ---- Reset + box-sizing habit -------------------------------------- */
+
+/* box-sizing: border-box everywhere so width means the final width;
+   zero the browser's default margins so we start from a clean slate. */
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* ---- The palette, defined once ------------------------------------- */
+
+:root {
+    --primary: #1d5c8f;
+    --primary-dark: #163f61;
+    --page-bg: #f5f2ea;
+    --card-bg: #ffffff;
+    --text: #333333;
+    --muted: #666666;
+    --border: #d0c9b8;
+    --space: 1rem;
+    --max-width: 1000px;
+}
+
+/* ---- Whole site (the mobile-first baseline) ------------------------ */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--page-bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Headings keep the Day 1 serif stack and house blue. */
+h1, h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--primary);
+}
+
+/* Fluid images: never wider than their container, on any screen. */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---- Header -------------------------------------------------------- */
+
+header {
+    background-color: var(--primary);
+    text-align: center;
+    padding: 1.5rem var(--space);
+}
+
+/* Descendant selector: "the h1 inside the header" - this is the neater
+   way promised on Day 1, replacing the old .site-title class. */
+header h1 {
+    color: #ffffff;
+}
+
+.tagline {
+    color: #d8e6f2;
+    font-style: italic;
+}
+
+/* ---- Navigation (Flexbox) ------------------------------------------ */
+
+/* The Day 1 nav-links-in-a-vertical-heap problem, solved: display: flex
+   lays the links in a row, justify-content centres them, gap spaces them,
+   and wrap lets them fold onto a second line on a narrow phone. */
+nav {
+    background-color: var(--primary-dark);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+}
+
+/* Descendant selector again: "every link inside the nav" - replaces the
+   old .nav-link class entirely. */
+nav a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.4rem 0.9rem;
+    border-radius: 4px;
+    /* smooth the hover colour change (Block 4 polish) */
+    transition: background-color 0.2s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ---- Main content area (Grid) -------------------------------------- */
+
+/* Centred column with a sensible max width so lines don't run too long on
+   a big monitor. Mobile-first: one column by default. */
+main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1.5rem var(--space);
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+/* Each section is a tidy card - box model doing the work. */
+section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+section h2 {
+    margin-bottom: 0.75rem;
+}
+
+section p,
+section ul,
+section ol {
+    margin-bottom: 0.75rem;
+}
+
+section ul,
+section ol {
+    /* room for the bullets/numbers now that we've reset default margins */
+    padding-left: 1.5rem;
+}
+
+/* ---- Members table ------------------------------------------------- */
+
+/* A scroll container so a wide table can slide sideways on a phone
+   instead of stretching the whole page. */
+.table-scroll {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+caption {
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+/* Grouped selector: one border + padding rule for every cell. */
+th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+}
+
+/* Descendant selector: the header cells that live inside <thead>. */
+thead th {
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+/* Zebra striping with a structural pseudo-class - no extra classes. */
+tbody tr:nth-child(even) {
+    background-color: #faf8f2;
+}
+
+.active-yes {
+    color: seagreen;
+    font-weight: bold;
+}
+
+.active-no {
+    color: #999999;
+    font-style: italic;
+}
+
+/* ---- Add-a-member form --------------------------------------------- */
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-top: 0.25rem;
+}
+
+/* Clear focus ring for keyboard users (accessibility payoff on Day 5). */
+input:focus {
+    outline: 3px solid #d8e6f2;
+    border-color: var(--primary);
+}
+
+button {
+    background-color: var(--primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--primary-dark);
+}
+
+/* ---- Footer -------------------------------------------------------- */
+
+footer {
+    text-align: center;
+    color: #ffffff;
+    background-color: var(--primary-dark);
+    padding: var(--space);
+    font-size: 0.875rem;
+}
+
+/* ==== Bigger screens: add columns (mobile-first min-width queries) ===
+   Everything above is the phone layout. These blocks ADD to it as the
+   viewport grows - we never take things away. */
+
+/* From 760px up: let content sections sit side by side. */
+@media (min-width: 760px) {
+
+    /* Informational pages (home, about): cards flow into as many columns
+       as comfortably fit, each at least 240px wide. */
+    main {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    /* Members page: the table takes the larger share, the form sits
+       beside it. align-items: start keeps them top-aligned. */
+    .members-grid {
+        grid-template-columns: 2fr 1fr;
+        align-items: start;
+    }
+}

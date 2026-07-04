@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+    03 - VARIABLES & TYPES
+    ======================
+    A VARIABLE is a labelled box that holds a value so we can use it by name.
+    JavaScript gives us two ways to make one:
+
+        let   - a box whose value can CHANGE later
+        const - a box whose value is fixed once set (const = constant)
+
+    Prefer const. Reach for let only when you know the value will change.
+    (You may have heard of a third keyword, var. It is the old way, it has
+    surprising rules, and we never use it - not once, all week.)
+
+    Every value has a TYPE. The three you'll meet constantly:
+        string   - text, in quotes:      "Alice"   'hello'
+        number   - any number:           42   3.14   -1
+        boolean  - true or false only:   true   false
+
+    typeof tells you the type of any value - a genuinely useful debugging tool.
+
+    One warning that catches everyone: JavaScript is CASE-SENSITIVE.
+    name, Name and NAME are three different variables. Pick a style and stick
+    to it (we use camelCase: memberName, not member_name).
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Variables &amp; Types Investigation</title>
+</head>
+<body>
+
+    <h1>Variables &amp; types (watch the Console)</h1>
+    <p>Open the Console (F12) to see every line below.</p>
+
+    <script>
+        /* const: a value we don't intend to change. */
+        const memberName = "Alice";
+        const memberAge = 30;
+        const isActive = true;
+
+        console.log("Name:", memberName);
+        console.log("Age:", memberAge);
+        console.log("Active?", isActive);
+
+        /* typeof reports the type. Note "string", "number", "boolean". */
+        console.log("memberName is a", typeof memberName);
+        console.log("memberAge is a", typeof memberAge);
+        console.log("isActive is a", typeof isActive);
+
+        /* let: a value we DO expect to change. Here we reassign it. */
+        let visits = 1;
+        console.log("Visits start at", visits);
+        visits = visits + 1;   /* change the value in the box */
+        console.log("Visits now", visits);
+
+        /* Try to reassign a const and the program errors out - that is const
+           doing its job, protecting a value that should never change. We
+           leave that line commented so this page still runs:
+           memberAge = 31;   // Uncaught TypeError: Assignment to constant */
+
+        /* Case sensitivity, live: these are TWO different boxes. */
+        const colour = "blue";
+        const Colour = "green";
+        console.log("colour vs Colour:", colour, Colour);
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> in the Console type <code>typeof "hello"</code>,
+       then <code>typeof 42</code>, then <code>typeof true</code>. Then try
+       <code>typeof Colour</code> vs <code>typeof colour</code> - JavaScript
+       treats the capital letter as a completely different name.</p>
+
+</body>
+</html>

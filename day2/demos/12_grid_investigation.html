@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+    12 - CSS GRID INVESTIGATION
+    ===========================
+    Flexbox lays things out along ONE axis (a row OR a column). CSS GRID
+    lays them out along TWO at once - rows AND columns together. It's the
+    tool for whole-PAGE layouts and anything genuinely two-dimensional.
+
+    Rule of thumb:
+        FLEXBOX  for a row of things (a nav, a card row, a toolbar)
+        GRID     for a page skeleton or a real grid of cells
+
+    Container properties (set on the PARENT):
+        display: grid
+        grid-template-columns   the column tracks. Powerful values:
+            200px 1fr 200px      fixed sides, flexible middle
+            repeat(3, 1fr)       three equal columns
+            fr = "one share of the leftover space"
+        gap                     gutters between cells (rows and columns)
+
+    A great responsive trick with no media query:
+        repeat(auto-fit, minmax(200px, 1fr))
+        = "fit as many >=200px columns as will fit, then share the rest".
+    Widen and narrow the window and the column count changes by itself.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Grid Investigation</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 1rem;
+            background-color: #f5f2ea;
+        }
+        h2 { margin-top: 1.5rem; }
+
+        .cell {
+            background-color: #ffffff;
+            border: 2px solid #1d5c8f;
+            padding: 1rem;
+        }
+
+        /* ---- 1. THREE EQUAL COLUMNS (the classic "3-column problem") - */
+        .three {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);   /* three equal shares */
+            gap: 1rem;
+        }
+
+        /* ---- 2. A PAGE LAYOUT: fixed sidebar, flexible main ---------- */
+        .layout {
+            display: grid;
+            grid-template-columns: 200px 1fr;   /* sidebar 200px, main fills rest */
+            gap: 1rem;
+        }
+
+        /* ---- 3. RESPONSIVE WITHOUT A MEDIA QUERY -------------------- */
+        /* auto-fit + minmax = as many columns as fit, each at least 180px.
+           Resize the window: the column count changes on its own. */
+        .auto {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CSS Grid: two dimensions at once</h1>
+
+    <h2>1. Three equal columns</h2>
+    <div class="three">
+        <div class="cell">1</div>
+        <div class="cell">2</div>
+        <div class="cell">3</div>
+    </div>
+
+    <h2>2. Sidebar + main content</h2>
+    <div class="layout">
+        <div class="cell">Sidebar (200px)</div>
+        <div class="cell">Main content (takes the remaining space with 1fr)</div>
+    </div>
+
+    <h2>3. Auto-fit: responsive with no media query</h2>
+    <div class="auto">
+        <div class="cell">Aidan</div>
+        <div class="cell">Alice</div>
+        <div class="cell">Bob</div>
+        <div class="cell">Carol</div>
+        <div class="cell">Dave</div>
+        <div class="cell">Eve</div>
+    </div>
+
+    <hr>
+
+    <p><strong>Try it:</strong> inspect a grid container in DevTools and
+       click the <code>grid</code> badge beside <code>display: grid</code>.
+       An overlay draws the tracks and numbers the grid lines. Then slowly
+       drag the window narrower and watch the auto-fit grid drop from three
+       columns to two to one, all by itself.</p>
+
+</body>
+</html>

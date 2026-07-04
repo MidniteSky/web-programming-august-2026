@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+    02 - BOX-SIZING: THE 100%-PLUS-PADDING SURPRISE
+    ===============================================
+    A trap that catches everyone once. You set a box to width: 300px,
+    then add padding and a border... and it becomes WIDER than 300px.
+
+    By default (box-sizing: content-box) the width you set describes the
+    CONTENT only. Padding and border are then ADDED on top:
+
+        actual width = width + left/right padding + left/right border
+
+    So 300px + 20px + 20px padding + 5px + 5px border = 350px on screen.
+
+    The fix everyone uses: box-sizing: border-box. Now the width you set
+    is the FINAL width - padding and border grow inward instead. Set it
+    once on everything and stop doing arithmetic in your head.
+
+    (CSS embedded so the demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Box Sizing Investigation</title>
+    <style>
+        .box {
+            width: 300px;
+            padding: 20px;
+            border: 5px solid #1d5c8f;
+            background-color: #d8e6f2;
+            margin-bottom: 20px;
+        }
+
+        /* THE DEFAULT: content-box. The blue box below is really 350px wide
+           even though we asked for 300px. Measure it in DevTools! */
+        .content-box {
+            box-sizing: content-box;   /* this is the default - shown for contrast */
+        }
+
+        /* THE FIX: border-box. Now the box is exactly 300px wide;
+           the padding and border have grown inward. */
+        .border-box {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Why is my box too wide?</h1>
+
+    <p>Both boxes below ask for <code>width: 300px</code> with the same
+       padding and border. Only one of them is actually 300px.</p>
+
+    <div class="box content-box">
+        box-sizing: content-box (the default) - I am secretly 350px wide
+    </div>
+
+    <div class="box border-box">
+        box-sizing: border-box - I am exactly 300px wide, as asked
+    </div>
+
+    <hr>
+
+    <!-- THE HABIT: nearly every real stylesheet opens with this rule.
+         The * selector means "every element". We will put this at the top
+         of the Member Manager stylesheet and never think about it again. -->
+    <p><strong>The one-line habit</strong> you'll see at the top of almost
+       every stylesheet:</p>
+    <pre>* {
+    box-sizing: border-box;
+}</pre>
+
+    <p>It makes <code>width</code> mean what you expect. From now on, this
+       goes at the top of our project stylesheet.</p>
+
+</body>
+</html>

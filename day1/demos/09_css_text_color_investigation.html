@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+    09 - COLOURS, FONTS & TEXT PROPERTIES INVESTIGATION
+    ===================================================
+    The styling properties you'll use every single day.
+
+    (CSS embedded so the demo is self-contained; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Colours, Fonts and Text Investigation</title>
+    <style>
+        /* ---- COLOURS: three ways to write them ---------------------- */
+
+        .colour-name {
+            color: tomato;              /* ~140 named colours exist */
+        }
+
+        .colour-hex {
+            color: #1d5c8f;             /* hex: #RedRedGreenGreenBlueBlue */
+        }
+
+        .colour-rgb {
+            color: rgb(29, 92, 143);    /* the same colour as rgb() */
+        }
+
+        /* Tip: click any colour swatch in DevTools' Styles pane to open
+           a colour picker and experiment live. */
+
+        /* ---- FONTS -------------------------------------------------- */
+
+        body {
+            /* A font STACK: the browser tries each in turn.
+               End with a generic family (sans-serif / serif) as the
+               safety net. These "web-safe" fonts exist on ~every machine.
+               (Loading fancier fonts from the web: tomorrow.) */
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f2ea;
+            color: #333333;
+        }
+
+        h1, h2 {
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .size-demo   { font-size: 24px; }     /* px today; better units tomorrow */
+        .weight-demo { font-weight: bold; }
+        .style-demo  { font-style: italic; }
+
+        /* ---- TEXT PROPERTIES ----------------------------------------- */
+
+        h1 {
+            text-align: center;         /* left | center | right */
+        }
+
+        .spaced {
+            line-height: 1.6;           /* space between lines - readability */
+        }
+
+        .no-underline {
+            text-decoration: none;      /* removes the link underline...    */
+        }                               /* ...but underlines tell visitors
+                                           "this is clickable" - remove with care */
+
+        .shout {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Colours, Fonts &amp; Text</h1>
+
+    <h2>Colours</h2>
+    <p class="colour-name">A named colour: tomato.</p>
+    <p class="colour-hex">A hex colour: #1d5c8f.</p>
+    <p class="colour-rgb">The same colour written as rgb(29, 92, 143).</p>
+
+    <h2>Fonts</h2>
+    <p>The whole page uses an Arial font stack (set once, on body).
+       The headings override it with Georgia.</p>
+    <p class="size-demo">font-size: 24px</p>
+    <p class="weight-demo">font-weight: bold</p>
+    <p class="style-demo">font-style: italic</p>
+
+    <h2>Text properties</h2>
+    <p class="spaced">line-height controls the space between lines of text.
+       On long paragraphs it makes an enormous difference to readability -
+       compare this paragraph with the ones above as you read across
+       several lines of flowing text like this one.</p>
+    <p><a href="08_css_selectors_investigation.html">A normal link.</a></p>
+    <p><a href="08_css_selectors_investigation.html" class="no-underline">The same link, underline removed.</a></p>
+    <p class="shout">Uppercase with letter-spacing.</p>
+
+    <hr>
+    <p><strong>Try it:</strong> open DevTools, select the h1, and change its
+       colour live in the Styles pane. Refresh - your change vanishes.
+       DevTools is a sandbox: real changes belong in the CSS file.</p>
+
+</body>
+</html>

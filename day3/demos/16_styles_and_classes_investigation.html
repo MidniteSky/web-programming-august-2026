@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+    16 - CHANGING STYLES & CLASSES
+    ==============================
+    Once you hold an element, you can change how it LOOKS as well as what it
+    says. Two ways, and the second is almost always the better one:
+
+    1. Set a style directly (fine for a quick one-off):
+           box.style.backgroundColor = "seagreen";
+       Note the name is backgroundColor, not background-color - in JavaScript
+       the CSS property names lose their hyphen and go camelCase.
+
+    2. Add or remove a CSS CLASS (the tidy way): keep the actual styling in the
+       stylesheet, and just switch classes on and off from JavaScript. The
+       element's classList gives us:
+           box.classList.add("highlight");
+           box.classList.remove("highlight");
+           box.classList.toggle("highlight");   // on if off, off if on
+
+    Why prefer classes? Because it keeps appearance in the CSS where it belongs
+    (Day 2's lesson) and your JavaScript just decides WHEN. This is exactly how
+    the capstone marks a member row active or inactive.
+
+    (Script embedded so this demo stands alone; project code is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Styles &amp; Classes Investigation</title>
+    <style>
+        /* The class lives here, in CSS - JavaScript just switches it on/off.
+           These colours and weights are all Day 1/Day 2 properties. */
+        .highlight {
+            background-color: #fff3b0;
+            font-weight: bold;
+        }
+        .box {
+            border: 1px solid #1d5c8f;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Changing styles &amp; classes</h1>
+
+    <p class="box" id="direct">I get styled directly from JavaScript.</p>
+    <p class="box" id="viaClass">I get a CSS class added and removed.</p>
+
+    <script>
+        /* ---- 1. Setting a style directly ---- */
+        const direct = document.querySelector("#direct");
+        /* camelCase: backgroundColor, not background-color. */
+        direct.style.backgroundColor = "#d8e6f2";
+        direct.style.color = "#163f61";
+
+        /* ---- 2. Adding a class (the tidy way) ---- */
+        const viaClass = document.querySelector("#viaClass");
+        viaClass.classList.add("highlight");
+        console.log("Classes now:", viaClass.className);
+
+        /* toggle flips it: run these two lines and it ends up removed.
+           (Left here to show the method; the net effect is off.) */
+        viaClass.classList.toggle("highlight");   /* off */
+        viaClass.classList.toggle("highlight");   /* on again */
+    </script>
+
+    <hr>
+    <p><strong>Try it:</strong> in the Console type
+       <code>document.querySelector("#viaClass").classList.toggle("highlight")</code>
+       a few times and watch the paragraph flip in and out of its highlight.
+       Same idea, on demand.</p>
+
+</body>
+</html>

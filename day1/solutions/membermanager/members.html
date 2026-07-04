@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- Member Manager v1 (Day 1 capstone) - members page.
+     This page is the heart of the week:
+       Day 2 - the table gets properly styled and responsive
+       Day 3 - JavaScript renders the rows from an array
+       Day 4 - the data comes live from a REST API (and the form works!)
+       Day 5 - professional Bootstrap UI with dialogs and toasts        -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Manager - Members</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1 class="site-title">Member Manager</h1>
+        <p class="tagline">Keeping track of our club, one member at a time.</p>
+    </header>
+
+    <nav>
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="members.html">Members</a>
+    </nav>
+
+    <main>
+
+        <section>
+            <h2>Current members</h2>
+            <table>
+                <caption>Club members, July 2026</caption>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Aidan</td>
+                        <td>aidan@example.com</td>
+                        <td class="active-yes">yes</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Alice</td>
+                        <td>alice@example.com</td>
+                        <td class="active-yes">yes</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Bob</td>
+                        <td>bob@example.com</td>
+                        <td class="active-no">no</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Carol</td>
+                        <td>carol@example.com</td>
+                        <td class="active-yes">yes</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Dave</td>
+                        <td>dave@example.com</td>
+                        <td class="active-no">no</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Eve</td>
+                        <td>eve@example.com</td>
+                        <td class="active-yes">yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Add a member</h2>
+            <!-- Markup only for now. Pressing submit just reloads the page
+                 with the values in the URL - the browser's built-in
+                 behaviour. JavaScript takes over on Day 3. -->
+            <form>
+                <p>
+                    <label for="txtName">Name</label><br>
+                    <input type="text" id="txtName" name="name">
+                </p>
+                <p>
+                    <label for="txtEmail">Email</label><br>
+                    <input type="email" id="txtEmail" name="email">
+                </p>
+                <p>
+                    <input type="checkbox" id="chkActive" name="active" value="true">
+                    <label for="chkActive">Active member</label>
+                </p>
+                <p>
+                    <button type="submit">Add member</button>
+                </p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The Member Manager Club</p>
+    </footer>
+
+</body>
+</html>

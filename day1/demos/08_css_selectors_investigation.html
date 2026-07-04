@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+    08 - CSS SELECTORS INVESTIGATION
+    ================================
+    The selector decides WHICH elements a rule styles.
+    Today: the three simple selectors (that's most of real-world CSS!).
+    Tomorrow: combining selectors, and what happens when rules conflict.
+
+    (The CSS is embedded in this file only so the demo is self-contained -
+     in our project, CSS always goes in an external file.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Selectors Investigation</title>
+    <style>
+        /* 1. ELEMENT selector - styles EVERY element of that type */
+        p {
+            color: darkslategray;
+        }
+
+        /* 2. CLASS selector - styles every element CARRYING that class.
+              Starts with a dot. This is your everyday workhorse. */
+        .highlight {
+            background-color: lemonchiffon;
+        }
+
+        .warning {
+            color: firebrick;
+            font-weight: bold;
+        }
+
+        /* 3. ID selector - styles THE ONE element with that id.
+              Starts with a hash. An id must be unique on the page,
+              so use ids sparingly - prefer classes. */
+        #page-title {
+            color: #1d5c8f;
+            text-align: center;
+        }
+
+        /* GROUPING - one rule for several selectors, comma-separated */
+        h2, h3 {
+            font-family: Georgia, serif;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="page-title">CSS Selectors</h1>
+
+    <h2>Element selector</h2>
+    <p>Every paragraph on this page is dark slate gray - one rule, all of them.</p>
+    <p>This one too. That is the power (and the danger) of element selectors.</p>
+
+    <h2>Class selector</h2>
+    <p class="highlight">This paragraph carries class="highlight".</p>
+    <p>This one doesn't.</p>
+    <p class="highlight warning">An element can carry SEVERAL classes -
+       this one is both highlighted and a warning.</p>
+
+    <h2>Id selector</h2>
+    <p>The big centred blue heading at the top is styled through its id.</p>
+
+    <h3>Grouping</h3>
+    <p>All the h2 and h3 headings share one font rule - check the CSS.</p>
+
+    <hr>
+    <p><strong>Try it:</strong> in DevTools, click any paragraph and look at
+       the Styles pane - you can see exactly which rules hit it, and even
+       tick them on and off.</p>
+
+</body>
+</html>

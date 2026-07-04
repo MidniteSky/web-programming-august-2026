@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+    05 - HOW AJAX USED TO BE DONE  *** READ-ONLY - NEVER WRITE THIS ***
+    ==================================================================
+    #####################################################################
+    #  READ-ONLY HISTORY NOTE. This is here so you RECOGNISE the old    #
+    #  style in legacy code, NOT so you write it. Do NOT use            #
+    #  XMLHttpRequest in any exercise or in the capstone. From the next #
+    #  demo on, we use fetch - shorter, clearer, and the modern         #
+    #  standard. If you catch yourself typing "new XMLHttpRequest()",   #
+    #  stop - reach for fetch instead.                                  #
+    #####################################################################
+
+    >>> Needs the server running (so there's something to fetch):
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+
+    Before fetch existed (fetch arrived around 2015), the only way for a page to
+    talk to a server WITHOUT reloading was an object called XMLHttpRequest, or
+    "XHR". The whole technique had a name you'll still hear: AJAX. It worked, but
+    it was clunky: you created an object, opened a request, attached callbacks
+    for success and failure, and remembered to call send(). Four or five fiddly
+    steps for what fetch does in one line.
+
+    The name is a museum piece too: "XML"HttpRequest, because in the early 2000s
+    replies were often XML. Today it's almost always JSON - but the old name
+    stuck.
+
+    Read the script below once, top to bottom, to appreciate what fetch spares
+    you. Then never think about it again. The very next demo does the same job -
+    GET the members - in a fraction of the code.
+
+    (Everything below is the OLD way. Admire the museum piece; don't take it
+     home.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XHR history (read-only)</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 720px; }
+        .banner { background-color: #f7e0a3; border: 1px solid #d0c9b8; padding: 1rem; border-radius: 6px; }
+        #output { white-space: pre-wrap; background-color: #f5f2ea; border: 1px solid #d0c9b8; padding: 1rem; border-radius: 6px; }
+        code { background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="banner">
+        <strong>READ-ONLY MUSEUM PIECE.</strong> This is the pre-2015 way to talk
+        to a server, with <code>XMLHttpRequest</code>. We're studying it so you
+        recognise it in old code - we never write it. Our own code uses
+        <code>fetch</code>, starting in demo 06.
+    </div>
+
+    <h1>The old way: XMLHttpRequest</h1>
+    <p>Members loaded the clunky way (open the source to see all the steps):</p>
+    <div id="output">Loading, the 2010 way...</div>
+
+    <script>
+        /* ==================================================================
+           THE OLD WAY - do not copy this into your own work. Shown once, for
+           recognition only. The modern equivalent is one fetch call (demo 06).
+           ================================================================== */
+
+        const output = document.querySelector("#output");
+
+        /* Step 1: make the object. */
+        const xhr = new XMLHttpRequest();
+
+        /* Step 2: open a request - the verb and the URL, just like our REST map. */
+        xhr.open("GET", "http://localhost:3000/members");
+
+        /* Step 3: attach a "it worked" callback. Note the manual status check
+           and the manual JSON.parse - fetch tidies both of these away. */
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                const members = JSON.parse(xhr.responseText);
+                const lines = members.map((m) => `#${m.id} ${m.name} (${m.email})`);
+                output.textContent = lines.join("\n");
+            } else {
+                output.textContent = `The server answered with status ${xhr.status}.`;
+            }
+        };
+
+        /* Step 4: attach an "it failed" callback - friendly message if the
+           server isn't running. */
+        xhr.onerror = () => {
+            output.textContent =
+                "Could not reach the server. Is json-server running on port 3000?\n" +
+                "Start it with:  npx json-server@0.17.4 --watch db.json --port 3000";
+        };
+
+        /* Step 5: actually send it. Forget this line and nothing happens. */
+        xhr.send();
+    </script>
+
+    <hr>
+    <p><strong>The takeaway:</strong> five steps, two easy-to-forget
+       (<code>send()</code>, the status check), and manual
+       <code>JSON.parse</code>. Next demo: the same result with
+       <code>fetch</code>, and far less to remember.</p>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+    06 - FORMS INVESTIGATION (markup only!)
+    =======================================
+    Forms collect input from the visitor.
+    TODAY: only the markup - what the elements are and how to label them.
+    Day 3: reading form values with JavaScript.
+    Day 4: sending them to a server.
+
+    The golden rule you keep forever:
+        every input gets a <label>, connected via for="..." and id="...".
+    Clicking the label focuses the input, and screen readers announce it.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms Investigation</title>
+</head>
+<body>
+
+    <h1>Add a member</h1>
+
+    <form>
+        <p>
+            <label for="txtName">Name</label><br>
+            <input type="text" id="txtName" name="name">
+        </p>
+
+        <p>
+            <label for="txtEmail">Email</label><br>
+            <!-- type="email": on phones the keyboard shows @,
+                 and the browser complains about invalid addresses -->
+            <input type="email" id="txtEmail" name="email">
+        </p>
+
+        <p>
+            <label for="dateJoined">Date joined</label><br>
+            <input type="date" id="dateJoined" name="joined">
+        </p>
+
+        <p>
+            <label for="selMembership">Membership type</label><br>
+            <select id="selMembership" name="membership">
+                <option value="full">Full</option>
+                <option value="student">Student</option>
+                <option value="family">Family</option>
+            </select>
+        </p>
+
+        <p>
+            Newsletter?<br>
+            <!-- radios that share the same NAME form one group:
+                 only one of them can be selected -->
+            <input type="radio" id="radYes" name="newsletter" value="yes">
+            <label for="radYes">Yes please</label>
+            <input type="radio" id="radNo" name="newsletter" value="no">
+            <label for="radNo">No thanks</label>
+        </p>
+
+        <p>
+            <input type="checkbox" id="chkActive" name="active" value="true">
+            <label for="chkActive">Active member</label>
+        </p>
+
+        <p>
+            <label for="txtNotes">Notes</label><br>
+            <textarea id="txtNotes" name="notes" rows="4" cols="40"></textarea>
+        </p>
+
+        <p>
+            <button type="submit">Add member</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <p><strong>Try it:</strong> fill in the form and press "Add member".
+       Watch the address bar - the browser reloads the page with your data
+       in the URL, like <em>?name=Alice&amp;email=alice@...</em></p>
+
+    <p>That is the browser itself trying to SUBMIT the form to a server -
+       forms are older than JavaScript and work without it. On Day 3 we
+       take control of that moment, and on Day 4 we send the data to a
+       real server properly.</p>
+
+</body>
+</html>

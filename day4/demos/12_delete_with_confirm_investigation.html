@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+    12 - DELETE A MEMBER, WITH CONFIRMATION (the capstone's Delete)
+    ==============================================================
+    >>> Needs the server running:
+    >>>     npx json-server@0.17.4 --watch db.json --port 3000
+    >>> You'll delete real members from db.json here. Reset afterwards (README
+    >>> reset recipe) to get Aidan..Eve back.
+
+    DELETE is the simplest write. No body, no headers - just the verb and the URL
+    of the ONE thing to remove:
+
+        await fetch(`http://localhost:3000/members/${id}`, { method: "DELETE" });
+
+    The URL ends in the member's id, because we're deleting one specific member,
+    not the whole collection. Everything else is the familiar shape: async/await,
+    check response.ok, try/catch, then update the screen (we re-fetch the list).
+
+    ---- CONFIRMING FIRST ----
+    Deleting is destructive, so we ask before we act. TODAY we use the browser's
+    built-in confirm() box:
+
+        if (!confirm(`Delete ${name}?`)) return;   // Cancel -> stop here
+
+    confirm() returns true if the user clicks OK, false for Cancel.
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!  TEMPORARY. confirm() is a stop-gap. It's ugly, it freezes the whole   !!
+    !!  page, and you can't style it. We use it TODAY only so delete works    !!
+    !!  end-to-end. On Day 5 we replace it with a proper, styled pop-up       !!
+    !!  dialog of our own. Do not grow attached to it.                        !!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    Each row gets its own Delete button. The button needs to know WHICH member it
+    belongs to - we stash the id on the button with a data- attribute
+    (button.dataset.id), a tidy standard way to attach a scrap of data to an
+    element. We'll use the same data- idea for editing in demo 13.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DELETE with confirmation</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color: #333; line-height: 1.6; margin: 2rem; max-width: 760px; }
+        h1 { font-family: Georgia, "Times New Roman", serif; color: #1d5c8f; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { border: 1px solid #d0c9b8; padding: 0.5rem 0.75rem; text-align: left; }
+        thead th { background-color: #1d5c8f; color: #fff; }
+        button { background-color: #b00020; color: #fff; border: none; border-radius: 4px; padding: 0.35rem 0.7rem; cursor: pointer; }
+        .status { font-weight: bold; }
+        .status.error { color: #b00020; }
+    </style>
+</head>
+<body>
+
+    <h1>Delete a member</h1>
+    <p id="status" class="status">Loading members...</p>
+
+    <table>
+        <thead>
+            <tr><th>Id</th><th>Name</th><th>Email</th><th></th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+    </table>
+
+    <script>
+        const API = "http://localhost:3000/members";
+        const statusLine = document.querySelector("#status");
+        const rows = document.querySelector("#rows");
+
+        /* Build a row WITH a Delete button that remembers its member's id and
+           name via data- attributes (button.dataset.*). */
+        function buildRow(member) {
+            const { id, name, email } = member;
+            const tr = document.createElement("tr");
+
+            const idCell = document.createElement("td");
+            idCell.textContent = id;
+            const nameCell = document.createElement("td");
+            nameCell.textContent = name;
+            const emailCell = document.createElement("td");
+            emailCell.textContent = email;
+
+            const actionCell = document.createElement("td");
+            const delBtn = document.createElement("button");
+            delBtn.textContent = "Delete";
+            /* Stash which member this button is for. */
+            delBtn.dataset.id = id;
+            delBtn.dataset.name = name;
+            delBtn.addEventListener("click", onDeleteClick);
+            actionCell.append(delBtn);
+
+            tr.append(idCell, nameCell, emailCell, actionCell);
+            return tr;
+        }
+
+        function renderTable(members) {
+            rows.textContent = "";
+            members.forEach((member) => rows.append(buildRow(member)));
+        }
+
+        async function loadMembers() {
+            try {
+                const response = await fetch(API);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                const members = await response.json();
+                renderTable(members);
+                statusLine.textContent = `Loaded ${members.length} members.`;
+                statusLine.className = "status";
+            } catch (error) {
+                statusLine.textContent = "Could not load. Is json-server running on port 3000?";
+                statusLine.className = "status error";
+            }
+        }
+
+        /* Click handler: confirm, then DELETE, then refresh the list. */
+        async function onDeleteClick(event) {
+            const id = event.target.dataset.id;
+            const name = event.target.dataset.name;
+
+            /* --- TEMPORARY confirm() - replaced by a real dialog on Day 5. --- */
+            if (!confirm(`Delete ${name}? This cannot be undone.`)) {
+                return;   // user clicked Cancel
+            }
+
+            try {
+                const response = await fetch(`${API}/${id}`, { method: "DELETE" });
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+
+                /* Re-fetch so the screen matches the server exactly. */
+                await loadMembers();
+                statusLine.textContent = `Deleted ${name}.`;
+            } catch (error) {
+                console.log("DELETE failed:", error.message);
+                statusLine.textContent = "Could not delete. Is json-server running on port 3000?";
+                statusLine.className = "status error";
+            }
+        }
+
+        loadMembers();
+    </script>
+
+</body>
+</html>

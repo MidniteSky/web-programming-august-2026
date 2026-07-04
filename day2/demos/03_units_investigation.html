@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+    03 - UNITS INVESTIGATION
+    ========================
+    Yesterday we sized everything in px (pixels). That works, but it isn't
+    always the best choice. Today: the four units you'll actually use.
+
+        px   an absolute dot on screen. Precise, but never scales.
+        rem  "root em" - a MULTIPLE of the page's base font size (16px by
+             default). 1rem = 16px, 1.5rem = 24px. Change the root once and
+             everything sized in rem scales with it. Great for spacing & text.
+        %    a fraction of the PARENT. width: 50% = half the parent's width.
+        vh   1% of the viewport HEIGHT. 100vh = the full window height.
+             (vw is the same idea for WIDTH.)
+
+    Rule of thumb: rem for font sizes and spacing, % and vh/vw for layout
+    sizes that should flex with the screen. Keep px for hairline borders.
+
+    (CSS embedded so this demo stands alone; project CSS is external.)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Units Investigation</title>
+    <style>
+        /* The root font size. Every rem is measured against this.
+           16px is the browser default; we set it explicitly to be clear. */
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 1rem;              /* = 16px, but expressed as a multiple */
+        }
+
+        /* rem for type: change html's font-size to 20px and watch ALL of
+           these grow together, in proportion. That's the point of rem. */
+        .small { font-size: 0.875rem; }   /* 14px */
+        .base  { font-size: 1rem;     }   /* 16px */
+        .big   { font-size: 1.5rem;   }   /* 24px */
+        .huge  { font-size: 2rem;     }   /* 32px */
+
+        /* % - width relative to the PARENT box */
+        .parent {
+            background-color: #e8e2d4;
+            padding: 10px;
+            margin-top: 1rem;
+        }
+        .half {
+            width: 50%;                /* half of .parent */
+            background-color: #1d5c8f;
+            color: #ffffff;
+            padding: 8px;
+        }
+
+        /* vh - a band that is always one third of the window's HEIGHT.
+           Resize the browser window vertically and watch it follow. */
+        .third-tall {
+            height: 33vh;
+            background-color: #d8e6f2;
+            border: 2px dashed #1d5c8f;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Units: px, rem, %, vh</h1>
+
+    <h2>rem - type that scales together</h2>
+    <p class="small">0.875rem (14px)</p>
+    <p class="base">1rem (16px) - the base size</p>
+    <p class="big">1.5rem (24px)</p>
+    <p class="huge">2rem (32px)</p>
+
+    <h2>% - a fraction of the parent</h2>
+    <div class="parent">
+        <div class="half">width: 50% of my parent</div>
+    </div>
+
+    <h2>vh - a fraction of the window height</h2>
+    <div class="third-tall">height: 33vh - resize the window and watch me</div>
+
+    <hr>
+
+    <p><strong>Try it:</strong> in DevTools, find the <code>html</code>
+       element and change <code>font-size</code> from 16px to 20px. Every
+       rem-sized thing on the page grows in proportion - one dial for the
+       whole page. That is why accessibility folk love rem: it respects a
+       user who has set a larger default font.</p>
+
+</body>
+</html>
