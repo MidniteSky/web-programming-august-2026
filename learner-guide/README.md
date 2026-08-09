@@ -24,8 +24,8 @@ and it levels up every single day:
 
 ### What each day feels like
 
-Each day runs **09:30–17:00** (online) in four blocks of roughly 80 minutes, with
-morning/afternoon breaks and lunch. Every block is the same rhythm:
+Each day runs **09:30–16:30** (online) in four teaching blocks, with a morning break
+at 11:00, lunch at 12:30 and a tea break at 15:00. Every block is the same rhythm:
 
 1. **Short explanation** of a new idea
 2. **Live coding together** — the tutor builds a small demo file while you watch/follow
