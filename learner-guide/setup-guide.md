@@ -101,7 +101,12 @@ On Thursday we make our project talk to a real server — which we'll each run o
 own machine using a tool that needs **Node.js**. Install it **by Wednesday evening**:
 
 1. Download the **LTS** version from <https://nodejs.org> and install with default options.
-2. Verify: open a terminal (in VS Code: *Terminal → New Terminal*) and run:
+   If the installer offers to *"Automatically install the necessary tools"* (Chocolatey,
+   build tools), **leave that box unticked** — we don't need any of it, and it makes the
+   install much longer.
+2. After installing, **close and reopen VS Code** (and any open terminals) — an
+   already-open terminal won't see the new install.
+3. Verify: open a terminal (in VS Code: *Terminal → New Terminal*) and run:
 
    ```
    node --version
