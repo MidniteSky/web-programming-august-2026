@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- Member Manager v4 (Day 4 capstone) - members page.
+     This page is the heart of the week:
+       Day 2 - the table is styled, and the page is responsive
+       Day 3 - JavaScript renders the rows from a hard-coded array
+       Day 4 - the data comes live from a REST API, with full CRUD (TODAY)
+       Day 5 - professional UI with dialogs and toasts
+
+     What changed today (all the behaviour lives in members.js):
+       - the table now LOADS from the server (GET) instead of a hard-coded array
+       - the add form SAVES to the server (POST) - members survive a refresh now
+       - each row has Edit (PUT, in place) and Delete (with a confirm) buttons,
+         so there's a new "Actions" column
+       - a status line above the table shows loading / loaded / error
+       - the search box still filters live, now against the fetched members
+
+     >>> RUN THE SERVER FIRST, in this folder:
+     >>>     npx json-server@0.17.4 --watch db.json --port 3000 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Manager - Members</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Member Manager</h1>
+        <p class="tagline">Keeping track of our club, one member at a time.</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="members.html">Members</a>
+    </nav>
+
+    <!-- members-grid: on wide screens the table sits beside the form
+         (Grid, 2fr 1fr); on a phone they stack. See styles.css. -->
+    <main class="members-grid">
+
+        <section>
+            <h2>Current members</h2>
+
+            <!-- Live search. Typing here filters the table (members.js listens
+                 for "input"). It now filters the members fetched from the
+                 server, not a hard-coded array. -->
+            <p>
+                <label for="searchBox">Search</label><br>
+                <input type="text" id="searchBox" name="search"
+                       placeholder="Filter by name or email...">
+            </p>
+
+            <!-- Loading / loaded / error line. members.js writes into this while
+                 requests are in flight and when they fail. -->
+            <p id="tableStatus" class="table-status">Loading members...</p>
+
+            <!-- table-scroll: a plain container that lets a wide table
+                 scroll sideways on a narrow phone instead of breaking the
+                 whole page layout. -->
+            <div class="table-scroll">
+                <table>
+                    <caption>Club members, live from the server</caption>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <!-- Empty on purpose. members.js fetches the members and
+                         renders one row per member into this tbody. -->
+                    <tbody id="memberRows"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Add a member</h2>
+            <!-- The form now SAVES to the server. members.js catches the submit,
+                 stops the old page-reload with preventDefault, reads these
+                 fields, and POSTs a new member - which sticks through a refresh. -->
+            <form id="addForm">
+                <p>
+                    <label for="txtName">Name</label><br>
+                    <input type="text" id="txtName" name="name">
+                </p>
+                <p>
+                    <label for="txtEmail">Email</label><br>
+                    <input type="email" id="txtEmail" name="email">
+                </p>
+                <p>
+                    <input type="checkbox" id="chkActive" name="active" value="true">
+                    <label for="chkActive">Active member</label>
+                </p>
+                <p>
+                    <button type="submit">Add member</button>
+                </p>
+                <!-- members.js writes success/error messages here. -->
+                <p id="formFeedback" class="form-feedback"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The Member Manager Club</p>
+    </footer>
+
+    <!-- The behaviour for this page, in its own external file. Placed at the
+         end of the body so every element above already exists when it runs. -->
+    <script src="members.js"></script>
+
+</body>
+</html>
