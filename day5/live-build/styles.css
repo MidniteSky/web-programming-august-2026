@@ -1,0 +1,61 @@
+/*
+    Member Manager v5 - the brand layer (Day 5 capstone)
+    ====================================================
+    Here's the headline of Day 5: this stylesheet is now TINY. For four days it
+    did all the work - reset, box model, Flexbox nav, Grid layout, the table, the
+    buttons, the responsive breakpoints. Bootstrap now does all of that, from its
+    one <link>. What's left is only the handful of touches that keep this site
+    looking like OURS and not like every other Bootstrap site: the house colours
+    and the heading font.
+
+    That contrast - a whole hand-written stylesheet shrunk to this - is exactly
+    what a framework buys you, and exactly why we made you build it the hard way
+    first. You now know what Bootstrap is doing underneath, because you did it.
+
+    Everything here layers ON TOP of Bootstrap. It's loaded AFTER bootstrap.min.css
+    in each page, so these rules win where they overlap.
+*/
+
+/* The course palette, kept from Day 2 for continuity. */
+:root {
+    --brand: #1d5c8f;
+    --brand-dark: #163f61;
+    --page-bg: #f5f2ea;
+}
+
+/* The warm page background and body text colour - our look, not Bootstrap's
+   default white. */
+body {
+    background-color: var(--page-bg);
+    color: #333333;
+}
+
+/* Headings keep the Day 1 serif stack and house blue. */
+h1, h2, h3 {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Paint the navbar and footer in the house blue instead of Bootstrap's default.
+   We add our own .brand-bar class rather than fighting Bootstrap's bg-primary,
+   so the intent is obvious. */
+.brand-bar {
+    background-color: var(--brand);
+}
+
+/* The tagline under the site title in the header. */
+.tagline {
+    color: #d8e6f2;
+    font-style: italic;
+}
+
+/* Keep the friendly Day 2 colours for the active/inactive status, in case a
+   plain text version is ever shown alongside the Bootstrap badges. */
+.active-yes {
+    color: seagreen;
+    font-weight: bold;
+}
+
+.active-no {
+    color: #999999;
+    font-style: italic;
+}
